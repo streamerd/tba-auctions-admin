@@ -5,10 +5,10 @@ import { defineConfig } from "vite";
 export default defineConfig({
   build: {
     target: "es2020",
-    rollupOptions: {
-      // Add the external property and specify the problematic import
-      external: ["@safe-globalThis/safe-apps-provider"],
-    },
+    // rollupOptions: {
+    //   // Add the external property and specify the problematic import
+    //   external: ["@safe-global/safe-apps-provider"],
+    // },
   },
   optimizeDeps: {
     esbuildOptions: {
@@ -16,7 +16,8 @@ export default defineConfig({
     },
   },
   define: {
-    global: "globalThis",
+    // global: "globalThis",
+    myGlobalThis: "globalThis",
   },
   resolve: {
     alias: {
