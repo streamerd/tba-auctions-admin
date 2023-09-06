@@ -5,6 +5,10 @@ import { defineConfig } from "vite";
 export default defineConfig({
   build: {
     target: "es2020",
+    rollupOptions: {
+      // Add the external property and specify the problematic import
+      external: ["@safe-globalThis/safe-apps-provider"],
+    },
   },
   optimizeDeps: {
     esbuildOptions: {
