@@ -6,7 +6,7 @@ const chains = [sepolia]
 
 export const wagmiConfig = createConfig(
   getDefaultConfig({
-    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
+    walletConnectProjectId: "",
     // alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
     chains,
     appName: 'Vite Tokenbound SDK Example',
