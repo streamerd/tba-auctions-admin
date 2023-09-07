@@ -5,10 +5,14 @@ interface NFTData {
 	image: string;
 	name: string;
 }
+
 interface NFTSProps {
 	nftsData: NFTData[];
 }
-const NFTS: React.FC<NFTSProps> = ({ nftsData }) => {
+
+type NFTSFC = React.FC<NFTSProps>;
+
+const NFTS: NFTSFC = ({ nftsData }) => {
 	return (
 		<NFTSContainer>
 			{nftsData.map((nftData: NFTData, index: any) => {
