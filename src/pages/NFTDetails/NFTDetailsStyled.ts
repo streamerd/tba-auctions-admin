@@ -11,8 +11,8 @@ export const NFTDetailsContainer = styled.div`
 `
 
 export const MainNFTImage = styled.img`
-  width: 40%;
-  height: 80vh;
+  width: 100%;
+  height: 70vh;
   border-radius: 20px;
   object-fit: cover;
 `
@@ -49,3 +49,35 @@ export const EachNFTText = styled.p`
   font-weight: 600;
 
 `
+
+export const MainNFTAndButtonsContainer = styled.div`
+  width: 40%;
+  height: 80vh;
+  border-radius: 20px;
+  object-fit: cover;
+`
+
+export const ButtonsContainer = styled.div`
+    width: 100%;
+    height: 10%;
+    display: flex;
+`
+
+export const ActionButton = styled.button`
+  width: 30%;
+  height: 50px;
+  background-color: #fff;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 2%;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover{
+    color: #373737;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  }
+`
+

@@ -19,7 +19,7 @@ export function App() {
 	const [tbAccounts, setTbAccounts] = useState<`0x${string}`[]>([]);
 	const [tbNFTs, setTbNFTs] = useState<string[]>([]);
 
-	const signer = useEthers6Signer({ chainId: 11155111 });
+	const signer: any = useEthers6Signer({ chainId: 11155111 });
 	// or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
 
 	console.log("SIGNER", signer);
