@@ -9,6 +9,9 @@ import { useEthers6Signer } from "./hooks";
 import { Navbar } from "./components/Navbar/Navbar";
 import { MainContainer } from "./LayoutComponents/LayoutComponents";
 import NFTDetails from "./pages/NFTDetails/NFTDetails";
+import { Routes, Route } from "react-router-dom";
+import Render from "./Render";
+import MainPage from "./pages/NFTDetails/MainPage/MainPage";
 
 export function App() {
 	const { isConnected, address } = useAccount();
@@ -97,9 +100,23 @@ export function App() {
 	}
 
 	return (
-		<MainContainer>
-			<Navbar />
-			<NFTDetails />
-		</MainContainer>
+		<Routes>
+			<Route
+				path="/nftdetails"
+				element={
+					<Render>
+						<NFTDetails />
+					</Render>
+				}
+			/>
+			<Route
+				path="/"
+				element={
+					<Render>
+						<MainPage />
+					</Render>
+				}
+			/>
+		</Routes>
 	);
 }

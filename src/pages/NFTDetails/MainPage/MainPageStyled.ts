@@ -1,4 +1,27 @@
-import styled from 'styled-components'
+import styled from "styled-components";
+
+const MainPageContainer = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+`
+
+const MainPageNFTsContainer = styled.div`
+
+  width: 90%;
+  min-height: 70vh;
+  border-radius: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  background-color: #fff;
+  margin-top: 160px;
+`
 
 export const NFTDetailsContainer = styled.div`
   width: 100%;
@@ -29,15 +52,15 @@ export const NFTSContainer = styled.div`
 `
 
 export const EachNFTContainer = styled.div`
-  width: 15%;
-  height: 300px;
+  width: 19%;
+  aspect-ratio: 2/1;
   border: 1px solid gray; 
   margin-top: 20px;
   border-radius: 20px;
 `
 
 export const EachNFTImage = styled.img`
-  width: 100%;
+  width: 19%;
   aspect-ratio: 1/1;
   object-fit: cover;
   border-top-right-radius: 20px;
@@ -49,3 +72,8 @@ export const EachNFTText = styled.p`
   font-weight: 600;
 
 `
+
+export {MainPageContainer, MainPageNFTsContainer, 
+}
+
+
