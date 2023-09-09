@@ -52,15 +52,15 @@ export const NFTSContainer = styled.div`
 `
 
 export const EachNFTContainer = styled.div`
-  width: 19%;
-  aspect-ratio: 2/1;
+  width: 15%;
+  aspect-ratio: 1/1.3;
   border: 1px solid gray; 
   margin-top: 20px;
   border-radius: 20px;
 `
 
 export const EachNFTImage = styled.img`
-  width: 19%;
+  width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
   border-top-right-radius: 20px;
@@ -70,6 +70,7 @@ export const EachNFTImage = styled.img`
 export const EachNFTText = styled.p`
   font-size: 15px;
   font-weight: 600;
+  text-decoration: none;
 
 `
 

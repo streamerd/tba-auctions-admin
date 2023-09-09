@@ -12,6 +12,7 @@ import catLogo from "../../assets/cat-logo.png";
 export function Navbar() {
 	const signer = useEthers6Signer({ chainId: 11155111 });
 	const { isConnected, address } = useAccount();
+	console.log(isConnected, address);
 
 	return (
 		<NavbarContainer>

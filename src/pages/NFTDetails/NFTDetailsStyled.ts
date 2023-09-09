@@ -29,7 +29,7 @@ export const NFTSContainer = styled.div`
 `
 
 export const EachNFTContainer = styled.div`
-  width: 15%;
+  width: 40%;
   height: 300px;
   border: 1px solid gray; 
   margin-top: 20px;

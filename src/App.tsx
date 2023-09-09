@@ -12,7 +12,7 @@ import NFTDetails from "./pages/NFTDetails/NFTDetails";
 import { Routes, Route } from "react-router-dom";
 import Render from "./Render";
 import MainPage from "./pages/NFTDetails/MainPage/MainPage";
-
+import { useNavigate } from "react-router-dom";
 export function App() {
 	const { isConnected, address } = useAccount();
 	//make sure tbAccounts is an array of strings
@@ -99,24 +99,39 @@ export function App() {
 	  <button onClick={() => getNFT()}>GET NFT</button> */
 	}
 
+	console.log("Main", isConnected, address);
+	const adminWallet = "0x8Cf0EA7278b361BF986Be1191ed496fE5EE5683E";
+	const navigate = useNavigate();
+	useEffect(() => {
+		if (address === adminWallet) {
+			navigate("/my-nfts");
+		} else {
+			navigate("/");
+		}
+	}, [address]);
 	return (
 		<Routes>
-			<Route
-				path="/nftdetails"
-				element={
-					<Render>
-						<NFTDetails />
-					</Render>
-				}
-			/>
-			<Route
-				path="/"
-				element={
-					<Render>
-						<MainPage />
-					</Render>
-				}
-			/>
+			{address === adminWallet && (
+				<>
+					<Route
+						path="/nft-details"
+						element={
+							<Render>
+								<NFTDetails />
+							</Render>
+						}
+					/>
+					<Route
+						path="/my-nfts"
+						element={
+							<Render>
+								<MainPage />
+							</Render>
+						}
+					/>
+				</>
+			)}
+			<Route path="/" element={<Render>hello</Render>} />
 		</Routes>
 	);
 }

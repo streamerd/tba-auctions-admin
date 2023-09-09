@@ -4,6 +4,7 @@ import { EachNFTContainer, EachNFTImage, EachNFTText } from "../NFTDetailsStyled
 interface EachNFTProps {
 	image: any;
 	name: string;
+	link?: string;
 }
 const EachNFT: React.FC<EachNFTProps> = ({ image, name }) => {
 	return (

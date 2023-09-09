@@ -1,12 +1,13 @@
 import React from "react";
 import { MainPageContainer, MainPageNFTsContainer } from "./MainPageStyled";
-import EachNFT from "../NFTDetailsComponents/EachNFT";
+import EachNFT from "../MainPage/MainPageComponents/MainPageEachNFT";
 import nft from "../../../assets/mockAssets/nft.jpg";
 
 interface NFTData {
 	image: any;
 	name: string;
 }
+
 const MainPage = () => {
 	const nftsData: NFTData[] = [
 		// Declare nftsData as an array of NFTData objects
@@ -95,7 +96,7 @@ const MainPage = () => {
 		<MainPageContainer>
 			<MainPageNFTsContainer>
 				{nftsData.map((nftData) => (
-					<EachNFT image={nftData.image} name={nftData.name} />
+					<EachNFT image={nftData.image} name={nftData.name} link={"/nft-details"} />
 				))}
 			</MainPageNFTsContainer>
 		</MainPageContainer>
