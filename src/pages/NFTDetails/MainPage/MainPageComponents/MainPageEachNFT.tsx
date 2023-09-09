@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 
 interface EachNFTProps {
 	image: any;
-	name: string;
+	name?: string;
 	link: string;
 }
 const EachNFT: React.FC<EachNFTProps> = ({ image, name, link }) => {
 	return (
 		<EachNFTContainer>
-			<Link to={link} style={{ flex: 1, textDecoration: "none" }}>
+			<Link to={link} style={{ textDecoration: "none" }}>
 				<EachNFTImage src={image} />
 				<EachNFTText>{name}</EachNFTText>
 			</Link>
