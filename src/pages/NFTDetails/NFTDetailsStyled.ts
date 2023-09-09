@@ -58,7 +58,7 @@ export const MainNFTAndButtonsContainer = styled.div`
 
 export const SmartContractWalletAddress = styled.p`
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 300;
     margin-top: 0px;
     font-family: 'Roboto Mono', monospace;
 `
@@ -94,7 +94,6 @@ export const ActionButton = styled.button`
 export const LinkContent = styled.div`
 
   width: 100%;
-margin-left: 40px; 
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -17,6 +17,7 @@ import { ActionButton } from "../../pages/NFTDetails/NFTDetailsStyled";
 import { YouGotThisIcon } from "../YouGotThisIcon";
 
 export function Navbar() {
+  const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8";
   const signer = useEthers6Signer({ chainId: 11155111 });
   const { isConnected, address } = useAccount();
   console.log(isConnected, address);
@@ -28,9 +29,13 @@ export function Navbar() {
       </Link>
 
       {/* <LatterNavbarItemsContainer> */}
+      {
+        address === adminWallet ? (
+
         <Link to={"/my-nfts"} style={{ textDecoration: "none" }}>
           <YouGotThisIcon />
-        </Link>
+        </Link>): null
+      }
 
         <ConnectKitButton />
       {/* </LatterNavbarItemsContainer> */}
