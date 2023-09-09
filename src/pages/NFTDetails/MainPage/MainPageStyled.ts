@@ -55,9 +55,13 @@ export const EachNFTContainer = styled.div`
   width: 15%;
   aspect-ratio: 1/1.3;
   max-height: 300px;
-  border: 1px solid gray; 
+  border: 4px solid gray; 
   margin-top: 20px;
   border-radius: 20px;
+  &:hover{
+    color: #373737;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  }
 `
 
 export const EachNFTImage = styled.img`
@@ -72,6 +76,12 @@ export const EachNFTText = styled.p`
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  text-align: center;
+  background-color: black;
+  margin-top: 8px;
+  padding: 8px;
 
 `
 

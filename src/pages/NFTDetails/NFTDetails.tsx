@@ -205,7 +205,7 @@ const NFTDetails = () => {
 			<MainNFTAndButtonsContainer>
 				<MainNFTImage src={mainNFTImageSource} />
 				<ButtonsContainer>
-					<ActionButton onClick={() => executeCall()}>PREPARE ACCOUNT</ActionButton>
+					{/* <ActionButton onClick={() => executeCall()}>PREPARE ACCOUNT</ActionButton> */}
 					<ActionButton onClick={() => createAccount()}>CREATE ACCOUNT</ActionButton>
 				</ButtonsContainer>
 				{localStorage.getItem(`${nftData.token_address}/${nftData.token_id}`) ||
