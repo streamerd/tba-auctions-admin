@@ -6,19 +6,34 @@ import { useEthers6Signer } from "../../hooks";
 import { useCallback, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ConnectKitButton } from "connectkit";
-import { NavbarContainer, NavbarLogo } from "./NavbarStyled";
+import {
+  LatterNavbarItemsContainer,
+  NavbarContainer,
+  NavbarLogo,
+} from "./NavbarStyled";
 import catLogo from "../../assets/cat-logo.png";
+import { Link } from "react-router-dom";
+import { ActionButton } from "../../pages/NFTDetails/NFTDetailsStyled";
+import { YouGotThisIcon } from "../YouGotThisIcon";
 
 export function Navbar() {
-	const signer = useEthers6Signer({ chainId: 11155111 });
-	const { isConnected, address } = useAccount();
-	console.log(isConnected, address);
+  const signer = useEthers6Signer({ chainId: 11155111 });
+  const { isConnected, address } = useAccount();
+  console.log(isConnected, address);
 
-	return (
-		<NavbarContainer>
-			<NavbarLogo src={catLogo} alt="logo" />
+  return (
+    <NavbarContainer>
+      <Link to={"/"} style={{ textDecoration: "none" }}>
+        <NavbarLogo src={catLogo} alt="logo" />
+      </Link>
 
-			<ConnectKitButton />
-		</NavbarContainer>
-	);
+      {/* <LatterNavbarItemsContainer> */}
+        <Link to={"/my-nfts"} style={{ textDecoration: "none" }}>
+          <YouGotThisIcon />
+        </Link>
+
+        <ConnectKitButton />
+      {/* </LatterNavbarItemsContainer> */}
+    </NavbarContainer>
+  );
 }

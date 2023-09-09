@@ -47,7 +47,6 @@ export const EachNFTImage = styled.img`
 export const EachNFTText = styled.p`
   font-size: 15px;
   font-weight: 600;
-
 `
 
 export const MainNFTAndButtonsContainer = styled.div`
@@ -57,11 +56,21 @@ export const MainNFTAndButtonsContainer = styled.div`
   object-fit: cover;
 `
 
+export const SmartContractWalletAddress = styled.p`
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 0px;
+    font-family: 'Roboto Mono', monospace;
+`
+
 export const ButtonsContainer = styled.div`
     width: 100%;
     height: 10%;
     display: flex;
     margin-top: 40px;
+    display: flex;
+    justify-content: center;
+
 `
 
 export const ActionButton = styled.button`
@@ -71,7 +80,7 @@ export const ActionButton = styled.button`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   border: none;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
   margin-left: 2%;
   cursor: pointer;
@@ -81,4 +90,16 @@ export const ActionButton = styled.button`
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   }
 `
+
+export const LinkContent = styled.div`
+
+  width: 100%;
+margin-left: 40px; 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+`
+
 

@@ -13,6 +13,7 @@ import { Routes, Route } from "react-router-dom";
 import Render from "./Render";
 import MainPage from "./pages/NFTDetails/MainPage/MainPage";
 import { useNavigate } from "react-router-dom";
+import AuctionHouse from "./pages/AuctionHouse/AuctionHouse";
 export function App() {
 	const { isConnected, address } = useAccount();
 	//make sure tbAccounts is an array of strings
@@ -88,7 +89,7 @@ export function App() {
 					/>
 				</>
 			)}
-			<Route path="/" element={<Render>hello</Render>} />
+			<Route path="/" element={<Render><AuctionHouse/></Render>} />
 		</Routes>
 	);
 }

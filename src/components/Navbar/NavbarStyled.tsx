@@ -15,8 +15,14 @@ export const NavbarContainer = styled.div`
 	overflow: hidden;
 `;
 
+export const LatterNavbarItemsContainer = styled.div`
+	display: flex;
+	align-items: end;
+	gap: 10px;
+`;
+
 export const NavbarLogo = styled.img`
-	height: 80%;
+	height: 72px;
 	aspect-ratio: 1;
 	object-fit: contain;
 `;
