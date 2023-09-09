@@ -56,50 +56,7 @@ export function App() {
 
 		testTokenboundClass();
 	}, [tokenboundClient]);
-	useEffect(() => {
-		console.log("new tokenbound account created..", tbAccounts);
-	}, [tbAccounts]);
 
-	const createAccount = useCallback(async () => {
-		if (!tokenboundClient || !address) return;
-		const createdAccount = await tokenboundClient.createAccount({
-			tokenContract: "0x55e786058b30687E2a3b0bFAbE56FFe2202F00D3",
-			tokenId: "3",
-		});
-		tbAccounts.push(createdAccount);
-		alert(`new account: ${createdAccount}`);
-	}, [tokenboundClient]);
-
-	const executeCall = useCallback(async () => {
-		if (!tokenboundClient || !address) return;
-		const executedCall = await tokenboundClient.executeCall({
-			account: address,
-			to: address,
-			value: 0n,
-			data: "0x",
-		});
-	}, [tokenboundClient]);
-
-	// get th NFT that owns a Tokenbound account
-	const getNFT = async () => {
-		console.log("gonna get NFT that owns a Tokenbound account", tbAccounts[0] || "no account");
-		if (!tokenboundClient || !address) return;
-		const nft = await tokenboundClient.getNFT({
-			// accountAddress: tbAccounts[0],
-			accountAddress: "0xCD4A65Fa90f15bd2Bf68b0F578E211f3FB5Dba64",
-		});
-		const { tokenContract, tokenId, chainId } = nft;
-
-		console.log(`NFT ${tokenContract}/${tokenId} owns this account`);
-	};
-
-	{
-		/* <button onClick={() => executeCall()}>EXECUTE CALL</button>
-	  <button onClick={() => createAccount()}>CREATE ACCOUNT</button>
-	  <button onClick={() => getNFT()}>GET NFT</button> */
-	}
-
-	console.log("Main", isConnected, address);
 	const adminWallet = "0x8Cf0EA7278b361BF986Be1191ed496fE5EE5683E";
 	const navigate = useNavigate();
 	useEffect(() => {

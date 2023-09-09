@@ -22,6 +22,7 @@ interface NFTData {
 }
 
 const NFTDetails = () => {
+	const [createdAccount, setcreatedAccount] = useState<string>();
 	const { isConnected, address } = useAccount();
 	//make sure tbAccounts is an array of strings
 	const [tbAccounts, setTbAccounts] = useState<`0x${string}`[]>([]);
@@ -36,11 +37,11 @@ const NFTDetails = () => {
 	useEffect(() => {
 		async function testTokenboundClass() {
 			const account = await tokenboundClient.getAccount({
-				tokenContract: "0x55e786058b30687E2a3b0bFAbE56FFe2202F00D3",
-				tokenId: "3",
+				tokenContract: JSON.parse(localStorage.getItem("nftData")!).token_address,
+				tokenId: JSON.parse(localStorage.getItem("nftData")!).token_id,
 			});
 
-			const preparedExecuteCall = await tokenboundClient.prepareExecuteCall({
+			/* const preparedExecuteCall = await tokenboundClient.prepareExecuteCall({
 				account: account,
 				to: account,
 				value: 0n,
@@ -48,9 +49,9 @@ const NFTDetails = () => {
 			});
 
 			const preparedAccount = await tokenboundClient.prepareCreateAccount({
-				tokenContract: "0x55e786058b30687E2a3b0bFAbE56FFe2202F00D3",
-				tokenId: "3",
-			});
+				tokenContract: JSON.parse(localStorage.getItem("nftData")!).token_address,
+				tokenId: JSON.parse(localStorage.getItem("nftData")!).token_id,
+			}); */
 		}
 
 		testTokenboundClass();
@@ -63,12 +64,19 @@ const NFTDetails = () => {
 			tokenId: JSON.parse(localStorage.getItem("nftData")!).token_id,
 		});
 		tbAccounts.push(createdAccount);
-		alert(`new account: ${createdAccount}`);
+
+		setcreatedAccount(createdAccount);
+		localStorage.setItem(
+			`${JSON.parse(localStorage.getItem("nftData")!).token_address}/${
+				JSON.parse(localStorage.getItem("nftData")!).token_id
+			}`,
+			createdAccount
+		);
 	}, [tokenboundClient]);
 
 	const executeCall = useCallback(async () => {
 		if (!tokenboundClient || !address) return;
-		const executedCall = await tokenboundClient.executeCall({
+		await tokenboundClient.executeCall({
 			account: address,
 			to: address,
 			value: 0n,
@@ -90,7 +98,7 @@ const NFTDetails = () => {
 	};
 	const nftsData: NFTData[] = [
 		// Declare nftsData as an array of NFTData objects
-		{
+		/* {
 			image: nft,
 			name: "NFT 1",
 		},
@@ -185,22 +193,24 @@ const NFTDetails = () => {
 		{
 			image: mainNFT,
 			name: "NFT 6",
-		},
+		}, */
 	];
 	const nftData = JSON.parse(localStorage.getItem("nftData")!);
 	const mainNFTImageSource: string = JSON.parse(nftData.metadata).image;
 
-	console.log(JSON.parse(localStorage.getItem("nftData")!));
+	console.log(localStorage.getItem(`${nftData.token_address}/${nftData.token_id}`));
 
 	return (
 		<NFTDetailsContainer>
 			<MainNFTAndButtonsContainer>
 				<MainNFTImage src={mainNFTImageSource} />
 				<ButtonsContainer>
-					<ActionButton onClick={() => executeCall()}>EXECUTE CALL</ActionButton>
+					<ActionButton onClick={() => executeCall()}>PREPARE ACCOUNT</ActionButton>
 					<ActionButton onClick={() => createAccount()}>CREATE ACCOUNT</ActionButton>
-					<ActionButton onClick={() => getNFT()}>GET NFT</ActionButton>
 				</ButtonsContainer>
+				{localStorage.getItem(`${nftData.token_address}/${nftData.token_id}`) ||
+					(createdAccount && localStorage.getItem(`${nftData.token_address}/${nftData.token_id}`)) ||
+					createdAccount}
 			</MainNFTAndButtonsContainer>
 
 			<NFTS nftsData={nftsData} />
