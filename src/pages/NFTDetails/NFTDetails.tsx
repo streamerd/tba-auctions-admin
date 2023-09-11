@@ -7,6 +7,9 @@ import {
   ActionButton,
   SmartContractWalletAddress,
   LinkContent,
+  NFTSContainer,
+  NftsOfMainNftContainer,
+  NftsHeadText
 } from "./NFTDetailsStyled";
 import mainNFT from "../../assets/mockAssets/mainNFT.jpg";
 import NFTS from "./NFTDetailsComponents/NFTS";
@@ -20,6 +23,7 @@ import { useEthers6Signer } from "../../hooks";
 import { Link } from "react-router-dom";
 import { ExternalLinkIcon } from "../../components/ExternalLinkIcon";
 import useMoralis from "../../hooks/useMoralis";
+import styled from "styled-components";
 interface NFTData {
   image?: any;
   name?: string;
@@ -128,7 +132,7 @@ const NFTDetails = () => {
   console.log(
     localStorage.getItem(`${nftData.token_address}/${nftData.token_id}`)
   );
-
+    
   return (
     <NFTDetailsContainer>
       <MainNFTAndButtonsContainer>
@@ -170,7 +174,10 @@ const NFTDetails = () => {
         </ButtonsContainer>
       </MainNFTAndButtonsContainer>
 
+      <NftsOfMainNftContainer>
+        <NftsHeadText>Collectibles</NftsHeadText>
       <NFTS nftsData={nftsInWallet} />
+      </NftsOfMainNftContainer>
     </NFTDetailsContainer>
   );
 };

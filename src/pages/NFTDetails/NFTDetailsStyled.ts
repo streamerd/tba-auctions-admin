@@ -18,7 +18,7 @@ export const MainNFTImage = styled.img`
 `
 
 export const NFTSContainer = styled.div`
-  width: 40%;
+  width: 100%;
   border-radius: 20px;
   display: flex;
   flex-wrap: wrap;
@@ -35,6 +35,8 @@ export const EachNFTContainer = styled.div`
   border: 1px solid gray; 
   margin-top: 20px;
   border-radius: 20px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+  
 `
 
 export const EachNFTImage = styled.img`
@@ -48,6 +50,9 @@ export const EachNFTImage = styled.img`
 export const EachNFTText = styled.p`
   font-size: 15px;
   font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Roboto Mono', monospace;
 `
 
 export const MainNFTAndButtonsContainer = styled.div`
@@ -102,4 +107,19 @@ export const LinkContent = styled.div`
   gap: 10px;
 `
 
+export const NftsOfMainNftContainer = styled(NFTSContainer)`
+    flex-direction: column;
+    width: 40%;
+    `
 
+export const NftsHeadText = styled.p`
+    background-color: black;
+    height: 60px;
+    color: white;
+    margin: 0px;
+      padding-top: 16px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      font-family: "Roboto", sans-serif;
+    `
