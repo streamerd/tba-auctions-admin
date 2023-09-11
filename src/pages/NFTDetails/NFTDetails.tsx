@@ -175,7 +175,7 @@ const NFTDetails = () => {
       </MainNFTAndButtonsContainer>
 
       <NftsOfMainNftContainer>
-        <NftsHeadText>Collectibles</NftsHeadText>
+        <NftsHeadText>Collectibles [{nftsInWallet?.length}]</NftsHeadText>
       <NFTS nftsData={nftsInWallet} />
       </NftsOfMainNftContainer>
     </NFTDetailsContainer>
