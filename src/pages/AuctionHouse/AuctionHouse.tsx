@@ -18,7 +18,7 @@ const AuctionHouse = () => {
 		<img
 		  src={AuctionHouseImg} // Replace with the URL of your full image
 		  alt="Full Image"
-		  style={{ width: "100%", height: "100%", objectFit: "contain"}}
+		  style={{ width: "100vw", height: "100vh", objectFit: "contain", marginTop: "80px"}}
 		//   className="full-image"
 		/>
 	  </div>
