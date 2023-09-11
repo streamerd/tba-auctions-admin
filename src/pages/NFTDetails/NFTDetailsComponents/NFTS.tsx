@@ -18,7 +18,7 @@ const NFTS: NFTSFC = ({ nftsData }) => {
       {nftsData?.map((nftData: any) => {
         if (nftData.metadata) {
           
-          const nftMetaData: IMeta = JSON.parse(nftData.metadata);
+          const nftMetaData = JSON.parse(nftData.metadata);
           return (
             <EachNFT
               key={nftData.token_id}
