@@ -19,11 +19,17 @@ import { useCallback, useEffect, useState, useContext } from "react";
 import { useEthers6Signer } from "../../hooks";
 import { Link } from "react-router-dom";
 import { ExternalLinkIcon } from "../../components/ExternalLinkIcon";
-
+import useMoralis from "../../hooks/useMoralis";
 interface NFTData {
-  image: any;
-  name: string;
+  image?: any;
+  name?: string;
 }
+
+
+// interface IMeta {
+//   name?: string;
+//   image?: string;
+// }
 
 const NFTDetails = () => {
   const [createdAccount, setcreatedAccount] = useState<string>();
@@ -31,6 +37,17 @@ const NFTDetails = () => {
   //make sure tbAccounts is an array of strings
   const [tbAccounts, setTbAccounts] = useState<`0x${string}`[]>([]);
   const [tbNFTs, setTbNFTs] = useState<string[]>([]);
+
+  const local = localStorage.getItem(
+    `${JSON.parse(localStorage.getItem("nftData")!).token_address}/${
+      JSON.parse(localStorage.getItem("nftData")!).token_id
+    }`
+  )!;
+
+  const nftsInWallet = useMoralis(
+  local === null ? "no_nft": local);
+
+  console.log("NFTS IN WALLET", nftsInWallet);
 
   const signer = useEthers6Signer({ chainId: 11155111 });
   // or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
@@ -104,105 +121,7 @@ const NFTDetails = () => {
 
     console.log(`NFT ${tokenContract}/${tokenId} owns this account`);
   };
-  const nftsData: NFTData[] = [
-    // Declare nftsData as an array of NFTData objects
-    /* {
-			image: nft,
-			name: "NFT 1",
-		},
-		{
-			image: nft,
-			name: "NFT 2",
-		},
-		{
-			image: mainNFT,
-			name: "NFT 3",
-		},
-		{
-			image: nft,
-			name: "NFT 4",
-		},
-		{
-			image: nft,
-			name: "NFT 5",
-		},
-		{
-			image: mainNFT,
-			name: "NFT 6",
-		},
-		{
-			image: nft,
-			name: "NFT 1",
-		},
-		{
-			image: nft,
-			name: "NFT 2",
-		},
-		{
-			image: mainNFT,
-			name: "NFT 3",
-		},
-		{
-			image: nft,
-			name: "NFT 4",
-		},
-		{
-			image: nft,
-			name: "NFT 5",
-		},
-		{
-			image: mainNFT,
-			name: "NFT 6",
-		},
-		{
-			image: nft,
-			name: "NFT 1",
-		},
-		{
-			image: nft,
-			name: "NFT 2",
-		},
-		{
-			image: mainNFT,
-			name: "NFT 3",
-		},
-		{
-			image: nft,
-			name: "NFT 4",
-		},
-		{
-			image: nft,
-			name: "NFT 5",
-		},
-		{
-			image: mainNFT,
-			name: "NFT 6",
-		},
-		{
-			image: nft,
-			name: "NFT 1",
-		},
-		{
-			image: nft,
-			name: "NFT 2",
-		},
-		{
-			image: mainNFT,
-			name: "NFT 3",
-		},
-		{
-			image: nft,
-			name: "NFT 4",
-		},
-		{
-			image: nft,
-			name: "NFT 5",
-		},
-		{
-			image: mainNFT,
-			name: "NFT 6",
-		}, */
-  ];
+  const nftsData: NFTData[] = [];
   const nftData = JSON.parse(localStorage.getItem("nftData")!);
   const mainNFTImageSource: string = JSON.parse(nftData.metadata).image;
 
@@ -251,7 +170,7 @@ const NFTDetails = () => {
         </ButtonsContainer>
       </MainNFTAndButtonsContainer>
 
-      <NFTS nftsData={nftsData} />
+      <NFTS nftsData={nftsInWallet} />
     </NFTDetailsContainer>
   );
 };

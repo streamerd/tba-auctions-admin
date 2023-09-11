@@ -1,16 +1,16 @@
 import React from "react";
 import { EachNFTContainer, EachNFTImage, EachNFTText } from "../NFTDetailsStyled";
-
+import { Link } from "react-router-dom";
 interface EachNFTProps {
 	image: any;
-	name: string;
-	link?: string;
+	name?: string;
 }
-const EachNFT: React.FC<EachNFTProps> = ({ image, name }) => {
+
+const EachNFT: React.FC<EachNFTProps> = ({ image, name}) => {
 	return (
 		<EachNFTContainer>
-			<EachNFTImage src={image} />
-			<EachNFTText>{name}</EachNFTText>
+				{image && <EachNFTImage src={image} />}
+				<EachNFTText>{name}</EachNFTText>
 		</EachNFTContainer>
 	);
 };

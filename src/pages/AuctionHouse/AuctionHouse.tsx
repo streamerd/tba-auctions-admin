@@ -11,8 +11,8 @@ const AuctionHouse = () => {
 		name?: string;
 		image?: string;
 	}
-	const { nftsInWallet } = useMoralis();
-	console.log(nftsInWallet);
+	// const  nftsInWallet  = useMoralis("0x10C70d04200379c89254579995eF23F1c3093334")
+	// console.log(nftsInWallet);
 	return (
 		<div className="full-image-div">
 		<img

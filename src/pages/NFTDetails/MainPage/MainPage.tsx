@@ -9,7 +9,7 @@ const MainPage = () => {
 		name?: string;
 		image?: string;
 	}
-	const { nftsInWallet } = useMoralis();
+	const nftsInWallet = useMoralis(null);
 	console.log(nftsInWallet);
 	return (
 		<MainPageContainer>

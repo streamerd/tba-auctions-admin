@@ -30,7 +30,8 @@ export const NFTSContainer = styled.div`
 
 export const EachNFTContainer = styled.div`
   width: 40%;
-  height: 300px;
+  max-height: 340px;
+  aspect-ratio: 1/1.2;
   border: 1px solid gray; 
   margin-top: 20px;
   border-radius: 20px;
