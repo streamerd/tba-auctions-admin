@@ -57,7 +57,7 @@ export const EachNFTText = styled.p`
 
 export const MainNFTAndButtonsContainer = styled.div`
   width: 40%;
-  height: 80vh;
+  min-height: 80vh;
   border-radius: 20px;
   object-fit: cover;
 `

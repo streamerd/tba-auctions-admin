@@ -14,6 +14,7 @@ import Render from "./Render";
 import MainPage from "./pages/NFTDetails/MainPage/MainPage";
 import { useNavigate } from "react-router-dom";
 import AuctionHouse from "./pages/AuctionHouse/AuctionHouse";
+import AdminStatusContext from "./contexts/AdminStatusContext";
 export function App() {
 	const { isConnected, address } = useAccount();
 	//make sure tbAccounts is an array of strings
@@ -45,10 +46,6 @@ export function App() {
 				tokenId: "3",
 			});
 
-			console.log("getAccount", account);
-			console.log("prepareExecuteCall", preparedExecuteCall);
-			console.log("preparedAccount", preparedAccount);
-
 			// if (signer) {
 			//   signer?.sendTransaction(preparedAccount)
 			//   signer?.sendTransaction(preparedExecuteCall)
@@ -58,38 +55,47 @@ export function App() {
 		testTokenboundClass();
 	}, [tokenboundClient]);
 
-	const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8";
+	const adminWallet = "0x8Cf0EA7278b361BF986Be1191ed496fE5EE563E";
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (address === adminWallet) {
-			navigate("/my-nfts");
-		} else {
 			navigate("/");
+		} else {
+			navigate("/my-nfts");
 		}
 	}, [address]);
 	return (
-		<Routes>
-			{address === adminWallet && (
-				<>
-					<Route
-						path="/nft-details"
-						element={
-							<Render>
-								<NFTDetails />
-							</Render>
-						}
-					/>
-					<Route
-						path="/my-nfts"
-						element={
-							<Render>
-								<MainPage />
-							</Render>
-						}
-					/>
-				</>
-			)}
-			<Route path="/" element={<Render><AuctionHouse/></Render>} />
-		</Routes>
+		<AdminStatusContext.Provider
+			value={{
+				isAdmin: address === adminWallet,
+			}}
+		>
+			<Routes>
+				<Route
+					path="/nft-details"
+					element={
+						<Render>
+							<NFTDetails />
+						</Render>
+					}
+				/>
+				<Route
+					path="/"
+					element={
+						<Render>
+							<MainPage />
+						</Render>
+					}
+				/>
+				<Route
+					path="/my-nfts"
+					element={
+						<Render>
+							<AuctionHouse />
+						</Render>
+					}
+				/>
+			</Routes>
+		</AdminStatusContext.Provider>
 	);
 }

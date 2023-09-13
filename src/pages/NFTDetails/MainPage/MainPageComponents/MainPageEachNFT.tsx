@@ -15,6 +15,7 @@ const EachNFT: React.FC<EachNFTProps> = ({ image, name, link, handleNFTClick }) 
 			<Link to={link} style={{ textDecoration: "none" }}>
 				{image && <EachNFTImage src={image} />}
 				<EachNFTText>{name}</EachNFTText>
+				<EachNFTText>1.2 ETH</EachNFTText>
 			</Link>
 		</EachNFTContainer>
 	);

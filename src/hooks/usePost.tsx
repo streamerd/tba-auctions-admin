@@ -1,0 +1,31 @@
+import axios from "axios";
+import React from "react";
+interface IProps {
+	path: string;
+	data?: any;
+}
+const usePost = () => {
+	const postReq: React.Dispatch<React.SetStateAction<any>> = async ({ path, data }) => {
+		return new Promise((resolve, reject) => {
+			try {
+				axios
+					.post(`https://tokenbound-accounts-store.vercel.app${path}`, data, {
+						headers: {
+							"Content-Type": "application/json",
+						},
+					})
+					.then((res) => {
+						resolve(res.data);
+					})
+					.catch((err) => {
+						reject(err);
+					});
+			} catch (error) {
+				console.log(error);
+			}
+		});
+	};
+	return { postReq };
+};
+
+export default usePost;

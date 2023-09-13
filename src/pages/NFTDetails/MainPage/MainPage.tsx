@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MainPageContainer, MainPageNFTsContainer } from "./MainPageStyled";
 import EachNFT from "../MainPage/MainPageComponents/MainPageEachNFT";
 import Moralis from "moralis";
 import useMoralis from "../../../hooks/useMoralis";
+import AdminStatusContext from "../../../contexts/AdminStatusContext";
 
 const MainPage = () => {
 	interface IMeta {
@@ -10,7 +11,7 @@ const MainPage = () => {
 		image?: string;
 	}
 	const nftsInWallet = useMoralis(null);
-	console.log(nftsInWallet);
+	const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
 	return (
 		<MainPageContainer>
 			<MainPageNFTsContainer>
