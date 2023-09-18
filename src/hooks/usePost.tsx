@@ -15,9 +15,11 @@ const usePost = () => {
 						},
 					})
 					.then((res) => {
+						console.log(res);
 						resolve(res.data);
 					})
 					.catch((err) => {
+						console.log(err);
 						reject(err);
 					});
 			} catch (error) {

@@ -55,13 +55,13 @@ export function App() {
 		testTokenboundClass();
 	}, [tokenboundClient]);
 
-	const adminWallet = "0x8Cf0EA7278b361BF986Be1191ed496fE5EE563E";
+	const adminWallet = "0x8Cf0EA7278b361BF986Be1191ed496fE5EE5683E";
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (address === adminWallet) {
 			navigate("/");
 		} else {
-			navigate("/my-nfts");
+			navigate("/");
 		}
 	}, [address]);
 	return (

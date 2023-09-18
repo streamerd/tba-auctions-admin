@@ -20,13 +20,14 @@ import { TokenboundClient } from "@tokenbound/sdk";
 
 import { useCallback, useEffect, useState, useContext } from "react";
 import { useEthers6Signer } from "../../hooks";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import { ExternalLinkIcon } from "../../components/ExternalLinkIcon";
 import useMoralis from "../../hooks/useMoralis";
 import styled from "styled-components";
 import usePost from "../../hooks/usePost";
 import useFetch from "../../hooks/useFetch";
 import AdminStatusContext from "../../contexts/AdminStatusContext";
+import { useManageAuctions } from "../../hooks/useAuction";
 interface NFTData {
 	image?: any;
 	name?: string;
@@ -38,33 +39,27 @@ interface NFTData {
 // }
 
 const NFTDetails = () => {
+	const parsedNftData = JSON.parse(localStorage.getItem("nftData")!);
 	const [createdAccount, setcreatedAccount] = useState<string>();
 	const { isConnected, address } = useAccount();
 	//make sure tbAccounts is an array of strings
 	const [tbAccounts, setTbAccounts] = useState<`0x${string}`[]>([]);
 	const [tbNFTs, setTbNFTs] = useState<string[]>([]);
 
-	const local = localStorage.getItem(
-		`${JSON.parse(localStorage.getItem("nftData")!).token_address}/${
-			JSON.parse(localStorage.getItem("nftData")!).token_id
-		}`
-	)!;
+	const local = localStorage.getItem(`${parsedNftData.token_address}/${parsedNftData.token_id}`)!;
 
 	const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
-
-	console.log("NFTS IN WALLET", nftsInWallet);
 
 	const signer: any = useEthers6Signer({ chainId: 11155111 });
 	// or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
 
-	console.log("SIGNER", signer);
 	const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 });
 	// Created this: 0x991ECf27c7Bd254a383A9FDA12FB2205A6fB64D2
 	useEffect(() => {
 		async function testTokenboundClass() {
 			const account = await tokenboundClient.getAccount({
-				tokenContract: JSON.parse(localStorage.getItem("nftData")!).token_address,
-				tokenId: JSON.parse(localStorage.getItem("nftData")!).token_id,
+				tokenContract: parsedNftData.token_address,
+				tokenId: parsedNftData.token_id,
 			});
 
 			/* const preparedExecuteCall = await tokenboundClient.prepareExecuteCall({
@@ -75,31 +70,33 @@ const NFTDetails = () => {
 			});
 
 			const preparedAccount = await tokenboundClient.prepareCreateAccount({
-				tokenContract: JSON.parse(localStorage.getItem("nftData")!).token_address,
-				tokenId: JSON.parse(localStorage.getItem("nftData")!).token_id,
+				tokenContract: parsedNftData.token_address,
+				tokenId: parsedNftData.token_id,
 			}); */
 		}
 
 		testTokenboundClass();
 	}, [tokenboundClient]);
+
 	const { postReq } = usePost();
 	const createAccount = useCallback(async () => {
 		if (!tokenboundClient || !address) return;
 		const createdAccount = await tokenboundClient.createAccount({
-			tokenContract: JSON.parse(localStorage.getItem("nftData")!).token_address,
-			tokenId: JSON.parse(localStorage.getItem("nftData")!).token_id,
+			tokenContract: parsedNftData.token_address,
+			tokenId: parsedNftData.token_id,
 		});
 		tbAccounts.push(createdAccount);
 
 		setcreatedAccount(createdAccount);
 		const metadataPostData = {
-			contract_address: JSON.parse(localStorage.getItem("nftData")!).token_address,
-			token_id: JSON.parse(localStorage.getItem("nftData")!).token_id,
-			metadata: JSON.parse(localStorage.getItem(`nftData`)!).metadata,
+			contract_address: parsedNftData.token_address,
+			token_id: parsedNftData.token_id,
+			description: JSON.parse(parsedNftData.metadata).name,
+			image_url: JSON.parse(parsedNftData.metadata).image,
 		};
 		const newWalletPostData = {
-			contract_address: JSON.parse(localStorage.getItem("nftData")!).token_address,
-			token_id: JSON.parse(localStorage.getItem("nftData")!).token_id,
+			contract_address: parsedNftData.token_address,
+			token_id: parsedNftData.token_id,
 			wallet_address: createdAccount,
 		};
 		const metadataResponse = await postReq({ path: "/metadata/new", data: metadataPostData });
@@ -107,14 +104,6 @@ const NFTDetails = () => {
 			path: "/wallets/new",
 			data: newWalletPostData,
 		});
-
-		console.log(metadataResponse, walletsCreateResponse);
-		/* localStorage.setItem(
-      `${JSON.parse(localStorage.getItem("nftData")!).token_address}/${
-        JSON.parse(localStorage.getItem("nftData")!).token_id
-      }`,
-      createdAccount
-    ); */
 	}, [tokenboundClient]);
 
 	const executeCall = useCallback(async () => {
@@ -136,18 +125,14 @@ const NFTDetails = () => {
 			accountAddress: "0xCD4A65Fa90f15bd2Bf68b0F578E211f3FB5Dba64",
 		});
 		const { tokenContract, tokenId, chainId } = nft;
-
-		console.log(`NFT ${tokenContract}/${tokenId} owns this account`);
 	};
-	const nftsData: NFTData[] = [];
-	const nftData = JSON.parse(localStorage.getItem("nftData")!);
-	const mainNFTImageSource: string = JSON.parse(nftData.metadata).image;
-	const metadata = useFetch({ path: "/metadata" });
-	const nfts = useFetch({ path: "/nfts" });
-
-	console.log(metadata);
-
 	const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
+
+	const nftsData: NFTData[] = [];
+	const nftData = parsedNftData;
+	const mainNFTImageSource: string = isAdmin
+		? JSON.parse(parsedNftData.metadata).image
+		: parsedNftData.image_url;
 
 	const LastBidsContainer = styled.div`
 		width: 100%;
@@ -221,6 +206,8 @@ const NFTDetails = () => {
 		},
 	];
 
+	const { createAuction, endAuction } = useManageAuctions();
+
 	return (
 		<NFTDetailsContainer>
 			<MainNFTAndButtonsContainer>
@@ -230,7 +217,19 @@ const NFTDetails = () => {
 					{!localStorage.getItem(`${nftData.token_address}/${nftData.token_id}`)?.includes("0x") ? (
 						<>
 							{isAdmin ? (
-								<ActionButton onClick={() => createAccount()}>create account</ActionButton>
+								<>
+									<ActionButton onClick={() => createAccount()}>create account</ActionButton>
+									<ActionButton
+										onClick={() =>
+											createAuction(
+												JSON.parse(localStorage.getItem("nftData")!).token_address,
+												JSON.parse(localStorage.getItem("nftData")!).token_id
+											)
+										}
+									>
+										START AUCTION
+									</ActionButton>
+								</>
 							) : (
 								<>
 									<input style={{ height: "50px", width: "70%" }} placeholder="BID PRICE (MIN 1.8 ETH)" />{" "}
