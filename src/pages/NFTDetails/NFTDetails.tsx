@@ -250,7 +250,7 @@ const NFTDetails = () => {
 
 									<ActionButton
 										onClick={() =>
-											placeBid(0, 10000000000000000)
+											placeBid(1, 900000000000000)
 										}
 									>
 										place bid

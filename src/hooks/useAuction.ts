@@ -26,7 +26,6 @@ export function useManageAuctions() {
     const [auctionId, setAuctionId] = useState(null);
     /* const reservePrice = 1000000000000000000; */ // 1 ETH
     /* const duration = 60 * 60 * 24 * 3; */ // 3 days
-    const reservePrice = 1000000000000000; // after reserve price is met, auction will end in 24 hours
 
     type Auction = {
         auctionId: number;
@@ -45,9 +44,13 @@ export function useManageAuctions() {
     }
 
     async function createAuction(nftContractAddress: string, tokenId: string) {
+        const reservePrice = 1000000000000000; // 0.01 ETH
+
         try {
-            console.log('Creating auction...');
-            const tx = await contract.createAuction(nftContractAddress, tokenId, reservePrice);
+            console.log(`Creating auction for ${nftContractAddress} - ${tokenId}...`);
+            const gasLimit = await signer?.provider.getFeeData();
+            console.log('maxPriorityFeePerGas', gasLimit?.maxPriorityFeePerGas);
+            const tx = await contract.createAuction(nftContractAddress, tokenId, reservePrice, { gasLimit: 480000n });
             await tx.wait(); // Wait for the transaction to be mined
 
             // console.log('Retrieving auction ID');
@@ -63,7 +66,7 @@ export function useManageAuctions() {
     async function placeBid(auctionId: number, bidAmount: number) {
         try {
             console.log('Placing bid...');
-            const tx = await contract.placeBid(auctionId, { value: bidAmount });
+            const tx = await contract.placeBid(auctionId, { value: bidAmount, gasLimit: 480000n});
             await tx.wait(); // Wait for the transaction to be mined
             console.log(`Bid placed successfully!`);
         } catch (error) {

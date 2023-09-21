@@ -25,3 +25,4 @@ export function useEthers6Signer({ chainId }: { chainId?: number } = {}) {
     [walletClient],
   )
 }
+
