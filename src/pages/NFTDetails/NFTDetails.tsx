@@ -206,7 +206,7 @@ const NFTDetails = () => {
 		},
 	];
 
-	const { createAuction, endAuction } = useManageAuctions();
+	const { createAuction, endAuction, getHighestBid, placeBid, getAllAuctions } = useManageAuctions();
 
 	return (
 		<NFTDetailsContainer>
@@ -227,8 +227,36 @@ const NFTDetails = () => {
 											)
 										}
 									>
-										START AUCTION
+										create auction
 									</ActionButton>
+
+									<ActionButton
+										onClick={() =>
+											endAuction(
+												0
+											)
+										}
+									>
+										end auction
+									</ActionButton>
+
+									<ActionButton
+										onClick={() =>
+											getHighestBid(0)
+										}
+									>
+										get highest bid
+									</ActionButton>
+
+									<ActionButton
+										onClick={() =>
+											placeBid(0, 10000000000000000)
+										}
+									>
+										place bid
+									</ActionButton>
+
+									
 								</>
 							) : (
 								<>
