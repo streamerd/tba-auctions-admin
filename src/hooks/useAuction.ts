@@ -19,7 +19,8 @@ export function useManageAuctions() {
     // const contractAddress = '0x21193bC6a19e4010AE09771d2EFAB396BD748f44';
     // const contractAddress = '0xEa8B3052eD4dc21Ea0E1f88c970A1e815D3F7e14';
     // const contractAddress = '0x8Eb77dAb4EAD1ECF46cf01e4b0Fb00ca4eFF72BD';
-    const contractAddress = '0x913992335C86b8c4ba7114b65d50A32E8Cc4D503';
+    // const contractAddress = '0x913992335C86b8c4ba7114b65d50A32E8Cc4D503';
+    const contractAddress = '0xE60d4c5891F3eba32C1F48d8Cd176Cc776D7C2A9'
     const contract = new ethers.Contract(contractAddress, GoodAuction, signer);
 
 
@@ -44,13 +45,15 @@ export function useManageAuctions() {
     }
 
     async function createAuction(nftContractAddress: string, tokenId: string) {
-        const reservePrice = 1000000000000000; // 0.01 ETH
+        const reservePrice: ethers.BigNumber = ethers.parseEther('1');
 
         try {
             console.log(`Creating auction for ${nftContractAddress} - ${tokenId}...`);
             const gasLimit = await signer?.provider.getFeeData();
             console.log('maxPriorityFeePerGas', gasLimit?.maxPriorityFeePerGas);
-            const tx = await contract.createAuction(nftContractAddress, tokenId, reservePrice, { gasLimit: 480000n });
+            // const tx = await contract.createAuction(nftContractAddress, tokenId, reservePrice, { gasLimit: 480000n });
+            const tx = await contract.createAuction(nftContractAddress, tokenId, reservePrice, { gasLimit: 1000000n });
+
             await tx.wait(); // Wait for the transaction to be mined
 
             // console.log('Retrieving auction ID');
@@ -63,10 +66,10 @@ export function useManageAuctions() {
         }
     }
 
-    async function placeBid(auctionId: number, bidAmount: number) {
+    async function placeBid(auctionId: number, bidAmount: BigInt) {
         try {
             console.log('Placing bid...');
-            const tx = await contract.placeBid(auctionId, { value: bidAmount, gasLimit: 480000n});
+            const tx = await contract.placeBid(auctionId, { value: bidAmount, gasLimit: 480000n });
             await tx.wait(); // Wait for the transaction to be mined
             console.log(`Bid placed successfully!`);
         } catch (error) {

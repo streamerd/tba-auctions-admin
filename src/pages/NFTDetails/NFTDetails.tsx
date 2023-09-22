@@ -16,6 +16,7 @@ import NFTS from "./NFTDetailsComponents/NFTS";
 import nft from "../../assets/mockAssets/nft.jpg";
 import { ConnectKitButton } from "connectkit";
 import { useAccount } from "wagmi";
+import { ethers } from "ethers";
 import { TokenboundClient } from "@tokenbound/sdk";
 
 import { useCallback, useEffect, useState, useContext } from "react";
@@ -250,7 +251,9 @@ const NFTDetails = () => {
 
 									<ActionButton
 										onClick={() =>
-											placeBid(1, 900000000000000)
+											// placeBid(1, 900000000000000) //0.0009 ETH.
+											placeBid(2, ethers.parseEther('0.1')
+											) //0.09 ETH.	
 										}
 									>
 										place bid

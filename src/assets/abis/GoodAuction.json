@@ -26,7 +26,20 @@
 				"type": "uint256"
 			}
 		],
-		"name": "AuctionEnded",
+		"name": "AuctionEndedWithSale",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "auctionId",
+				"type": "uint256"
+			}
+		],
+		"name": "AuctionEndedWithoutSale",
 		"type": "event"
 	},
 	{

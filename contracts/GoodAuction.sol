@@ -18,6 +18,7 @@ contract GoodAuction is Ownable {
 
     mapping(uint256 => Auction) public auctions;
     uint256 public auctionCounter;
+    
 
     modifier onlyBeforeEnd(uint256 auctionId) {
         require(!auctions[auctionId].ended, "Auction has already ended");
@@ -31,16 +32,21 @@ contract GoodAuction is Ownable {
         uint256 reservePrice,
         uint256 endTime
     );
-    event AuctionEnded(
+    event AuctionEndedWithSale(
         uint256 indexed auctionId,
         address indexed winner,
         uint256 amount
     );
 
+    event AuctionEndedWithoutSale(uint256 indexed auctionId);
+
     event CountdownStarted(uint256 indexed auctionId);
+    
     event NewBid(uint256 auctionId, address indexed bidder, uint256 amount);
 
-    constructor() {}
+    constructor() {
+
+    }
 
     // Function to create an auction for a single NFT
     function createAuction(
@@ -56,7 +62,7 @@ contract GoodAuction is Ownable {
             nftContract: _nftContract,
             tokenId: _tokenId,
             reservePrice: _reservePrice,
-            endTime: 0, // Initialize endTime to 0
+            endTime: 0,
             highestBidder: address(0),
             highestBid: 0,
             ended: false
@@ -67,7 +73,7 @@ contract GoodAuction is Ownable {
             _nftContract,
             _tokenId,
             _reservePrice,
-            0 // Initialize endTime to 0
+            0
         );
 
         auctionCounter++;
@@ -88,10 +94,11 @@ contract GoodAuction is Ownable {
             emit CountdownStarted(_auctionId);
         }
 
+
         // Check if the bid amount is at least the minimum bid
         if (auction.highestBidder != address(0)) {
             require(
-                msg.value >= (auction.highestBid * 110) / 100,
+                msg.value >= auction.highestBid + auction.highestBid * 0.1,
                 "Bid amount should be 10% more than the last bid"
             );
         }
@@ -99,7 +106,6 @@ contract GoodAuction is Ownable {
         // Deposit the new bid into contract and refund the previous highest bidder
         if (auction.highestBid < msg.value) {
             // Deposit the bid amount into the contract
-            // (bool depositSuccess, ) = address(this).call{value: _bidAmount}(
             (bool depositSuccess, ) = address(msg.sender).call{
                 value: msg.value
             }("");
@@ -110,6 +116,7 @@ contract GoodAuction is Ownable {
                 auction.highestBidder
             );
             previousHighestBidder.transfer(auction.highestBid);
+    
         }
 
         auction.highestBidder = msg.sender;
@@ -126,6 +133,12 @@ contract GoodAuction is Ownable {
 
         // Check if the auction has already ended
         require(!auction.ended, "Auction has already ended");
+
+        // if not ended, if it is past the endTime, end the auction
+        if (auction.endTime > 0 && block.timestamp < auction.endTime) {
+            revert("Auction has not ended yet");
+        }
+
         auction.ended = true;
 
         // If the endTime is set (reserve price is met)
@@ -140,11 +153,7 @@ contract GoodAuction is Ownable {
 
                 payable(owner()).transfer(auction.highestBid);
 
-                emit AuctionEnded(
-                    _auctionId,
-                    auction.highestBidder,
-                    auction.highestBid
-                );
+                emit AuctionEndedWithoutSale(_auctionId);
             } else {
                 // If no bids were placed, return the NFT to the owner
                 // IERC721(auction.nftContract).transferFrom(
@@ -152,7 +161,7 @@ contract GoodAuction is Ownable {
                 //     owner(),
                 //     auction.tokenId
                 // );
-                emit AuctionEnded(_auctionId, address(0), 0);
+                emit AuctionEndedWithSale(_auctionId, address(0), 0);
             }
         } else {
             // if reserve price is not met, send highest bidder their money back
