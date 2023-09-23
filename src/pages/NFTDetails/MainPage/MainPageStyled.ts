@@ -52,10 +52,10 @@ export const NFTSContainer = styled.div`
 `
 
 export const EachNFTContainer = styled.div`
-  width: 15%;
+  width: 45%;
   aspect-ratio: 1/1.3;
   max-height: 300px;
-  border: 4px solid gray; 
+  // border: 4px solid gray; 
   margin-top: 20px;
   border-radius: 20px;
   &:hover{
