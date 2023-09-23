@@ -3,7 +3,6 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "install": "npm install --legacy-peer-deps",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
