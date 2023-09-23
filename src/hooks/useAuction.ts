@@ -6,6 +6,8 @@ import EnglishAuction from "../assets/abis/EnglishAuction.json";
 import GoodAuction from "../assets/abis/GoodAuction.json";
 import usePost from "./usePost";
 import BestAuction from "../assets/abis/BestAuction.json";
+import BetterAuction from "../assets/abis/BetterAuction.json";
+import BesttAuction from "../assets/abis/BesttAuction.json";
 import { useAccount } from "wagmi";
 
 export function useManageAuctions() {
@@ -23,9 +25,12 @@ export function useManageAuctions() {
 	// const contractAddress = '0xEa8B3052eD4dc21Ea0E1f88c970A1e815D3F7e14';
 	// const contractAddress = '0x8Eb77dAb4EAD1ECF46cf01e4b0Fb00ca4eFF72BD';
 	// const contractAddress = '0x913992335C86b8c4ba7114b65d50A32E8Cc4D503';
-	const contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138";
+	// const contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138";
 	/* const contractAddress = "0xE60d4c5891F3eba32C1F48d8Cd176Cc776D7C2A9"; */
-	const contract = new ethers.Contract(contractAddress, BestAuction, signer);
+	// const contractAddress = "0x32bFaBE29f94A362ff16Ad2F29AfcCD9346edcdA";
+	const contractAddress = "0xdCFAFB913542c3C948A435a5E98ca2E2b620810a";
+
+	const contract = new ethers.Contract(contractAddress, BesttAuction, signer);
 
 	const [auctionId, setAuctionId] = useState(null);
 	/* const reservePrice = 1000000000000000000; */ // 1 ETH
@@ -51,6 +56,8 @@ export function useManageAuctions() {
 	) {
 		return new Promise(async (resolve, reject) => {
 			const parsedReservePrice: ethers.BigNumberish = ethers.parseEther(reservePrice);
+			console.log(typeof(parsedReservePrice))
+			console.log(`Creating auction for ${nftContractAddress} ${tokenId} ${reservePrice}...`);
 			try {
 				const gasLimit = await signer?.provider.getFeeData();
 				console.log("maxPriorityFeePerGas", gasLimit?.maxPriorityFeePerGas);
@@ -97,11 +104,16 @@ export function useManageAuctions() {
 			}
 		});
 	}
+	
 	const { address }: any = useAccount();
 	async function placeBid(auctionId: number, bidAmount: string) {
+		// const bidAmountPrice2: ethers.BigNumberish = ethers.parseEther(bidAmount);
+		const bidAmountPrice: ethers.BigNumberish = ethers.parseEther(bidAmount);
+		// const bidAmountPrice = ethers.parseUnits(bidAmount.toString(), "ether");
+		console.log(`bidAmountPrice: ${bidAmountPrice}`);
 		try {
-			const bidAmountPrice: ethers.BigNumberish = ethers.parseEther(bidAmount);
-			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 480000n });
+			console.log(`Placing bid for auction ${auctionId}..${bidAmount}`);
+			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 1000000n });
 			await tx.wait().then(async (txRes: any) => {
 				console.log(txRes);
 				await postReq({

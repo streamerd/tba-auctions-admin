@@ -61,11 +61,24 @@ export const MainNFTAndButtonsContainer = styled.div`
 	object-fit: cover;
 `;
 
-export const SmartContractWalletAddress = styled.p`
-	font-size: 22px;
+export const SmartContractWalletAddressAdmin = styled.p`
+	font-size: 16px;
 	font-weight: 300;
 	margin-top: 0px;
 	font-family: "Roboto Mono", monospace;
+	max-width: 100%;
+	padding-bottom: 40px;
+	padding-top: 200px;
+`;
+
+export const SmartContractWalletAddress = styled.p`
+	font-size: 16px;
+	font-weight: 300;
+	margin-top: 0px;
+	font-family: "Roboto Mono", monospace;
+	max-width: 100%;
+	padding-bottom: 40px;
+	padding-top: 20px;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -90,6 +103,7 @@ export const ActionButton = styled.button`
 	margin-left: 2%;
 	cursor: pointer;
 	transition: 0.3s;
+	
 	&:hover {
 		color: #373737;
 		box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;

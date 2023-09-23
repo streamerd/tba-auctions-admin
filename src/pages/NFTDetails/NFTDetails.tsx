@@ -189,7 +189,7 @@ const NFTDetails = () => {
 			<EachBid>
 				<EachBidAvatarNameContainer>
 					<EachBidImage src={`https://robohash.org/${"asd"}.png`} />
-					<EachBidNameText>{item.bidder}</EachBidNameText>
+					<EachBidNameText>{item.bidder.slice(0, 4) + "..." + item.bidder.slice(-4)}</EachBidNameText>
 				</EachBidAvatarNameContainer>
 				<EachBidNameText>{item.bid_amount} ETH</EachBidNameText>
 			</EachBid>
@@ -256,13 +256,32 @@ const NFTDetails = () => {
 											<>
 												<ActionButton onClick={() => endAuction(0)}>end auction</ActionButton>
 
-												<ActionButton onClick={() => getHighestBid(0)}>get highest bid</ActionButton>
+												{/* <ActionButton onClick={() => getHighestBid(0)}>get highest bid</ActionButton> */}
 											</>
 										)}
+
+										
 									</div>
+									
 								</>
 							) : (
 								<>
+								<div>
+										{hasWallet !== "" && (
+											<SmartContractWalletAddress >
+												<Link
+													to={`https://sepolia.etherscan.io/address/${parsedNftData.token_address}/${parsedNftData.token_id}`}
+													target="_blank"
+													style={{ textDecoration: "none", color: "black" }}
+												>
+													<LinkContent>
+														{hasWallet}
+														<ExternalLinkIcon />
+													</LinkContent>
+												</Link>
+											</SmartContractWalletAddress>
+										)}
+									</div>
 									<div
 										style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
 									>
@@ -270,13 +289,18 @@ const NFTDetails = () => {
 											value={bidValue}
 											onChange={(e) => {
 												setbidValue(e.target.value);
+												
+
 											}}
-											style={{ paddingLeft: "20px", height: "50px", width: "70%" }}
-											placeholder={`Min Bid Amount ${(lastBids.reverse()[0].bid_amount * 11) / 10} ETH`}
+											style={{ paddingLeft: "20px", height: "50px", width: "70%" }}// address.slice(0, 4) + "..." + address.slice(-4);
+											placeholder={
+												lastBids && lastBids.length > 0 ? (`Min Bid Amount ${((lastBids?.reverse()[0].bid_amount * 11) / 10).toFixed(3) } ETH`) : ("Min Bid Amount 0 ETH")
+											}
 										/>{" "}
 										<ActionButton onClick={() => placeBid(parsedNftData.auction_id, bidValue)}>
 											BID
 										</ActionButton>
+										
 									</div>
 								</>
 							)}
@@ -304,7 +328,7 @@ const NFTDetails = () => {
 				</ButtonsContainer>
 				<LastBidsContainer>
 					{lastBids &&
-						lastBids?.reverse().map((item: any, idx: number) => {
+						lastBids?.slice().reverse().map((item: any, idx: number) => {
 							return <EachBidComponent key={idx} item={item} />;
 						})}
 				</LastBidsContainer>
