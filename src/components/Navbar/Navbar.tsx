@@ -29,13 +29,13 @@ export function Navbar() {
       </Link>
 
       {/* <LatterNavbarItemsContainer> */}
-      {
+      {/* {
         address === adminWallet ? (
 
         <Link to={"/my-nfts"} style={{ textDecoration: "none" }}>
           <YouGotThisIcon />
         </Link>): null
-      }
+      } */}
 
         <ConnectKitButton />
       {/* </LatterNavbarItemsContainer> */}
