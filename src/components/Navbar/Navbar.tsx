@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 
 export function Navbar() {
   const { isConnected, address } = useAccount();
-  console.log(isConnected, address);
 
   return (
     <NavbarContainer>
