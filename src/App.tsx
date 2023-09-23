@@ -55,7 +55,7 @@ export function App() {
 		testTokenboundClass();
 	}, [tokenboundClient]);
 
-	const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8";
+	const adminWallet = "0x8Cf0EA7278b361BF986Be1191sed496fE5EE5683E";
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (address === adminWallet) {

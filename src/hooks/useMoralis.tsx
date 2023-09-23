@@ -7,14 +7,6 @@ const useMoralis = (address: any) => {
 	const [nftsInWallet, setnftsInWallet] = useState<any>();
 	const { isConnected, address: addressData } = useAccount();
 	/* const addressData = "0x891fe36E277844138b8f6D88a8BCD4871f446575"; */
-	console.log(
-		"asdf",
-		localStorage.getItem(
-			`${JSON.parse(localStorage.getItem("nftData")!).token_address}/${
-				JSON.parse(localStorage.getItem("nftData")!).token_id
-			}`
-		)!
-	);
 
 	const myAddress = address ? address : addressData;
 
@@ -32,7 +24,6 @@ const useMoralis = (address: any) => {
 					address: myAddress,
 				});
 				setnftsInWallet(response.raw.result);
-				console.log(response.raw.result);
 			}
 		} catch (e) {
 			console.error(e);

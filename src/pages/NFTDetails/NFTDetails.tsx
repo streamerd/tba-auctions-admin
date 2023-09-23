@@ -10,6 +10,12 @@ import {
 	NFTSContainer,
 	NftsOfMainNftContainer,
 	NftsHeadText,
+	LastBidsContainer,
+	EachBid,
+	EachBidNameText,
+	EachBidImage,
+	EachBidAvatarNameContainer,
+	NFTSDescription,
 } from "./NFTDetailsStyled";
 import mainNFT from "../../assets/mockAssets/mainNFT.jpg";
 import NFTS from "./NFTDetailsComponents/NFTS";
@@ -29,6 +35,7 @@ import usePost from "../../hooks/usePost";
 import useFetch from "../../hooks/useFetch";
 import AdminStatusContext from "../../contexts/AdminStatusContext";
 import { useManageAuctions } from "../../hooks/useAuction";
+import AuctionReservedPrice from "../../LayoutComponents/AuctionReservedPrice";
 interface NFTData {
 	image?: any;
 	name?: string;
@@ -46,7 +53,43 @@ const NFTDetails = () => {
 	//make sure tbAccounts is an array of strings
 	const [tbAccounts, setTbAccounts] = useState<`0x${string}`[]>([]);
 	const [tbNFTs, setTbNFTs] = useState<string[]>([]);
+	const [isInAuction, setisInAuction] = useState(false);
+	const [hasWallet, sethasWallet] = useState("");
+	/* const auctionData = useFetch({
+		path: `/auctions/exists/${parsedNftData.token_address}/${parsedNftData.token_id}`,
+	}); */
+	const auctionData: any = useFetch({
+		path: "/auctions",
+	});
 
+	const wallets: any = useFetch({ path: "/wallets" });
+	useEffect(() => {
+		{
+			wallets &&
+				wallets?.forEach((wallet: any) => {
+					if (
+						wallet.token_id === parsedNftData.token_id &&
+						wallet.contract_address === parsedNftData.token_address
+					) {
+						sethasWallet(wallet.wallet_address);
+					}
+				});
+		}
+	}, [wallets]);
+	useEffect(() => {
+		{
+			auctionData &&
+				auctionData?.forEach((auction: any) => {
+					if (
+						auction.token_id === parsedNftData.token_id &&
+						auction.contract_address === parsedNftData.token_address
+					) {
+						setisInAuction(true);
+					}
+				});
+		}
+	}, [auctionData]);
+	console.log(parsedNftData);
 	const local = localStorage.getItem(`${parsedNftData.token_address}/${parsedNftData.token_id}`)!;
 
 	const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
@@ -131,63 +174,24 @@ const NFTDetails = () => {
 
 	const nftsData: NFTData[] = [];
 	const nftData = parsedNftData;
-	const mainNFTImageSource: string = isAdmin
-		? JSON.parse(parsedNftData.metadata).image
-		: parsedNftData.image_url;
-
-	const LastBidsContainer = styled.div`
-		width: 100%;
-		min-height: 300px;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
-	`;
-
-	const EachBid = styled.div`
-		width: 100%;
-		height: 60px;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		border: 1px solid #373737;
-		padding: 10px 20px;
-	`;
-
-	const EachBidNameText = styled.p`
-		font-size: 16px;
-		font-weight: 500;
-		color: #373737;
-	`;
-
-	const EachBidImage = styled.img`
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-	`;
-
-	const EachBidAvatarNameContainer = styled.div`
-		display: flex;
-		align-items: center;
-		gap: 30px;
-	`;
+	const mainNFTImageSource: string = JSON.parse(parsedNftData.metadata).image;
 
 	interface EachBidProps {
 		item: {
-			name: string;
-			bidPrice: string;
+			bidder: string;
+			bid_amount: string | number;
 		};
 	}
 
 	const EachBidComponent: React.FC<EachBidProps> = ({ item }) => {
+		console.log(item);
 		return (
 			<EachBid>
 				<EachBidAvatarNameContainer>
 					<EachBidImage src={`https://robohash.org/${"asd"}.png`} />
-					<EachBidNameText>{item.name}</EachBidNameText>
+					<EachBidNameText>{item.bidder}</EachBidNameText>
 				</EachBidAvatarNameContainer>
-				<EachBidNameText>{item.bidPrice} ETH</EachBidNameText>
+				<EachBidNameText>{item.bid_amount} ETH</EachBidNameText>
 			</EachBid>
 		);
 	};
@@ -207,8 +211,14 @@ const NFTDetails = () => {
 		},
 	];
 
-	const { createAuction, endAuction, getHighestBid, placeBid, getAllAuctions } = useManageAuctions();
+	const lastBids: any = useFetch({ path: `/bids/${parsedNftData.auction_id}` });
+	console.log(lastBids);
 
+	const { createAuction, endAuction, getHighestBid, placeBid, getAllAuctions } = useManageAuctions();
+	const [open, setOpen] = useState<boolean>(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
+	const [bidValue, setbidValue] = useState("");
 	return (
 		<NFTDetailsContainer>
 			<MainNFTAndButtonsContainer>
@@ -219,52 +229,55 @@ const NFTDetails = () => {
 						<>
 							{isAdmin ? (
 								<>
-									<ActionButton onClick={() => createAccount()}>create account</ActionButton>
-									<ActionButton
-										onClick={() =>
-											createAuction(
-												JSON.parse(localStorage.getItem("nftData")!).token_address,
-												JSON.parse(localStorage.getItem("nftData")!).token_id
-											)
-										}
-									>
-										create auction
-									</ActionButton>
+									<div>
+										{hasWallet !== "" && (
+											<SmartContractWalletAddress>
+												<Link
+													to={`https://sepolia.etherscan.io/address/${parsedNftData.token_address}/${parsedNftData.token_id}`}
+													target="_blank"
+													style={{ textDecoration: "none", color: "black" }}
+												>
+													<LinkContent>
+														{hasWallet}
+														<ExternalLinkIcon />
+													</LinkContent>
+												</Link>
+											</SmartContractWalletAddress>
+										)}
+									</div>
+									<div>
+										{hasWallet === "" && (
+											<ActionButton onClick={() => createAccount()}>create account</ActionButton>
+										)}
 
-									<ActionButton
-										onClick={() =>
-											endAuction(
-												0
-											)
-										}
-									>
-										end auction
-									</ActionButton>
+										{!isInAuction && <ActionButton onClick={() => handleOpen()}>create auction</ActionButton>}
 
-									<ActionButton
-										onClick={() =>
-											getHighestBid(0)
-										}
-									>
-										get highest bid
-									</ActionButton>
+										{isInAuction && (
+											<>
+												<ActionButton onClick={() => endAuction(0)}>end auction</ActionButton>
 
-									<ActionButton
-										onClick={() =>
-											// placeBid(1, 900000000000000) //0.0009 ETH.
-											placeBid(2, ethers.parseEther('0.1')
-											) //0.09 ETH.	
-										}
-									>
-										place bid
-									</ActionButton>
-
-									
+												<ActionButton onClick={() => getHighestBid(0)}>get highest bid</ActionButton>
+											</>
+										)}
+									</div>
 								</>
 							) : (
 								<>
-									<input style={{ height: "50px", width: "70%" }} placeholder="BID PRICE (MIN 1.8 ETH)" />{" "}
-									<ActionButton onClick={() => createAccount()}>BID</ActionButton>
+									<div
+										style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
+									>
+										<input
+											value={bidValue}
+											onChange={(e) => {
+												setbidValue(e.target.value);
+											}}
+											style={{ paddingLeft: "20px", height: "50px", width: "70%" }}
+											placeholder={`Min Bid Amount ${(lastBids.reverse()[0].bid_amount * 11) / 10} ETH`}
+										/>{" "}
+										<ActionButton onClick={() => placeBid(parsedNftData.auction_id, bidValue)}>
+											BID
+										</ActionButton>
+									</div>
 								</>
 							)}
 						</>
@@ -290,16 +303,28 @@ const NFTDetails = () => {
 					)}
 				</ButtonsContainer>
 				<LastBidsContainer>
-					{fakeData.map((item, idx) => {
-						return <EachBidComponent key={idx} item={item} />;
-					})}
+					{lastBids &&
+						lastBids?.reverse().map((item: any, idx: number) => {
+							return <EachBidComponent key={idx} item={item} />;
+						})}
 				</LastBidsContainer>
 			</MainNFTAndButtonsContainer>
 
 			<NftsOfMainNftContainer>
+				<NFTSDescription>
+					Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor
+					sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem
+					ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit
+					ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+					dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit
+					ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+					dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit
+					ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet
+				</NFTSDescription>
 				<NftsHeadText>Collectibles [{nftsInWallet?.length}]</NftsHeadText>
 				<NFTS nftsData={nftsInWallet} />
 			</NftsOfMainNftContainer>
+			<AuctionReservedPrice open={open} handleClose={handleClose} handleOpen={handleOpen} />
 		</NFTDetailsContainer>
 	);
 };

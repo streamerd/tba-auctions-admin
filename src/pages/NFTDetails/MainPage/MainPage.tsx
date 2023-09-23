@@ -17,6 +17,8 @@ const MainPage = () => {
 	const wallets = useFetch({ path: "/wallets" });
 	const metadatas: any = useFetch({ path: "/metadata" });
 	const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
+	const auctions: any = useFetch({ path: "/auctions" });
+	console.log(auctions);
 	return (
 		<MainPageContainer>
 			<MainPageNFTsContainer>
@@ -43,17 +45,27 @@ const MainPage = () => {
 						})}
 					</>
 				)}
-				{metadatas && !isAdmin && (
+				{auctions && !isAdmin && (
 					<>
-						{metadatas?.map((metadata: any | null) => {
+						{auctions?.map((auction: any | null) => {
+							const auctionMetadata = JSON.parse(auction.metadata);
 							const handleNFTClick = async () => {
-								await localStorage.setItem("nftData", JSON.stringify(metadata));
+								await localStorage.setItem(
+									"nftData",
+									JSON.stringify({
+										auction_id: auction.auction_id,
+										token_address: auction.contract_address,
+										token_id: auction.token_id,
+										metadata: auction.metadata,
+									})
+								);
 							};
 							return (
 								<EachNFT
-									key={metadata.token_id}
-									image={metadata.image_url}
-									name={metadata.description}
+									key={auctionMetadata.token_id}
+									image={auctionMetadata.image}
+									name={auctionMetadata.name}
+									highestBid={auction.highest_bid}
 									link={"/nft-details"}
 									handleNFTClick={handleNFTClick}
 								/>

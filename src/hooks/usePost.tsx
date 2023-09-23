@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 interface IProps {
-	path: string;
+	path?: string;
 	data?: any;
 }
 const usePost = () => {
