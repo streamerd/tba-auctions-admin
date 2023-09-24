@@ -272,7 +272,7 @@ const NFTDetails = () => {
                     {hasWallet !== "" && (
                       <SmartContractWalletAddress>
                         <Link
-                          to={`https://sepolia.etherscan.io/address/${parsedNftData.token_address}/${parsedNftData.token_id}`}
+                          to={`https://sepolia.etherscan.io/address/${hasWallet}`}
                           target="_blank"
                           style={{ textDecoration: "none", color: "black" }}
                         >
@@ -316,7 +316,7 @@ const NFTDetails = () => {
                     {hasWallet !== "" && (
                       <SmartContractWalletAddress>
                         <Link
-                          to={`https://sepolia.etherscan.io/address/${parsedNftData.token_address}/${parsedNftData.token_id}`}
+                          to={`https://sepolia.etherscan.io/address/${hasWallet}`}
                           target="_blank"
                           style={{ textDecoration: "none", color: "black" }}
                         >
@@ -390,26 +390,18 @@ const NFTDetails = () => {
               )}
             </>
           ) : (
+			
             <SmartContractWalletAddress>
               <Link
                 to={
                   "https://sepolia.etherscan.io/address/" +
-                  localStorage.getItem(
-                    `${nftData.token_address}/${nftData.token_id}`
-                  )
+                  {createdAccount }
                 }
                 target="_blank"
                 style={{ textDecoration: "none" }}
               >
                 <LinkContent>
-                  {localStorage.getItem(
-                    `${nftData.token_address}/${nftData.token_id}`
-                  ) ||
-                    (createdAccount &&
-                      localStorage.getItem(
-                        `${nftData.token_address}/${nftData.token_id}`
-                      )) ||
-                    createdAccount}
+                 {createdAccount }
                   <ExternalLinkIcon />
                 </LinkContent>
               </Link>
