@@ -15,6 +15,7 @@ import MainPage from "./pages/NFTDetails/MainPage/MainPage";
 import { useNavigate } from "react-router-dom";
 import AuctionHouse from "./pages/AuctionHouse/AuctionHouse";
 import AdminStatusContext from "./contexts/AdminStatusContext";
+import Footer from "./components/Footer/Footer";
 export function App() {
 	const { isConnected, address } = useAccount();
 	//make sure tbAccounts is an array of strings
@@ -96,6 +97,7 @@ export function App() {
 					}
 				/>
 			</Routes>
+			<Footer />
 		</AdminStatusContext.Provider>
 	);
 }

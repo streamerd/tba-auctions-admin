@@ -60,7 +60,7 @@ export function useManageAuctions() {
 	) {
 		return new Promise(async (resolve, reject) => {
 			const parsedReservePrice: ethers.BigNumberish = ethers.parseEther(reservePrice);
-			console.log(typeof(parsedReservePrice))
+			console.log(typeof parsedReservePrice);
 			console.log(`Creating auction for ${nftContractAddress} ${tokenId} ${reservePrice}...`);
 			try {
 				const gasLimit = await signer?.provider.getFeeData();
@@ -92,7 +92,6 @@ export function useManageAuctions() {
 					}); // Wait for the transaction to be mined
 				resolve("SUCCESS");
 
-		
 				console.log("Auction created successfully!");
 			} catch (error) {
 				console.error("Error creating auction:", error);
@@ -100,17 +99,17 @@ export function useManageAuctions() {
 			}
 		});
 	}
-	
+
 	const { address }: any = useAccount();
 	async function placeBid(auctionId: number, bidAmount: string) {
 		// const bidAmountPrice2: ethers.BigNumberish = ethers.parseEther(bidAmount);
-		const bidAmountPrice= ethers.parseUnits(bidAmount, "ether");
+		const bidAmountPrice = ethers.parseUnits(bidAmount, "ether");
 		console.log(` auctionId: ${auctionId} bidAmountPrice: ${bidAmountPrice}`);
 		// const bidAmountPrice = ethers.parseUnits(bidAmount.toString(), "ether");
 		console.log(`bidAmountPrice: ${bidAmountPrice}`);
 		try {
 			console.log(`Placing bid for auction ${auctionId}..${bidAmount}`);
-			
+
 			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 1000000n });
 			await tx.wait().then(async (txRes: any) => {
 				console.log(txRes);
