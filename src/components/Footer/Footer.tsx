@@ -22,7 +22,7 @@ const FooterDevelopedByContainer = styled.div`
 `;
 
 const FooterDevelopedByText = styled.p`
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	font-weight: 600;
 	color: #000;
 `;
@@ -45,13 +45,14 @@ const FooterAdditionalContainer = styled.div`
 `;
 
 const FooterAdditionalText = styled.p`
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	font-weight: 600;
 	color: #000;
 	@media (max-width: 850px) {
 		font-size: 1.2rem;
 	}
 	text-decoration: none;
+	font-style: italic;
 `;
 const FooterAdditionalLogo = styled.img`
 	width: 100px;
@@ -71,13 +72,16 @@ const Footer = () => {
 	return (
 		<FooterMainContainer>
 			<FooterDevelopedByContainer>
-				<FooterDevelopedByText>Developed By</FooterDevelopedByText>
+				<FooterDevelopedByText>Built by</FooterDevelopedByText>
+				<MyLink href="https://twitter.com/afuturemodern" target="_blank">
+
 				<FooterDevelopedByLogo src={turtle} />
+				</MyLink>
 			</FooterDevelopedByContainer>
 			<FooterAdditionalContainer>
 				<MyLink href="https://tokenbound.org" target="_blank">
 					<FooterAdditionalText>
-						NFTS that listed here are developed with ERC6551 standard.
+						Tokenbound wallets auctioned here,<br></br> developed with ERC6551 standard.
 					</FooterAdditionalText>
 				</MyLink>
 			</FooterAdditionalContainer>

@@ -12,9 +12,11 @@ export const NFTDetailsContainer = styled.div`
 
 export const MainNFTImage = styled.img`
 	width: 100%;
-	height: 70vh;
-	border-radius: 20px;
-	object-fit: cover;
+	height: 40vh;
+	border-radius: 40px;
+	object-fit: contain;
+	// background-color: black;
+
 `;
 
 export const NFTSContainer = styled.div`

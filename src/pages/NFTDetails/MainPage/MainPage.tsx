@@ -37,6 +37,7 @@ const MainPage = () => {
 											image={nftMetaData.image}
 											name={nftMetaData.name}
 											link={"/nft-details"}
+											// highestBid={nftData.highest_bid}
 											handleNFTClick={handleNFTClick}
 										/>
 									);
@@ -51,6 +52,7 @@ const MainPage = () => {
 					<>
 						{auctions?.map((auction: any | null) => {
 							const auctionMetadata = JSON.parse(auction.metadata);
+							console.log(`auctionMetadata`, auctionMetadata)
 							const handleNFTClick = async () => {
 								await localStorage.setItem(
 									"nftData",
@@ -59,9 +61,12 @@ const MainPage = () => {
 										token_address: auction.contract_address,
 										token_id: auction.token_id,
 										metadata: auction.metadata,
+										highest_bid: auction.highest_bid,
 									})
 								);
 							};
+
+								console.log(`auction highest bid`, auction.highest_bid)
 							return (
 								<EachNFT
 									key={auctionMetadata.token_id}

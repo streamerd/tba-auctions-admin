@@ -11,7 +11,7 @@ const MainPageContainer = styled.div`
 
 const MainPageNFTsContainer = styled.div`
 	width: 90%;
-	min-height: 70vh;
+	// min-height: 70vh;
 	border-radius: 20px;
 	display: flex;
 	flex-wrap: wrap;
@@ -46,7 +46,7 @@ export const NFTSContainer = styled.div`
 	justify-content: center;
 	gap: 20px;
 	background-color: #fff;
-	min-height: 80vh;
+	min-height: 80vh;	
 `;
 
 export const EachNFTContainer = styled.div`
@@ -56,10 +56,12 @@ export const EachNFTContainer = styled.div`
 	// border: 4px solid gray;
 	margin-top: 20px;
 	border-radius: 20px;
-	&:hover {
-		color: #373737;
-		box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-	}
+	// &:hover {
+	// 	color: #373737;
+	// 	box-shadow: rgb(38, 57, 77) 0px 10px 4px 0px;
+	// }
+	color: #373737;
+		box-shadow: rgb(38, 57, 77) 0px 16px 2px 0px;
 	@media (max-width: 992px) {
 		width: 40%;
 	}
@@ -85,7 +87,7 @@ export const EachNFTText = styled.p`
 	text-align: center;
 	background-color: black;
 	margin-top: 8px;
-	padding: 8px;
+	padding: 20px;
 `;
 
 export { MainPageContainer, MainPageNFTsContainer };

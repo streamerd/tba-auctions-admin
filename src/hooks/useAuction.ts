@@ -9,8 +9,10 @@ import BestAuction from "../assets/abis/BestAuction.json";
 import BetterAuction from "../assets/abis/BetterAuction.json";
 import BesttAuction from "../assets/abis/BesttAuction.json";
 import GreatestAuction from "../assets/abis/GreatestAuction.json";
+import GreatestAuction2 from "../assets/abis/GreatestAuction2.json";
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
+import usePatch from "./usePatch";
 
 const useManageAuctions = ({ auction_id }: any) => {
 	const signer = useEthers6Signer();
@@ -32,9 +34,11 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0x32bFaBE29f94A362ff16Ad2F29AfcCD9346edcdA";
 	// const contractAddress = "0xfe0C31F42B68FeBa664464fbF649F41509315032";
 	// const contractAddress = "0x8191873Fd780437f4E4E5BE48F4E35d91C0711e4";
-	const contractAddress = "0xb057336a044894E39aF4F7B86Be08Bf5f1c92419";
+	// const contractAddress = "0xb057336a044894E39aF4F7B86Be08Bf5f1c92419";
+	// const contractAddress = "0x1433238162705afE8aFe76E97D9Ec2d4AB9c5e9b";
+	const contractAddress = "0x29E3d4A4740dbC5C98c31957710365B7D4BD6941";
 
-	const contract = new ethers.Contract(contractAddress, BesttAuction, signer);
+	const contract = new ethers.Contract(contractAddress, GreatestAuction2, signer);
 
 	const [auctionId, setAuctionId] = useState(null);
 	/* const reservePrice = 1000000000000000000; */ // 1 ETH
@@ -70,6 +74,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 	}, [auction_id]);
 
 	const { postReq } = usePost();
+	const { patchReq } = usePatch();
 	const [auctionsLength, setauctionsLength] = useState(0);
 	async function createAuction(
 		nftContractAddress: string | ethers.Overrides,
@@ -135,6 +140,11 @@ const useManageAuctions = ({ auction_id }: any) => {
 				await postReq({
 					path: "/bids/new",
 					data: { auction_id: auctionId, bid_amount: parseFloat(bidAmount), bidder: address },
+				});
+
+				await patchReq({
+					path: `/updates/highest-bid/${auctionId}`,
+					data: { auction_id: auctionId, highest_bid: parseFloat(bidAmount), highest_bidder: address },
 				});
 			}); // Wait for the transaction to be mined
 			console.log(`Bid placed successfully!`);
