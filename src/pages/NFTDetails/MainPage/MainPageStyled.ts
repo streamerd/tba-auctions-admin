@@ -56,12 +56,12 @@ export const EachNFTContainer = styled.div`
 	// border: 4px solid gray;
 	margin-top: 20px;
 	border-radius: 20px;
-	// &:hover {
-	// 	color: #373737;
-	// 	box-shadow: rgb(38, 57, 77) 0px 10px 4px 0px;
-	// }
-	color: #373737;
-		box-shadow: rgb(38, 57, 77) 0px 16px 2px 0px;
+	&:hover {
+		color: #373737;
+		box-shadow: rgb(38, 57, 77) 0px 10px 4px 0px;
+	}
+	// color: #373737;
+	// 	box-shadow: rgb(38, 57, 77) 0px 16px 2px 0px;
 	@media (max-width: 992px) {
 		width: 40%;
 	}
@@ -87,7 +87,26 @@ export const EachNFTText = styled.p`
 	text-align: center;
 	background-color: black;
 	margin-top: 8px;
-	padding: 20px;
+	padding: 6px;
+`;
+
+export const SlidingText = styled.div`
+padding-top: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+	font-size: 2rem;
+	font-familt: "montserrat", sans-serif;
+    animation: slide 52s linear infinite;
+
+    @keyframes slide {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
 `;
 
 export { MainPageContainer, MainPageNFTsContainer };

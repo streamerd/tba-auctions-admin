@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import turtle from "../../assets/turtle.jpg";
+import { SlidingText } from "../../pages/NFTDetails/MainPage/MainPageStyled";
 const FooterMainContainer = styled.div`
 	height: 30vh;
 	background-color: #fff;
@@ -70,7 +71,10 @@ const MyLink = styled(FooterAdditionalText).attrs({ as: "a" })`
 `;
 const Footer = () => {
 	return (
+		<>
+		 <SlidingText>The auction kicks off on September 26th. </SlidingText>
 		<FooterMainContainer>
+			           
 			<FooterDevelopedByContainer>
 				<FooterDevelopedByText>Built by</FooterDevelopedByText>
 				<MyLink href="https://twitter.com/afuturemodern" target="_blank">
@@ -86,6 +90,7 @@ const Footer = () => {
 				</MyLink>
 			</FooterAdditionalContainer>
 		</FooterMainContainer>
+		</>
 	);
 };
 
