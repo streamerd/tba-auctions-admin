@@ -109,7 +109,10 @@ const NFTDetails = () => {
     `${parsedNftData.token_address}/${parsedNftData.token_id}`
   )!;
 
-  const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
+console.log(`hasWallet: ${hasWallet}`)
+//   const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
+// const nftsInWallet = useMoralis("0xF02A70E68770bc94FEb07AC9CDd3dE9CeFA7406E");
+const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
 
   const signer: any = useEthers6Signer({ chainId: 11155111 });
   // or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
@@ -148,11 +151,14 @@ const NFTDetails = () => {
       token_id: parsedNftData.token_id,
       wallet_address: createdAccount,
     };
-    const metadataResponse = await postReq({
+
+	console.log(`metadataPostData: ${JSON.stringify(metadataPostData)}`)
+	console.log(`newWalletPostData: ${JSON.stringify(newWalletPostData)}`)
+    await postReq({
       path: "/metadata/new",
       data: metadataPostData,
     });
-    const walletsCreateResponse = await postReq({
+    await postReq({
       path: "/wallets/new",
       data: newWalletPostData,
     });
