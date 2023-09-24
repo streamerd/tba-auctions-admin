@@ -233,6 +233,7 @@ const NFTDetails = () => {
 		if (!remainingTime) return;
 
 		const remainingTimeState: any = parseInt(remainingTime);
+	
 		if (remainingTimeIntervalCount > remainingTimeState)
 			setRemainingTimeIntervalCount(remainingTimeState);
 
@@ -398,7 +399,7 @@ const NFTDetails = () => {
 					ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet
 				</NFTSDescription>
 				<NftsHeadText>Collectibles [{nftsInWallet?.length}]</NftsHeadText>
-				{remainingTimeIntervalCount > 0 && (
+				{remainingTimeIntervalCount > 0 && remainingTimeIntervalCount < 10000000000 && (
 					<NftsHeadText>
 						{`${Math.floor(parseInt(remainingTimeIntervalCount) / 3600)} hours, ${Math.floor(
 							(parseInt(remainingTimeIntervalCount) % 3600) / 60
