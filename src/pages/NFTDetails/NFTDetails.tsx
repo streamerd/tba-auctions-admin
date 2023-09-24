@@ -223,13 +223,31 @@ const NFTDetails = () => {
 	const lastBids: any = useFetch({ path: `/bids/${parsedNftData.auction_id}` });
 	console.log(lastBids);
 
-	const { endAuction, placeBid } = useManageAuctions();
+	const { endAuction, placeBid, remainingTime } = useManageAuctions({
+		auction_id: parsedNftData.auction_id,
+	});
+
+	const [remainingTimeIntervalCount, setRemainingTimeIntervalCount] = useState<any>(10000000000);
+
+	useEffect(() => {
+		if (!remainingTime) return;
+
+		const remainingTimeState: any = parseInt(remainingTime);
+		if (remainingTimeIntervalCount > remainingTimeState)
+			setRemainingTimeIntervalCount(remainingTimeState);
+
+		const interval = setInterval(() => {
+			setRemainingTimeIntervalCount(remainingTimeIntervalCount - 1);
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, [remainingTime, remainingTimeIntervalCount]);
+
 	const [open, setOpen] = useState<boolean>(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 	const [bidValue, setbidValue] = useState("");
 
-	console.log(new Date());
 	return (
 		<NFTDetailsContainer>
 			<MainNFTAndButtonsContainer>
@@ -380,6 +398,13 @@ const NFTDetails = () => {
 					ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet
 				</NFTSDescription>
 				<NftsHeadText>Collectibles [{nftsInWallet?.length}]</NftsHeadText>
+				{remainingTimeIntervalCount > 0 && (
+					<NftsHeadText>
+						{`${Math.floor(parseInt(remainingTimeIntervalCount) / 3600)} hours, ${Math.floor(
+							(parseInt(remainingTimeIntervalCount) % 3600) / 60
+						)} minutes, ${(parseInt(remainingTimeIntervalCount) % 3600) % 60} seconds`}
+					</NftsHeadText>
+				)}
 				<NFTS nftsData={nftsInWallet} />
 			</NftsOfMainNftContainer>
 			<AuctionReservedPrice open={open} handleClose={handleClose} handleOpen={handleOpen} />

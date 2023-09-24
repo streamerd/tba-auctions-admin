@@ -12,7 +12,7 @@ import GreatestAuction from "../assets/abis/GreatestAuction.json";
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
 
-export function useManageAuctions() {
+const useManageAuctions = ({ auction_id }: any) => {
 	const signer = useEthers6Signer();
 
 	//   const contractAddress = '0x70EbB29b1011198a725084639a5635305222d7c6';
@@ -50,6 +50,24 @@ export function useManageAuctions() {
 		highestBid: number;
 		ended: boolean;
 	};
+	const [remainingTime, setremainingTime] = useState();
+	useEffect(() => {
+		(async () => {
+			console.log(auction_id);
+			if (auction_id !== "") {
+				const remainingTime1 = await contract
+					.getRemainingTime(auction_id)
+					.then((res) => {
+						setremainingTime(res);
+						console.log(res);
+					})
+					.catch((err: any) => {
+						console.log(err);
+					});
+				console.log(remainingTime1);
+			}
+		})();
+	}, [auction_id]);
 
 	const { postReq } = usePost();
 	const [auctionsLength, setauctionsLength] = useState(0);
@@ -111,6 +129,7 @@ export function useManageAuctions() {
 			console.log(`Placing bid for auction ${auctionId}..${bidAmount}`);
 
 			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 1000000n });
+			console.log(getRemainingTime);
 			await tx.wait().then(async (txRes: any) => {
 				console.log(txRes);
 				await postReq({
@@ -207,5 +226,8 @@ export function useManageAuctions() {
 		getAllAuctions,
 		getHighestBid,
 		getRemainingTime,
+		remainingTime,
 	};
-}
+};
+
+export { useManageAuctions };

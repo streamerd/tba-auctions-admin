@@ -40,7 +40,7 @@ type IProps = {
 	handleOpen?: () => void;
 };
 const AuctionReservedPrice: React.FC<IProps> = ({ open, handleClose }) => {
-	const { getAllAuctions, createAuction } = useManageAuctions();
+	const { getAllAuctions, createAuction } = useManageAuctions({ auction_id: "" });
 	const [reserveValue, setreserveValue] = useState("");
 	const [isLoading, setisLoading] = useState(false);
 	/* const reservePrice = ethers.parseEther(reserveValue); */
