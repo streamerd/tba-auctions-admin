@@ -74,7 +74,7 @@ const AuctionReservedPrice: React.FC<IProps> = ({ open, handleClose }) => {
 					) : (
 						<>
 							<Typography id="modal-modal-title" variant="h6" component="h2">
-								Enter Reserved Price
+								Enter Reserve Price
 							</Typography>
 							<Box sx={{ display: "flex", gap: "20px", marginTop: "20px" }}>
 								<ReservedInput

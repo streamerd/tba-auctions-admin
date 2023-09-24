@@ -8,7 +8,9 @@ import usePost from "./usePost";
 import BestAuction from "../assets/abis/BestAuction.json";
 import BetterAuction from "../assets/abis/BetterAuction.json";
 import BesttAuction from "../assets/abis/BesttAuction.json";
+import GreatestAuction from "../assets/abis/GreatestAuction.json";
 import { useAccount } from "wagmi";
+import useFetch from "./useFetch";
 
 export function useManageAuctions() {
 	const signer = useEthers6Signer();
@@ -28,7 +30,9 @@ export function useManageAuctions() {
 	// const contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138";
 	/* const contractAddress = "0xE60d4c5891F3eba32C1F48d8Cd176Cc776D7C2A9"; */
 	// const contractAddress = "0x32bFaBE29f94A362ff16Ad2F29AfcCD9346edcdA";
-	const contractAddress = "0xdCFAFB913542c3C948A435a5E98ca2E2b620810a";
+	// const contractAddress = "0xfe0C31F42B68FeBa664464fbF649F41509315032";
+	// const contractAddress = "0x8191873Fd780437f4E4E5BE48F4E35d91C0711e4";
+	const contractAddress = "0xb057336a044894E39aF4F7B86Be08Bf5f1c92419";
 
 	const contract = new ethers.Contract(contractAddress, BesttAuction, signer);
 
@@ -69,14 +73,9 @@ export function useManageAuctions() {
 				await tx
 					.wait()
 					.then(async (txRes: any) => {
-						await getAllAuctions().then(async (res) => {
-							setauctionsLength(res.length);
-							console.log(res.length);
-						});
 						postReq({
 							path: "/auctions/new",
 							data: {
-								auction_id: auctionsLength,
 								contract_address: nftContractAddress,
 								token_id: tokenId,
 								reserve_price: reservePrice,
@@ -93,10 +92,7 @@ export function useManageAuctions() {
 					}); // Wait for the transaction to be mined
 				resolve("SUCCESS");
 
-				// console.log('Retrieving auction ID');
-				// const auctionId = await contract.getAuctionId(nftContractAddress, tokenId);
-				// setAuctionId(auctionId.toNumber());
-
+		
 				console.log("Auction created successfully!");
 			} catch (error) {
 				console.error("Error creating auction:", error);
@@ -108,11 +104,13 @@ export function useManageAuctions() {
 	const { address }: any = useAccount();
 	async function placeBid(auctionId: number, bidAmount: string) {
 		// const bidAmountPrice2: ethers.BigNumberish = ethers.parseEther(bidAmount);
-		const bidAmountPrice: ethers.BigNumberish = ethers.parseEther(bidAmount);
+		const bidAmountPrice= ethers.parseUnits(bidAmount, "ether");
+		console.log(` auctionId: ${auctionId} bidAmountPrice: ${bidAmountPrice}`);
 		// const bidAmountPrice = ethers.parseUnits(bidAmount.toString(), "ether");
 		console.log(`bidAmountPrice: ${bidAmountPrice}`);
 		try {
 			console.log(`Placing bid for auction ${auctionId}..${bidAmount}`);
+			
 			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 1000000n });
 			await tx.wait().then(async (txRes: any) => {
 				console.log(txRes);

@@ -21,7 +21,7 @@ import mainNFT from "../../assets/mockAssets/mainNFT.jpg";
 import NFTS from "./NFTDetailsComponents/NFTS";
 import nft from "../../assets/mockAssets/nft.jpg";
 import { ConnectKitButton } from "connectkit";
-import { useAccount } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
 import { ethers } from "ethers";
 import { TokenboundClient } from "@tokenbound/sdk";
 
@@ -50,6 +50,19 @@ const NFTDetails = () => {
   const parsedNftData = JSON.parse(localStorage.getItem("nftData")!);
   const [createdAccount, setcreatedAccount] = useState<string>();
   const { isConnected, address } = useAccount();
+
+  const {
+    data: balance,
+    isError,
+    isLoading,
+  } = useBalance({
+    address: address,
+    chainId: 11155111,
+    watch: false,
+  });
+
+  console.log(`balance:  ${balance?.formatted.slice(0, 4)} ${balance?.symbol}`);
+
   //make sure tbAccounts is an array of strings
   const [tbAccounts, setTbAccounts] = useState<`0x${string}`[]>([]);
   const [tbNFTs, setTbNFTs] = useState<string[]>([]);
@@ -78,7 +91,7 @@ const NFTDetails = () => {
   }, [wallets]);
   useEffect(() => {
     {
-		console.log(auctionData)
+      console.log(auctionData);
       auctionData &&
         auctionData?.forEach((auction: any) => {
           if (
@@ -108,7 +121,6 @@ const NFTDetails = () => {
         tokenContract: parsedNftData.token_address,
         tokenId: parsedNftData.token_id,
       });
-
     }
 
     testTokenboundClass();
@@ -196,6 +208,25 @@ const NFTDetails = () => {
     );
   };
 
+  // return true or false
+  // when placeBid is called, if bid amount is less than highest bid * 11/10, return false
+  // if bid amount is greater than highest bid * 11/10, return true
+  // if bid is less than reserve price, return false
+  // if bid is greater than reserve price, return true
+  // make all checks in the function
+  //   const checkValidBid = (): boolean  => {
+  //     return
+  //     lastBids && lastBids.length > 0
+  //       ? parseFloat(bidValue) >
+  //         (parseFloat(lastBids?.reverse()[0].bid_amount) * 11) / 10
+  //       : parseFloat(bidValue) >
+  //         parseFloat(auctionData?.[parsedNftData.auction_id]?.reserve_price)
+
+  // 			// balance && balance.formatted
+  // 			//   ? parseFloat(bidValue) > parseFloat(balance.formatted.slice(0, 4))
+
+  //   };
+
   const lastBids: any = useFetch({ path: `/bids/${parsedNftData.auction_id}` });
   console.log(lastBids);
 
@@ -204,6 +235,20 @@ const NFTDetails = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [bidValue, setbidValue] = useState("");
+
+//   const checkValidBid = (): boolean => {
+//     if (lastBids && lastBids.length > 0) {
+//       return 
+//         parseFloat(bidValue) <
+//         (parseFloat(lastBids?.reverse()[0].bid_amount) * 11) / 10 
+
+//     } else {
+//       return (
+//         parseFloat(bidValue) <
+//         parseFloat(auctionData?.[parsedNftData.auction_id]?.reserve_price) 
+//       );
+//     }
+//   };
   return (
     <NFTDetailsContainer>
       <MainNFTAndButtonsContainer>
@@ -244,9 +289,11 @@ const NFTDetails = () => {
                       </ActionButton>
                     )}
 
-                    {isInAuction && parsedNftData.ended === false &&(
+                    {isInAuction && parsedNftData.ended === false && (
                       <>
-                        <ActionButton onClick={() => endAuction(parsedNftData.auction_id)}>
+                        <ActionButton
+                          onClick={() => endAuction(parsedNftData.auction_id)}
+                        >
                           end auction
                         </ActionButton>
 
@@ -273,8 +320,8 @@ const NFTDetails = () => {
                       </SmartContractWalletAddress>
                     )}
                   </div>
-				  {isInAuction && parsedNftData.ended === false && (
-					<div
+                  {/* {isInAuction && parsedNftData.ended === false && ( */}
+                  <div
                     style={{
                       width: "100%",
                       display: "flex",
@@ -298,19 +345,33 @@ const NFTDetails = () => {
                               (lastBids?.reverse()[0].bid_amount * 11) /
                               10
                             ).toFixed(3)} ETH`
-                          : "Min Bid Amount 0 ETH"
+                          : `Min Bid Amount ${
+                              auctionData &&
+                              auctionData[parsedNftData.auction_id]
+                                .reserve_price
+                            } ETH`
                       }
                     />
+
                     <ActionButton
+                    //   disabled={checkValidBid()}
+                        // disabled={
+                        // //   balance && balance.formatted
+                        // //     ? 
+						// 	parseFloat(bidValue) >
+                        //       parseFloat(balance.formatted.slice(0, 4)) && parseFloat(bidValue) < parseFloat(auctionData?.[parsedNftData.auction_id]?.reserve_price)
+                        //     // : false
+                        // }
+						// disabled={parseFloat(balance?.formatted?.slice(0, 4)) > parseFloat(bidValue) || parseFloat(bidValue) < parseFloat(auctionData?.[parsedNftData.auction_id]?.reserve_price)}
+                         disabled={parseFloat(bidValue) < parseFloat(auctionData?.[parsedNftData.auction_id]?.reserve_price)}
                       onClick={() =>
                         placeBid(parsedNftData.auction_id, bidValue)
                       }
                     >
-                      BID
+                      Bid
                     </ActionButton>
                   </div>
-				  )}
-                  
+                  {/* )} */}
                 </>
               )}
             </>
