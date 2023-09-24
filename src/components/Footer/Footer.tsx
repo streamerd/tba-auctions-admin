@@ -77,7 +77,7 @@ const Footer = () => {
 			           
 			<FooterDevelopedByContainer>
 				<FooterDevelopedByText>Built by</FooterDevelopedByText>
-				<MyLink href="https://twitter.com/afuturemodern" target="_blank">
+				<MyLink href="http://futuremodern.hns.to" target="_blank">
 
 				<FooterDevelopedByLogo src={turtle} />
 				</MyLink>
