@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.21;
 
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+// import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.3/contracts/security/ReentrancyGuard.sol";
 
-// non reentrant
-// import no reentrancy from openzeppelin
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.3/contracts/security/ReentrancyGuard.sol";
 
 contract GreatestAuction is Ownable, ReentrancyGuard {
     struct Auction {
@@ -31,16 +29,6 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
 
     mapping(address => mapping(uint256 => bool)) public isNFTAuctioned;
     uint256 public auctionCounter;
-
-    // bool private reentrancyStatus;
-    // modifier nonReentrant() {
-    //     bool _entered = reentrancyStatus;
-    //     reentrancyStatus = true;
-
-    //     _;
-
-    //     reentrancyStatus = _entered;
-    // }
 
     event NewAuction(
         uint256 indexed auctionId,
@@ -114,14 +102,14 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
         // If there is at least one bid, check if the bid amount is at least the minimum bid
         if (auction.highestBidder == address(0)) {
             require(
-                msg.value >= auction.reservePrice &&
-                    msg.sender.balance > auction.reservePrice,
+                msg.value >= auction.reservePrice,
+                // && msg.sender.balance > auction.reservePrice,
                 "Not enough balance to bid"
             );
         } else {
             require(
-                msg.value >= (auction.highestBid * 110) / 100 &&
-                    msg.sender.balance >= (auction.highestBid * 110) / 100,
+                msg.value >= auction.highestBid + auction.highestBid * 1/10,
+                // && msg.sender.balance >= auction.highestBid + auction.highestBid * 11/10,
                 "Bid amount should be 10% more than the last bid"
             );
         }
@@ -140,9 +128,12 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
         require(depositSuccess, "Bid deposit failed");
 
         // Refund the previous highest bidder
-        address payable previousHighestBidder = payable(auction.highestBidder);
-        previousHighestBidder.transfer(auction.highestBid);
-
+        if (auction.highestBidder != address(0)) {
+            address payable previousHighestBidder = payable(
+                auction.highestBidder
+            );
+            previousHighestBidder.transfer(auction.highestBid);
+        }
         // Add the successful bid to the mapping
         auction.highestBidder = msg.sender;
         auction.highestBid = msg.value;
@@ -153,12 +144,7 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
     }
 
     // Function to end an auction
-    function endAuction(uint256 _auctionId)
-        public
-        payable
-        onlyOwner
-        nonReentrant
-    {
+    function endAuction(uint256 _auctionId) public payable onlyOwner nonReentrant{
         require(_auctionId < auctionCounter, "Invalid auction ID");
         Auction storage auction = auctions[_auctionId];
 
@@ -174,7 +160,7 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
         }
     }
 
-    function withdrawEth(uint256 auctionId) public payable nonReentrant {
+    function withdrawEth(uint256 auctionId) public payable nonReentrant{
         Auction storage auction = auctions[auctionId];
 
         require(

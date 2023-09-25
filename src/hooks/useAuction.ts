@@ -8,9 +8,11 @@ import usePost from "./usePost";
 import BestAuction from "../assets/abis/BestAuction.json";
 import BetterAuction from "../assets/abis/BetterAuction.json";
 import BesttAuction from "../assets/abis/BesttAuction.json";
-import GreatestAuction from "../assets/abis/GreatestAuction.json";
+import GreatestAuction from "../assets/abis/GreatestAuction4.json";
 import GreatestAuction2 from "../assets/abis/GreatestAuction2.json";
 import GreatestAuction3 from "../assets/abis/GreatestAuction3.json";
+// import X from "../assets/abis/X.json";
+import X from "../assets/abis/X.json";
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
 import usePatch from "./usePatch";
@@ -38,9 +40,13 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0xb057336a044894E39aF4F7B86Be08Bf5f1c92419";
 	// const contractAddress = "0x1433238162705afE8aFe76E97D9Ec2d4AB9c5e9b";
 	// const contractAddress = "0x29E3d4A4740dbC5C98c31957710365B7D4BD6941";
-	const contractAddress = "0xC442fAeE3acf4a60556246a61271C212a455f103";
-
-	const contract = new ethers.Contract(contractAddress, GreatestAuction3, signer);
+	// const contractAddress = "0xC442fAeE3acf4a60556246a61271C212a455f103";
+	// const contractAddress = "0x5C44F3EB207c6917570a4c6c9B87a528163B16e7";
+	// const contractAddress = "0x5C44F3EB207c6917570a4c6c9B87a528163B16e7"
+	// const contractAddress = "0x18b157B75155286Ee3ef52695DA24e06C8ea82b6";
+	// const contractAddress = "0x3fd717F3A83C90Ea58226C6573B5426a80fED2a0";
+	const contractAddress = "0xea1807Cb29841302D83a7f092d3dcE5F215F8286";
+	const contract = new ethers.Contract(contractAddress, GreatestAuction, signer);
 
 	const [auctionId, setAuctionId] = useState(null);
 	/* const reservePrice = 1000000000000000000; */ // 1 ETH
@@ -92,7 +98,9 @@ const useManageAuctions = ({ auction_id }: any) => {
 				console.log("maxPriorityFeePerGas", gasLimit?.maxPriorityFeePerGas);
 				// const tx = await contract.createAuction(nftContractAddress, tokenId, reservePrice, { gasLimit: 480000n });
 				const tx = await contract.createAuction(nftContractAddress, tokenId, parsedReservePrice, {
-					gasLimit: 1000000n,
+					// gasLimit: 1000000n,
+					gasLimit: 10000000n,
+
 				});
 
 				await tx
@@ -134,8 +142,9 @@ const useManageAuctions = ({ auction_id }: any) => {
 		console.log(`bidAmountPrice: ${bidAmountPrice}`);
 		try {
 			console.log(`Placing bid for auction ${auctionId}..${bidAmount}`);
+			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 10000000n });
 
-			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 1000000n });
+			// const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 1000000n });
 			console.log(getRemainingTime);
 			await tx.wait().then(async (txRes: any) => {
 				console.log(txRes);

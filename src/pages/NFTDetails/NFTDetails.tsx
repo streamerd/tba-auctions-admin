@@ -307,7 +307,7 @@ const NFTDetails = () => {
                       </ActionButton>
                     )}
 
-                    {isInAuction && parsedNftData.ended === false && (
+                    {isInAuction &&  (
                       <>
                         <ActionButton
                           onClick={() => endAuction(parsedNftData.auction_id)}
