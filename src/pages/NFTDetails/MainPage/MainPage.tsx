@@ -18,7 +18,7 @@ const MainPage = () => {
 	const metadatas: any = useFetch({ path: "/metadata" });
 	const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
 	const auctions: any = useFetch({ path: "/auctions" });
-	console.log(auctions);
+	// console.log(auctions);
 	return (
 		<MainPageContainer>
 			<MainPageNFTsContainer>

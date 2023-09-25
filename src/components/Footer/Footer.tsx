@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import turtle from "../../assets/turtle.jpg";
+import turtle from "../../assets/turtle.png";
 import { SlidingText } from "../../pages/NFTDetails/MainPage/MainPageStyled";
 const FooterMainContainer = styled.div`
-	height: 30vh;
+	height: 32vh;
 	background-color: #fff;
 	display: flex;
 	@media (max-width: 850px) {

@@ -126,6 +126,8 @@ export const NftsOfMainNftContainer = styled(NFTSContainer)`
 	width: 40%;
 `;
 
+
+
 export const NftsHeadText = styled.p`
 	background-color: black;
 	height: 60px;
@@ -135,8 +137,23 @@ export const NftsHeadText = styled.p`
 	text-align: center;
 	font-size: 24px;
 	font-weight: 700;
-	font-family: "Roboto", sans-serif;
+	font-family: "Montserrat", sans-serif;
 `;
+
+export const MainNFTHeadText = styled(NftsHeadText)`
+	background-color: black;
+	
+	margin-left: 24%;
+	margin-right: 24%;
+	font-size: 1rem;
+	font-weight: 600;
+	height: 60px;
+	padding-bottom: 16px;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	
+`;
+
 
 const LastBidsContainer = styled.div`
 	width: 100%;
@@ -156,14 +173,24 @@ const EachBid = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	border: 1px solid #373737;
+	border-radius: 10px;
 	padding: 10px 20px;
-	margin-top: 10px;
+	margin-top: 32px;
 `;
 
 const EachBidNameText = styled.p`
 	font-size: 16px;
 	font-weight: 500;
 	color: #373737;
+`;
+
+export const InfoMessageText = styled.p`
+	font-size: 16px;
+	font-weight: 500;
+	color: #373737;
+	margin-top: 46px;
+	padding: 10px 20px;
+	text-align: end;
 `;
 
 const EachBidImage = styled.img`

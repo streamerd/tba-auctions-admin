@@ -16,6 +16,8 @@ import {
   EachBidImage,
   EachBidAvatarNameContainer,
   NFTSDescription,
+  MainNFTHeadText,
+  InfoMessageText,
 } from "./NFTDetailsStyled";
 import mainNFT from "../../assets/mockAssets/mainNFT.jpg";
 import NFTS from "./NFTDetailsComponents/NFTS";
@@ -109,10 +111,10 @@ const NFTDetails = () => {
     `${parsedNftData.token_address}/${parsedNftData.token_id}`
   )!;
 
-console.log(`hasWallet: ${hasWallet}`)
-//   const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
-// const nftsInWallet = useMoralis("0xF02A70E68770bc94FEb07AC9CDd3dE9CeFA7406E");
-const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
+  console.log(`hasWallet: ${hasWallet}`);
+  //   const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
+  // const nftsInWallet = useMoralis("0xF02A70E68770bc94FEb07AC9CDd3dE9CeFA7406E");
+  const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
 
   const signer: any = useEthers6Signer({ chainId: 11155111 });
   // or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
@@ -152,8 +154,8 @@ const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
       wallet_address: createdAccount,
     };
 
-	console.log(`metadataPostData: ${JSON.stringify(metadataPostData)}`)
-	console.log(`newWalletPostData: ${JSON.stringify(newWalletPostData)}`)
+    console.log(`metadataPostData: ${JSON.stringify(metadataPostData)}`);
+    console.log(`newWalletPostData: ${JSON.stringify(newWalletPostData)}`);
     await postReq({
       path: "/metadata/new",
       data: metadataPostData,
@@ -192,6 +194,7 @@ const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
   const nftsData: NFTData[] = [];
   const nftData = parsedNftData;
   const mainNFTImageSource: string = JSON.parse(parsedNftData.metadata).image;
+  const mainNFTName: string = JSON.parse(parsedNftData.metadata).name;
 
   interface EachBidProps {
     item: {
@@ -268,6 +271,7 @@ const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
       <MainNFTAndButtonsContainer>
         <MainNFTImage src={mainNFTImageSource} />
         <ButtonsContainer>
+          <MainNFTHeadText>{mainNFTName}</MainNFTHeadText>
           {!localStorage
             .getItem(`${nftData.token_address}/${nftData.token_id}`)
             ?.includes("0x") ? (
@@ -355,11 +359,11 @@ const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
                       }} // address.slice(0, 4) + "..." + address.slice(-4);
                       placeholder={
                         lastBids && lastBids.length > 0
-                          ? `Min Bid Amount ${(
+                          ? `Bid more than ${(
                               (lastBids?.reverse()[0].bid_amount * 11) /
                               10
                             ).toFixed(2)} ETH`
-                          : `Min Bid Amount ${
+                          : `Bid more than ${
                               auctionData &&
                               auctionData[parsedNftData.auction_id]
                                 .reserve_price
@@ -396,18 +400,16 @@ const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
               )}
             </>
           ) : (
-			
             <SmartContractWalletAddress>
               <Link
                 to={
-                  "https://sepolia.etherscan.io/address/" +
-                  {createdAccount }
+                  "https://sepolia.etherscan.io/address/" + { createdAccount }
                 }
                 target="_blank"
                 style={{ textDecoration: "none" }}
               >
                 <LinkContent>
-                 {createdAccount }
+                  {createdAccount}
                   <ExternalLinkIcon />
                 </LinkContent>
               </Link>
@@ -419,29 +421,28 @@ const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
           auctionData?.[parsedNftData.auction_id]?.highest_bid &&
           balance?.formatted <
             auctionData?.[parsedNftData.auction_id]?.highest_bid * 1.1 && (
-            <div style={{ marginTop: "30px", textAlign: "end" }}>
-              Your balance is not sufficient to place a bid
-            </div>
+            <InfoMessageText>
+              Your balance is not sufficient to place a bid{" "}
+            </InfoMessageText>
           )}
 
         {parseFloat(balance?.formatted) < parseFloat(bidValue) ||
           (parseFloat(bidValue) <
             auctionData?.[parsedNftData.auction_id]?.highest_bid * 1.1 && (
-            <div style={{ marginTop: "30px", textAlign: "end" }}>
-              Your bid must be at least{" "}
+            <InfoMessageText>
+              Your bid must be more than{" "}
               {(
                 auctionData?.[parsedNftData.auction_id]?.highest_bid * 1.1
               ).toFixed(2)}{" "}
               ETH
-            </div>
+            </InfoMessageText>
           ))}
 
-
         {parseFloat(balance?.formatted) < parseFloat(bidValue) && (
-          <div style={{ marginTop: "30px", textAlign: "end" }}>
+          <InfoMessageText>
             Your balance {parseFloat(balance?.formatted).toFixed(2)} cannot bid{" "}
             {parseFloat(bidValue)} ETH on this NFT.
-          </div>
+          </InfoMessageText>
         )}
 
         <LastBidsContainer>
@@ -461,9 +462,10 @@ const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
           sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem
           ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit
           ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
-          
         </NFTSDescription>
-        <NftsHeadText>Collectibles [{nftsInWallet?.length}]</NftsHeadText>
+        <NftsHeadText>
+          {nftsInWallet?.length} artworks in this dossier
+        </NftsHeadText>
         {remainingTimeIntervalCount > 0 &&
           remainingTimeIntervalCount < 10000000000 && (
             <NftsHeadText>
