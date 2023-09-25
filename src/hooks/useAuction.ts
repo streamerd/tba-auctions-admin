@@ -11,8 +11,6 @@ import BesttAuction from "../assets/abis/BesttAuction.json";
 import GreatestAuction from "../assets/abis/GreatestAuction4.json";
 import GreatestAuction2 from "../assets/abis/GreatestAuction2.json";
 import GreatestAuction3 from "../assets/abis/GreatestAuction3.json";
-// import X from "../assets/abis/X.json";
-import X from "../assets/abis/X.json";
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
 import usePatch from "./usePatch";
