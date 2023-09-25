@@ -10,6 +10,7 @@ import BetterAuction from "../assets/abis/BetterAuction.json";
 import BesttAuction from "../assets/abis/BesttAuction.json";
 import GreatestAuction from "../assets/abis/GreatestAuction.json";
 import GreatestAuction2 from "../assets/abis/GreatestAuction2.json";
+import GreatestAuction3 from "../assets/abis/GreatestAuction3.json";
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
 import usePatch from "./usePatch";
@@ -36,9 +37,10 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0x8191873Fd780437f4E4E5BE48F4E35d91C0711e4";
 	// const contractAddress = "0xb057336a044894E39aF4F7B86Be08Bf5f1c92419";
 	// const contractAddress = "0x1433238162705afE8aFe76E97D9Ec2d4AB9c5e9b";
-	const contractAddress = "0x29E3d4A4740dbC5C98c31957710365B7D4BD6941";
+	// const contractAddress = "0x29E3d4A4740dbC5C98c31957710365B7D4BD6941";
+	const contractAddress = "0xC442fAeE3acf4a60556246a61271C212a455f103";
 
-	const contract = new ethers.Contract(contractAddress, GreatestAuction2, signer);
+	const contract = new ethers.Contract(contractAddress, GreatestAuction3, signer);
 
 	const [auctionId, setAuctionId] = useState(null);
 	/* const reservePrice = 1000000000000000000; */ // 1 ETH

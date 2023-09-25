@@ -162,21 +162,15 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
         require(_auctionId < auctionCounter, "Invalid auction ID");
         Auction storage auction = auctions[_auctionId];
 
-        auction.ended = true;
-
-        // If the endTime is set (reserve price is met)
-        if (auction.endTime > 0) {
-            // If there's a highest bidder, transfer the NFT to them and the bid amount to the contract owner
-            if (auction.highestBidder != address(0)) {
-                payable(owner()).transfer(auction.highestBid);
-                emit AuctionEndedWithSale(_auctionId, address(0), 0);
-            }
+        require(
+            auction.endTime > block.timestamp,
+            "There is more time left for auction to finish."
+        );
+        if (auction.highestBidder != address(0)) {
+            payable(owner()).transfer(auction.highestBid);
+            emit AuctionEndedWithSale(_auctionId, address(0), 0);
         } else {
-            // if reserve price is not met, send highest bidder their money back
-            if (auction.highestBidder != address(0)) {
-                payable(auction.highestBidder).transfer(auction.highestBid);
-                emit AuctionEndedWithoutSale(_auctionId);
-            }
+            emit AuctionEndedWithoutSale(_auctionId);
         }
     }
 
@@ -187,6 +181,10 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
             msg.sender == auction.highestBidder || msg.sender == owner(),
             "Only the highest bidder or owner can withdraw"
         );
+
+        if (msg.sender == auction.highestBidder) {
+            require(block.timestamp < auction.endTime, "Auction ended.");
+        }
 
         uint256 amount = auctions[auctionId].highestBid;
         auctions[auctionId].highestBid = 0;
