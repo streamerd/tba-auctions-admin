@@ -56,8 +56,8 @@ export function App() {
 	// 	testTokenboundClass();
 	// }, [tokenboundClient]);
 
-	const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay
-	// const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
+	// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay
+	const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
 	// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6" // cat
 	const navigate = useNavigate();
 	useEffect(() => {
