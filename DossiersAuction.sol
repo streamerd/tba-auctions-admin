@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.21;
 
-// import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.3/contracts/security/ReentrancyGuard.sol";
 
@@ -173,37 +172,6 @@ contract DossiersAuction is Ownable, ReentrancyGuard {
         auction.ended = true;
     }
 
-    function withdrawEth(uint256 auctionId) public payable nonReentrant {
-        Auction storage auction = auctions[auctionId];
-
-        require(auction.highestBidder != address(0), "No bid yet");
-
-        uint256 amount;
-
-        if (msg.sender == auction.highestBidder) {
-            require(block.timestamp < auction.endTime, "Auction ended.");
-            amount = auctions[auctionId].highestBid;
-            auctions[auctionId].highestBid = 0;
-            payable(msg.sender).transfer(amount);
-        } else if (msg.sender == owner() && block.timestamp > auction.endTime) {
-            amount = address(this).balance;
-            require(amount > 0, "No balance to withdraw");
-            payable(msg.sender).transfer(amount);
-        } else {
-            revert("Unauthorized withdrawal");
-        }
-
-        payable(msg.sender).transfer(amount);
-    }
-
-    function endAndWithdrawAllAuctions() external onlyOwner {
-        for (uint256 i = 0; i < auctionCounter; i++) {
-            if (!auctions[i].ended) {
-                endAuction(i);
-            }
-            withdrawEth(i);
-        }
-    }
 
     // Function to retrieve the remaining time in an auction
     function getRemainingTime(uint256 _auctionId)

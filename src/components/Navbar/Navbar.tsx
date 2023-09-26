@@ -16,7 +16,7 @@ export function Navbar() {
         <NavbarLogo src={catLogo} alt="logo" /> 
         <LogoTextContainer>Dossiers</LogoTextContainer>
       </Link>
-      <SlidingText>The auction kicks off on September 26th. </SlidingText>
+      <SlidingText>the auction kicks off on September 26 </SlidingText>
 
 
       <ConnectKitButton />
