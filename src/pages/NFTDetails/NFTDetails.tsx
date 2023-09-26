@@ -19,6 +19,7 @@ import {
   MainNFTHeadText,
   InfoMessageText,
 } from "./NFTDetailsStyled";
+import Countdown from "react-countdown";
 import mainNFT from "../../assets/mockAssets/mainNFT.jpg";
 import NFTS from "./NFTDetailsComponents/NFTS";
 import nft from "../../assets/mockAssets/nft.jpg";
@@ -71,6 +72,26 @@ const NFTDetails = () => {
   const [tbNFTs, setTbNFTs] = useState<string[]>([]);
   const [isInAuction, setisInAuction] = useState(false);
   const [hasWallet, sethasWallet] = useState("");
+
+  const Completionist = () => (
+    <NftsHeadText>The auction has ended</NftsHeadText>
+  );
+
+  // Renderer callback with condition
+  const renderer = ({ hours, minutes, seconds, completed }: any) => {
+    if (!completed) {
+      // return <Completionist />;
+      // } else {
+      // Render a countdown
+      return (
+        <NftsHeadText>
+          {hours} : {minutes < 10 ? `0${minutes}` : minutes} :{" "}
+          {seconds < 10 ? `0${seconds}` : seconds}
+        </NftsHeadText>
+      );
+    }
+  };
+
   /* const auctionData = useFetch({
 		path: `/auctions/exists/${parsedNftData.token_address}/${parsedNftData.token_id}`,
 	}); */
@@ -92,9 +113,24 @@ const NFTDetails = () => {
         });
     }
   }, [wallets]);
+  // useEffect(() => {
+  //   {
+  //     console.log(auctionData);
+  //     auctionData &&
+  //       auctionData?.forEach((auction: any) => {
+  //         if (
+  //           auction.token_id === parsedNftData.token_id &&
+  //           auction.contract_address === parsedNftData.token_address
+  //         ) {
+  //           setisInAuction(true);
+  //         }
+  //       });
+  //   }
+  // }, [auctionData]);
+
   useEffect(() => {
     {
-      console.log(auctionData);
+      // console.log(auctionData);
       auctionData &&
         auctionData?.forEach((auction: any) => {
           if (
@@ -106,12 +142,29 @@ const NFTDetails = () => {
         });
     }
   }, [auctionData]);
-  console.log(parsedNftData);
+  // console.log(`@parsd: ${parsedNftData?.auction_id}`);
+  const reservePrice =
+    Array.isArray(auctionData) &&
+    auctionData.length > 0 &&
+    auctionData?.find(
+      (auction: any) => auction.auction_id === parsedNftData.auction_id
+    ).reserve_price;
+
+  const highestBid =
+    Array.isArray(auctionData) &&
+    auctionData.length > 0 &&
+    auctionData?.find(
+      (auction: any) => auction.auction_id === parsedNftData.auction_id
+    ).highest_bid;
+  // console.log(`reservePrice: ${reservePrice}`)
+  // console.log(`highestBid: ${highestBid}`)
+  // console.log("auctionData", auctionData)
+
   const local = localStorage.getItem(
     `${parsedNftData.token_address}/${parsedNftData.token_id}`
   )!;
 
-  console.log(`hasWallet: ${hasWallet}`);
+  // console.log(`hasWallet: ${hasWallet}`);
   //   const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
   // const nftsInWallet = useMoralis("0xF02A70E68770bc94FEb07AC9CDd3dE9CeFA7406E");
   const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
@@ -193,6 +246,7 @@ const NFTDetails = () => {
 
   const nftsData: NFTData[] = [];
   const nftData = parsedNftData;
+  console.log(`nftData: ${JSON.stringify(nftData)}`);
   const mainNFTImageSource: string = JSON.parse(parsedNftData.metadata).image;
   const mainNFTName: string = JSON.parse(parsedNftData.metadata).name;
 
@@ -237,29 +291,33 @@ const NFTDetails = () => {
   //   };
 
   const lastBids: any = useFetch({ path: `/bids/${parsedNftData.auction_id}` });
-  console.log(lastBids);
+  // console.log(lastBids);
 
-  const { endAuction, placeBid, remainingTime } = useManageAuctions({
-    auction_id: parsedNftData.auction_id,
-  });
+  // const { endAuction, placeBid, withdrawEth, remainingTime } = useManageAuctions({
+  const { endAuction, placeBid, createAuction, remainingTime } =
+    useManageAuctions({
+      auction_id: parsedNftData.auction_id,
+    });
 
-  const [remainingTimeIntervalCount, setRemainingTimeIntervalCount] =
-    useState<any>(10000000000);
+  console.log(`remainingTime: ${remainingTime}`);
 
-  useEffect(() => {
-    if (!remainingTime) return;
+  // const [remainingTimeIntervalCount, setRemainingTimeIntervalCount] =
+  //   useState<any>(10000000000);
 
-    const remainingTimeState: any = parseInt(remainingTime);
+  // useEffect(() => {
+  //   if (!remainingTime) return;
 
-    if (remainingTimeIntervalCount > remainingTimeState)
-      setRemainingTimeIntervalCount(remainingTimeState);
+  //   const remainingTimeState: any = parseInt(remainingTime);
 
-    const interval = setInterval(() => {
-      setRemainingTimeIntervalCount(remainingTimeIntervalCount - 1);
-    }, 1000);
+  //   if (remainingTimeIntervalCount > remainingTimeState)
+  //     setRemainingTimeIntervalCount(remainingTimeState);
 
-    return () => clearInterval(interval);
-  }, [remainingTime, remainingTimeIntervalCount]);
+  //   const interval = setInterval(() => {
+  //     setRemainingTimeIntervalCount(remainingTimeIntervalCount - 1);
+  //   }, 1000);
+
+  //   return () => clearInterval(interval);
+  // }, [remainingTime, remainingTimeIntervalCount]);
 
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);
@@ -307,10 +365,21 @@ const NFTDetails = () => {
                       </ActionButton>
                     )}
 
-                    {isInAuction &&  (
+                    {isInAuction && (
                       <>
                         <ActionButton
-                          onClick={() => endAuction(parsedNftData.auction_id)}
+                          onClick={() => {
+                            console.log(
+                              `clicked to end auction for auction.. ${JSON.stringify(
+                                parsedNftData
+                              )}`
+                            );
+
+                            console.log(
+                              `clicked to end auction for auction.. ${parsedNftData.auction_id}`
+                            );
+                            endAuction(auctionData.auction_id);
+                          }}
                         >
                           end auction
                         </ActionButton>
@@ -318,6 +387,27 @@ const NFTDetails = () => {
                         {/* <ActionButton onClick={() => getHighestBid(0)}>get highest bid</ActionButton> */}
                       </>
                     )}
+
+                    {/* {isInAuction &&  (remainingTime && remainingTime !> 0) && (
+                      <>
+                        <ActionButton
+                          onClick={() => withdrawEth(parsedNftData.auction_id)}
+                        >
+                          withdraw eth
+                        </ActionButton>
+
+                      </>
+                    )} */}
+
+                    <LastBidsContainer>
+                      {lastBids &&
+                        lastBids
+                          ?.slice()
+                          .reverse()
+                          .map((item: any, idx: number) => {
+                            return <EachBidComponent key={idx} item={item} />;
+                          })}
+                    </LastBidsContainer>
                   </div>
                 </>
               ) : (
@@ -349,8 +439,19 @@ const NFTDetails = () => {
                   >
                     <input
                       value={bidValue}
+                      // <input value={this.state.financialGoal} onChange={event => this.setState({financialGoal: event.target.value.replace(/\D/,'')})}/>
+
+                      // onChange={(e) => {
+                      //   // setbidValue(e.target.value.replace(/\F/, ""));
+                      //   console.log(bidValue);
+                      // }}
                       onChange={(e) => {
                         setbidValue(e.target.value);
+                        // console.log("nftData", nftData)
+                        //  console.log("parsedNftData", parsedNftData)
+                        // console.log("auctionData", auctionData)
+                        // console.log("reserveeee", auctionData?.filter((x: any) => x.auction_id === parsedNftData.auction_id)[0]?.reserve_price)
+                        // console.log("rp", auctionData.find((auction: any) => auction.auction_id === 2).reserve_price)
                       }}
                       style={{
                         paddingLeft: "20px",
@@ -362,31 +463,32 @@ const NFTDetails = () => {
                           ? `Bid more than ${(
                               (lastBids?.reverse()[0].bid_amount * 11) /
                               10
-                            ).toFixed(2)} ETH`
-                          : `Bid more than ${
-                              auctionData &&
-                              auctionData[parsedNftData.auction_id]
-                                .reserve_price
-                            } ETH`
+                            ).toFixed(3)} ETH`
+                          : `Bid more than ${reservePrice} ETHs`
                       }
                     />
 
                     <ActionButton
                       disabled={
-                        parseFloat(bidValue) <
-                          auctionData?.[parsedNftData.auction_id]
-                            ?.reserve_price ||
-                        balance?.formatted <
-                          auctionData?.[parsedNftData.auction_id]
-                            ?.reserve_price ||
-                        balance?.formatted <
-                          auctionData?.[parsedNftData.auction_id]?.highest_bid *
-                            1.1 ||
+                        parseFloat(bidValue) < reservePrice ||
+                        balance?.formatted < reservePrice ||
+                        balance?.formatted < highestBid * 1.1 ||
                         parseFloat(balance?.formatted) < parseFloat(bidValue) ||
-                        parseFloat(bidValue) <
-                          auctionData?.[parsedNftData.auction_id]?.highest_bid *
-                            1.1
+                        parseFloat(bidValue) < highestBid * 1.1
                       }
+                      // disabled={
+                      //   parseFloat(bidValue) <
+                      //     auctionData?.[parsedNftData.auction_id]?.reserve_price ||
+                      //   balance?.formatted <
+                      //     auctionData?.[parsedNftData.auction_id]?.reserve_price ||
+                      //   balance?.formatted <
+                      //     auctionData?.[parsedNftData.auction_id]?.highest_bid *
+                      //       1.1 ||
+                      //   parseFloat(balance?.formatted) < parseFloat(bidValue) ||
+                      //   parseFloat(bidValue) <
+                      //     auctionData?.[parsedNftData.auction_id]?.highest_bid *
+                      //       1.1
+                      // }
                       onClick={() =>
                         placeBid(parsedNftData.auction_id, bidValue)
                       }
@@ -433,7 +535,7 @@ const NFTDetails = () => {
               Your bid must be more than{" "}
               {(
                 auctionData?.[parsedNftData.auction_id]?.highest_bid * 1.1
-              ).toFixed(2)}{" "}
+              ).toFixed(3)}{" "}
               ETH
             </InfoMessageText>
           ))}
@@ -466,18 +568,22 @@ const NFTDetails = () => {
         <NftsHeadText>
           {nftsInWallet?.length} artworks in this dossier
         </NftsHeadText>
-        {remainingTimeIntervalCount > 0 &&
-          remainingTimeIntervalCount < 10000000000 && (
-            <NftsHeadText>
-              {`${Math.floor(
-                parseInt(remainingTimeIntervalCount) / 3600
-              )} hours, ${Math.floor(
-                (parseInt(remainingTimeIntervalCount) % 3600) / 60
-              )} minutes, ${
-                (parseInt(remainingTimeIntervalCount) % 3600) % 60
-              } seconds`}
-            </NftsHeadText>
-          )}
+
+        {remainingTime !== undefined && (
+          <Countdown
+            date={Date.now() + Number(remainingTime) * 1000}
+            renderer={renderer}
+          />
+        )}
+
+        {remainingTime == undefined && (
+          <NftsHeadText>The reserve price has not been met yet.</NftsHeadText>
+        )}
+
+        {Number(remainingTime) == 0 && (
+          <NftsHeadText>The auction has ended.</NftsHeadText>
+        )}
+
         <NFTS nftsData={nftsInWallet} />
       </NftsOfMainNftContainer>
       <AuctionReservedPrice

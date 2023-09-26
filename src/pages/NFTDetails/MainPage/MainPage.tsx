@@ -18,7 +18,7 @@ const MainPage = () => {
 	const metadatas: any = useFetch({ path: "/metadata" });
 	const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
 	const auctions: any = useFetch({ path: "/auctions" });
-	// console.log(auctions);
+	console.log(auctions);
 	return (
 		<MainPageContainer>
 			<MainPageNFTsContainer>
@@ -51,6 +51,7 @@ const MainPage = () => {
 				{auctions && !isAdmin && (
 					<>
 						{auctions?.map((auction: any | null) => {
+							console.log(`auction`, auction)
 							const auctionMetadata = JSON.parse(auction.metadata);
 							console.log(`auctionMetadata`, auctionMetadata)
 							const handleNFTClick = async () => {

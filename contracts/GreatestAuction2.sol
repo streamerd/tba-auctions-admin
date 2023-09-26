@@ -8,7 +8,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.3
 // non reentrant
 // import no reentrancy from openzeppelin
 
-contract GreatestAuction is Ownable, ReentrancyGuard {
+contract X is Ownable, ReentrancyGuard {
     struct Auction {
         uint256 auctionId; // should be the index of the auction in the auctions array, will use auctionCounter for this
         address nftContract;
@@ -120,8 +120,8 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
             );
         } else {
             require(
-                msg.value >= (auction.highestBid * 110) / 100 &&
-                    msg.sender.balance >= (auction.highestBid * 110) / 100,
+                msg.value >= auction.highestBid + auction.highestBid * 11/10 &&
+                    msg.sender.balance >= auction.highestBid + auction.highestBid * 11/10,
                 "Bid amount should be 10% more than the last bid"
             );
         }
@@ -140,9 +140,10 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
         require(depositSuccess, "Bid deposit failed");
 
         // Refund the previous highest bidder
+        if (auction.highestBidder != address(0)) {
         address payable previousHighestBidder = payable(auction.highestBidder);
         previousHighestBidder.transfer(auction.highestBid);
-
+        }
         // Add the successful bid to the mapping
         auction.highestBidder = msg.sender;
         auction.highestBid = msg.value;

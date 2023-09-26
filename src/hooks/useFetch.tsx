@@ -9,6 +9,8 @@ const useFetch: React.FC<IProps> = ({ path }) => {
 	const [data, setdata] = useState("");
 	useEffect(() => {
 		axios
+		// .get(`http://localhost:3333${path}`)
+
 			.get(`https://tokenbound-accounts-store.vercel.app${path}`)
 			.then((res) => {
 				setdata(res.data);

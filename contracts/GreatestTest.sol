@@ -5,7 +5,7 @@ pragma solidity ^0.8.21;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.3/contracts/security/ReentrancyGuard.sol";
 
-contract GreatestAuction is Ownable, ReentrancyGuard {
+contract GreatestTest is Ownable, ReentrancyGuard {
     struct Auction {
         uint256 auctionId; // should be the index of the auction in the auctions array, will use auctionCounter for this
         address nftContract;
@@ -95,9 +95,11 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
 
         Auction storage auction = auctions[_auctionId];
 
-        // Check if the auction has already ended
-        require(!auction.ended, "Auction has ended");
-
+        // If not the first bidder (meaning highest bidder is address(0)),
+        //check the auction has already ended or not
+        if (auction.highestBidder != address(0)) {
+            require(block.timestamp < auction.endTime, "Auction has ended");
+        }
         // If there is at least one bid, check if the bid amount is at least the minimum bid
         if (auction.highestBidder == address(0)) {
             require(
@@ -117,7 +119,7 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
 
         // If it's the first bid that beats the reserve price and got enough balance, set endTime and emit the CountdownStarted event
         if (auction.endTime == 0) {
-            // auction.endTime = block.timestamp + 10 minutes; // !!! testing
+            // auction.endTime = block.timestamp + 2 minutes; // !!! testing
             auction.endTime = block.timestamp + 1 days; // Set the end time to 24 hours from now
             emit CountdownStarted(_auctionId);
         }
@@ -145,14 +147,17 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
     }
 
     // Function to end an auction
-    function endAuction(
-        uint256 _auctionId
-    ) public payable onlyOwner nonReentrant {
+    function endAuction(uint256 _auctionId)
+        public
+        payable
+        onlyOwner
+        nonReentrant
+    {
         require(_auctionId < auctionCounter, "Invalid auction ID");
         Auction storage auction = auctions[_auctionId];
 
         require(
-            auction.endTime > block.timestamp,
+            block.timestamp > auction.endTime,
             "There is more time left for auction to finish."
         );
         if (auction.highestBidder != address(0)) {
@@ -170,10 +175,7 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
     function withdrawEth(uint256 auctionId) public payable nonReentrant {
         Auction storage auction = auctions[auctionId];
 
-        require(
-            auction.highestBidder != address(0),
-            "Seems like no one bid to this NFT ever"
-        );
+        require(auction.highestBidder != address(0), "No bid yet");
 
         uint256 amount;
 
@@ -182,7 +184,7 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
             amount = auctions[auctionId].highestBid;
             auctions[auctionId].highestBid = 0;
             payable(msg.sender).transfer(amount);
-        } else if (msg.sender == owner() && auction.ended) {
+        } else if (msg.sender == owner() && block.timestamp > auction.endTime) {
             amount = address(this).balance;
             require(amount > 0, "No balance to withdraw");
             payable(msg.sender).transfer(amount);
@@ -203,17 +205,20 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
     }
 
     // Function to retrieve the remaining time in an auction
-    function getRemainingTime(
-        uint256 _auctionId
-    ) external view returns (uint256) {
+    function getRemainingTime(uint256 _auctionId)
+        public
+        view
+        returns (uint256)
+    {
         require(_auctionId < auctionCounter, "Invalid auction ID");
         Auction storage auction = auctions[_auctionId];
+        require(auction.endTime != 0, "No bid yet");
 
-        if (auction.ended) {
+        if (auction.endTime < block.timestamp) {
             return 0;
-        } else {
-            return auction.endTime - block.timestamp;
         }
+
+        return auction.endTime - block.timestamp;
     }
 
     // Function to get all auctions
@@ -237,9 +242,11 @@ contract GreatestAuction is Ownable, ReentrancyGuard {
     }
 
     // Function to retrieve successful bids for a tokenId
-    function getSuccessfulBids(
-        uint256 _tokenId
-    ) external view returns (Bid[] memory) {
+    function getSuccessfulBids(uint256 _tokenId)
+        external
+        view
+        returns (Bid[] memory)
+    {
         return successfulBids[_tokenId];
     }
 
