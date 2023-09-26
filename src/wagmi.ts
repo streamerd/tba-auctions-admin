@@ -9,7 +9,7 @@ export const wagmiConfig = createConfig(
     walletConnectProjectId: "",
     // alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
     chains,
-    appName: 'Vite Tokenbound SDK Example',
+    appName: 'Vite Tokenboud SDK Example',
     appDescription: 'Tokenbound SDK Example',
     appUrl: 'https://tokenbound.org',
   })
