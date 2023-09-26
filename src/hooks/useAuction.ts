@@ -41,7 +41,8 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0x39a96fAFa010CD01Ce8AFEE9926640d3EDE13Bc9";
 	// const contractAddress = "0x22d9950e8D12eD9E842D4ece279F3A232AaF37d6";
 	// const contractAddress = "0x55e15adbE793931Cf60DAA389f84581910DC408A";
-	const contractAddress = "0x70abC76977e881DAa6A4880AbC91A77bB99d0BD3";
+	// const contractAddress = "0x70abC76977e881DAa6A4880AbC91A77bB99d0BD3"; // tested except for endAuction
+	const contractAddress = "0x44Ac82abb5FD08263DCa0BF4324761DF680e263a"; // tested  for endAuction
 
 	const contract = new ethers.Contract(contractAddress, GreatestTest, signer);
 

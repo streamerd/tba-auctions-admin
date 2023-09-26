@@ -135,8 +135,20 @@ export const NftsHeadText = styled.p`
 	margin: 0px;
 	padding-top: 16px;
 	text-align: center;
-	font-size: 24px;
+	font-size: 22px;
 	font-weight: 700;
+	font-family: "Montserrat", sans-serif;
+`;
+
+ const CountdownInfoText = styled.p`
+	background-color: black;
+	height: 60px;
+	color: white;
+	margin: 0px;
+	padding-top: 16px;
+	text-align: center;
+	font-size: 18px;
+	font-weight: 500;
 	font-family: "Montserrat", sans-serif;
 `;
 
@@ -214,6 +226,23 @@ const NFTSDescription = styled.p`
 	margin-top: 10px;
 	padding: 10px 20px;
 `;
+
+const AlreadyInAuctionText = styled.p`
+	font-size: 16px;
+	font-weight: 500;
+	color: #373737;
+	margin-top: 10px;
+	padding: 10px 20px;
+	text-align: center;
+`;
+
+const OpenseaLogo = styled.img`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: contain;
+`;
+
 export {
 	LastBidsContainer,
 	EachBid,
@@ -221,4 +250,7 @@ export {
 	EachBidImage,
 	EachBidAvatarNameContainer,
 	NFTSDescription,
+	AlreadyInAuctionText,
+	OpenseaLogo,
+	CountdownInfoText
 };
