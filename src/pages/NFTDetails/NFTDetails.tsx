@@ -18,6 +18,9 @@ import {
   NFTSDescription,
   MainNFTHeadText,
   InfoMessageText,
+  AlreadyInAuctionText,
+  OpenseaLogo,
+  CountdownInfoText,
 } from "./NFTDetailsStyled";
 import Countdown from "react-countdown";
 import mainNFT from "../../assets/mockAssets/mainNFT.jpg";
@@ -39,6 +42,8 @@ import useFetch from "../../hooks/useFetch";
 import AdminStatusContext from "../../contexts/AdminStatusContext";
 import { useManageAuctions } from "../../hooks/useAuction";
 import AuctionReservedPrice from "../../LayoutComponents/AuctionReservedPrice";
+import opensea from "../../assets/opensea-logo.png"
+
 interface NFTData {
   image?: any;
   name?: string;
@@ -143,19 +148,24 @@ const NFTDetails = () => {
     }
   }, [auctionData]);
   // console.log(`@parsd: ${parsedNftData?.auction_id}`);
+
+  // const auctionID: any = useFetch({
+  //   path: `/auctions/${parsedNftData?.auction_id}/${parsedNftData?.token_id}}`,
+  // });
+
   const reservePrice =
     Array.isArray(auctionData) &&
     auctionData.length > 0 &&
     auctionData?.find(
       (auction: any) => auction.auction_id === parsedNftData.auction_id
-    ).reserve_price;
+    )?.reserve_price;
 
   const highestBid =
     Array.isArray(auctionData) &&
     auctionData.length > 0 &&
     auctionData?.find(
       (auction: any) => auction.auction_id === parsedNftData.auction_id
-    ).highest_bid;
+    )?.highest_bid;
   // console.log(`reservePrice: ${reservePrice}`)
   // console.log(`highestBid: ${highestBid}`)
   // console.log("auctionData", auctionData)
@@ -299,7 +309,7 @@ const NFTDetails = () => {
       auction_id: parsedNftData.auction_id,
     });
 
-  console.log(`remainingTime: ${remainingTime}`);
+  // console.log(`remainingTime: ${remainingTime}`);
 
   // const [remainingTimeIntervalCount, setRemainingTimeIntervalCount] =
   //   useState<any>(10000000000);
@@ -332,7 +342,7 @@ const NFTDetails = () => {
           <MainNFTHeadText>{mainNFTName}</MainNFTHeadText>
           {!localStorage
             .getItem(`${nftData.token_address}/${nftData.token_id}`)
-            ?.includes("0x") ? (
+            ?.includes("0x") ? (  
             <>
               {isAdmin ? (
                 <>
@@ -351,6 +361,19 @@ const NFTDetails = () => {
                         </Link>
                       </SmartContractWalletAddress>
                     )}
+
+                    {parsedNftData && parsedNftData?.contract_address !== "" && (
+                          <Link
+                          to={`https://opensea.io/assets/ethereum/${parsedNftData?.token_address}/${parsedNftData?.token_id}`}
+                          target="_blank"
+                          style={{ textDecoration: "none", color: "black" }}
+                        >
+                          {/* <LinkContent> */}
+                            {<OpenseaLogo src={opensea} />}
+                            {/* <ExternalLinkIcon /> */}
+                          {/* </LinkContent> */}
+                        </Link>)
+                      }
                   </div>
                   <div>
                     {hasWallet === "" && (
@@ -364,8 +387,14 @@ const NFTDetails = () => {
                         create auction
                       </ActionButton>
                     )}
+                    {/* {isInAuction && (
+                      <AlreadyInAuctionText>
+                        Hey Cat, please visit the app as non-admin <br></br> to
+                        display the bids and place a bid.
+                      </AlreadyInAuctionText>
+                    )} */}
 
-                    {isInAuction && (
+                    {/* {isInAuction && (
                       <>
                         <ActionButton
                           onClick={() => {
@@ -378,15 +407,14 @@ const NFTDetails = () => {
                             console.log(
                               `clicked to end auction for auction.. ${parsedNftData.auction_id}`
                             );
-                            endAuction(auctionData.auction_id);
+                            endAuction(auctionID);
                           }}
                         >
                           end auction
                         </ActionButton>
 
-                        {/* <ActionButton onClick={() => getHighestBid(0)}>get highest bid</ActionButton> */}
                       </>
-                    )}
+                    )} */}
 
                     {/* {isInAuction &&  (remainingTime && remainingTime !> 0) && (
                       <>
@@ -399,7 +427,7 @@ const NFTDetails = () => {
                       </>
                     )} */}
 
-                    <LastBidsContainer>
+                    {/* <LastBidsContainer>
                       {lastBids &&
                         lastBids
                           ?.slice()
@@ -407,7 +435,7 @@ const NFTDetails = () => {
                           .map((item: any, idx: number) => {
                             return <EachBidComponent key={idx} item={item} />;
                           })}
-                    </LastBidsContainer>
+                    </LastBidsContainer> */}
                   </div>
                 </>
               ) : (
@@ -559,16 +587,12 @@ const NFTDetails = () => {
       </MainNFTAndButtonsContainer>
 
       <NftsOfMainNftContainer>
-        <NFTSDescription>
+        {/* <NFTSDescription>
           Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor
           sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem
           ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit
           ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
-        </NFTSDescription>
-        <NftsHeadText>
-          {nftsInWallet?.length} artworks in this dossier
-        </NftsHeadText>
-
+        </NFTSDescription> */}
         {remainingTime !== undefined && (
           <Countdown
             date={Date.now() + Number(remainingTime) * 1000}
@@ -577,13 +601,18 @@ const NFTDetails = () => {
         )}
 
         {remainingTime == undefined && (
-          <NftsHeadText>The reserve price has not been met yet.</NftsHeadText>
+          <CountdownInfoText>The reserve price has not been met yet.</CountdownInfoText>
         )}
 
         {Number(remainingTime) == 0 && (
-          <NftsHeadText>The auction has ended.</NftsHeadText>
+          <CountdownInfoText>The auction has ended.</CountdownInfoText>
         )}
 
+        <NftsHeadText>
+          {nftsInWallet?.length} artworks in this dossier
+        </NftsHeadText>
+
+       
         <NFTS nftsData={nftsInWallet} />
       </NftsOfMainNftContainer>
       <AuctionReservedPrice

@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import turtle from "../../assets/turtle.png";
-import opensea from "../../assets/opensea-logo.png";
 import tokenbound from "../../assets/tokenbound-logo.svg";
 
-import { SlidingText } from "../../pages/NFTDetails/MainPage/MainPageStyled";
+// import { SlidingText } from "../../pages/NFTDetails/MainPage/MainPageStyled";
 const FooterMainContainer = styled.div`
   height: 32vh;
   background-color: #fff;
@@ -89,7 +88,7 @@ const OpenseaContainer = styled(FooterAdditionalContainer)`
 const Footer = () => {
   return (
     <>
-      <SlidingText>The auction kicks off on September 26th. </SlidingText>
+      {/* <SlidingText>The auction kicks off on September 26th. </SlidingText> */}
       <FooterMainContainer>
 		{/* <OpenseaContainer>
 		<MyLink href="https://opensea.io/collection/dossiers" target="_blank">
