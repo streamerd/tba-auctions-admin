@@ -1,8 +1,8 @@
 import { getDefaultConfig } from "connectkit";
 import { createConfig } from "wagmi";
-import { sepolia } from 'wagmi/chains'
+import { mainnet } from 'wagmi/chains'
 
-const chains = [sepolia]
+const chains = [mainnet]
 
 export const wagmiConfig = createConfig(
   getDefaultConfig({
