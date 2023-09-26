@@ -73,7 +73,7 @@ const FooterAdditionalLogo = styled.img`
   object-fit: contain;
 `;
 
-const MyLink = styled(FooterAdditionalText).attrs({ as: "a" })`
+export const MyLink = styled(FooterAdditionalText).attrs({ as: "a" })`
   text-decoration: none;
   color: #000;
   &:hover {

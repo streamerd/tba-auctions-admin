@@ -101,6 +101,8 @@ export const EachNFTImage = styled.img`
 	border-top-left-radius: 20px;
 `;
 
+
+
 export const EachNFTText = styled.p`
 	font-size: 15px;
 	font-weight: 600;

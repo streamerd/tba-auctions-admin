@@ -12,6 +12,7 @@ import AdminStatusContext from "../../../contexts/AdminStatusContext";
 import useFetch from "../../../hooks/useFetch";
 import opensea from "../../../assets/opensea-logo.png";
 import { OpenseaLogo } from "../NFTDetailsStyled";
+import { MyLink } from "../../../components/Footer/Footer";
 
 const MainPage = () => {
   interface IMeta {
@@ -45,7 +46,10 @@ const MainPage = () => {
           Hightop Hotel keycard NFC tag pairing the physical to its NFT
           counterpart.
         </IntroTextContainer>
-        {<OpenseaLogo src={opensea} />}
+		<MyLink href="https://opensea.io/collection/dossiers" target="_blank">
+		<OpenseaLogo src={opensea} />
+          </MyLink>
+        
       </IntroContainer>
       <MainPageNFTsContainer>
         {isAdmin && (
