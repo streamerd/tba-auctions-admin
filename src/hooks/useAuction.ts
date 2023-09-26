@@ -4,7 +4,7 @@ import { useEthers6Signer } from "./useEthers6Signer";
 
 import usePost from "./usePost";
 
-import GreatestTest from "../assets/abis/GreatestTest.json"
+import DossiersAuction from "../assets/abis/DossiersAuction.json"
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
 import usePatch from "./usePatch";
@@ -42,9 +42,10 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0x22d9950e8D12eD9E842D4ece279F3A232AaF37d6";
 	// const contractAddress = "0x55e15adbE793931Cf60DAA389f84581910DC408A";
 	// const contractAddress = "0x70abC76977e881DAa6A4880AbC91A77bB99d0BD3"; // tested except for endAuction
-	const contractAddress = "0x44Ac82abb5FD08263DCa0BF4324761DF680e263a"; // tested  for endAuction
+	// const contractAddress = "0x44Ac82abb5FD08263DCa0BF4324761DF680e263a"; // tested  for endAuction
+	const contractAddress = "0xC513329F47D1B6efbf8F50a6e8a3e7F467d82040"; 
 
-	const contract = new ethers.Contract(contractAddress, GreatestTest, signer);
+	const contract = new ethers.Contract(contractAddress, DossiersAuction, signer);
 
 	const [auctionId, setAuctionId] = useState(null);
 	/* const reservePrice = 1000000000000000000; */ // 1 ETH
