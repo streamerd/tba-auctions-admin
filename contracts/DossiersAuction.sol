@@ -119,8 +119,8 @@ contract DossiersAuction is Ownable, ReentrancyGuard {
 
         // If it's the first bid that beats the reserve price and got enough balance, set endTime and emit the CountdownStarted event
         if (auction.endTime == 0) {
-            // auction.endTime = block.timestamp + 2 minutes; // !!! testing
-            auction.endTime = block.timestamp + 1 days; // Set the end time to 24 hours from now
+            auction.endTime = block.timestamp + 15 minutes; // !!! testing
+            // auction.endTime = block.timestamp + 1 days; // Set the end time to 24 hours from now
             emit CountdownStarted(_auctionId);
         }
 
@@ -170,6 +170,7 @@ contract DossiersAuction is Ownable, ReentrancyGuard {
         } else {
             emit AuctionEndedWithoutSale(_auctionId);
         }
+        auction.ended = true;
     }
 
     function withdrawEth(uint256 auctionId) public payable nonReentrant {

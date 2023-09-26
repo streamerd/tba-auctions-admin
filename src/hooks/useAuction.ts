@@ -4,7 +4,10 @@ import { useEthers6Signer } from "./useEthers6Signer";
 
 import usePost from "./usePost";
 
-import DossiersAuction from "../assets/abis/DossiersAuction.json"
+// import DossiersAuction from "../assets/abis/DossiersAuction.json"
+// import DossiersAuction from "../assets/abis/finalize/DossiersAuction.json";
+import DossiersAuction from "../assets/abis/finalize/3/DossiersAuction.json";
+
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
 import usePatch from "./usePatch";
@@ -43,7 +46,11 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0x55e15adbE793931Cf60DAA389f84581910DC408A";
 	// const contractAddress = "0x70abC76977e881DAa6A4880AbC91A77bB99d0BD3"; // tested except for endAuction
 	// const contractAddress = "0x44Ac82abb5FD08263DCa0BF4324761DF680e263a"; // tested  for endAuction
-	const contractAddress = "0xC513329F47D1B6efbf8F50a6e8a3e7F467d82040"; 
+	// const contractAddress = "0xC513329F47D1B6efbf8F50a6e8a3e7F467d82040"; //tested for multi bid
+	// const contractAddress= "0x82Bd61FAB0659b30Efe4617873d0245EB87013D0"; // tested one bid pass one bid fail after endtime
+	const contractAddress= "0xbfD4C1372b9c1dB613b411d3204bC853Bf277506";
+
+	
 
 	const contract = new ethers.Contract(contractAddress, DossiersAuction, signer);
 

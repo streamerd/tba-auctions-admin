@@ -65,7 +65,7 @@ const NFTDetails = () => {
     isLoading,
   }: any = useBalance({
     address: address,
-    chainId: 11155111,
+    chainId: 1,
     watch: false,
   });
 
@@ -179,10 +179,10 @@ const NFTDetails = () => {
   // const nftsInWallet = useMoralis("0xF02A70E68770bc94FEb07AC9CDd3dE9CeFA7406E");
   const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
 
-  const signer: any = useEthers6Signer({ chainId: 11155111 });
+  const signer: any = useEthers6Signer({ chainId: 1 });
   // or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
 
-  const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 });
+  const tokenboundClient = new TokenboundClient({ signer, chainId: 1 });
   // Created this: 0x991ECf27c7Bd254a383A9FDA12FB2205A6fB64D2
   useEffect(() => {
     async function testTokenboundClass() {
