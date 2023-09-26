@@ -22,7 +22,7 @@ export function App() {
 	const [tbAccounts, setTbAccounts] = useState<`0x${string}`[]>([]);
 	const [tbNFTs, setTbNFTs] = useState<string[]>([]);
 
-	const signer: any = useEthers6Signer({ chainId: 1 });
+	const signer: any = useEthers6Signer({ chainId: 11155111 });
 	// or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
 
 	console.log("SIGNER", signer);
@@ -56,8 +56,8 @@ export function App() {
 		testTokenboundClass();
 	}, [tokenboundClient]);
 
-	// const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408";
-	const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6"
+	const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408";
+	// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6"
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (address === adminWallet) {
