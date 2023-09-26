@@ -163,6 +163,8 @@ const LastBidsContainer = styled.div`
 	justify-content: flex-start;
 	overflow-y: scroll;
 	align-items: center;
+	padding: 40px 0px;
+
 `;
 
 const EachBid = styled.div`
@@ -175,7 +177,7 @@ const EachBid = styled.div`
 	border: 1px solid #373737;
 	border-radius: 10px;
 	padding: 10px 20px;
-	margin-top: 32px;
+	margin-top: 12px;
 `;
 
 const EachBidNameText = styled.p`

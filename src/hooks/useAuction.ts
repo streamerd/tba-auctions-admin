@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useEthers6Signer } from "./useEthers6Signer";
-import AuctionHouse from "../assets/abis/AuctionHouse.json";
-import EnglishAuction from "../assets/abis/EnglishAuction.json";
-import GoodAuction from "../assets/abis/GoodAuction.json";
+
 import usePost from "./usePost";
-import BestAuction from "../assets/abis/BestAuction.json";
-import BetterAuction from "../assets/abis/BetterAuction.json";
-import BesttAuction from "../assets/abis/BesttAuction.json";
-import GreatestAuction from "../assets/abis/GreatestAuction4.json";
-import GreatestAuction2 from "../assets/abis/GreatestAuction2.json";
-import GreatestAuction3 from "../assets/abis/GreatestAuction3.json";
+
+import GreatestTest from "../assets/abis/GreatestTest.json"
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
 import usePatch from "./usePatch";
@@ -43,8 +37,13 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0x5C44F3EB207c6917570a4c6c9B87a528163B16e7"
 	// const contractAddress = "0x18b157B75155286Ee3ef52695DA24e06C8ea82b6";
 	// const contractAddress = "0x3fd717F3A83C90Ea58226C6573B5426a80fED2a0";
-	const contractAddress = "0xea1807Cb29841302D83a7f092d3dcE5F215F8286";
-	const contract = new ethers.Contract(contractAddress, GreatestAuction, signer);
+	// const contractAddress = "0xea1807Cb29841302D83a7f092d3dcE5F215F8286";
+	// const contractAddress = "0x39a96fAFa010CD01Ce8AFEE9926640d3EDE13Bc9";
+	// const contractAddress = "0x22d9950e8D12eD9E842D4ece279F3A232AaF37d6";
+	// const contractAddress = "0x55e15adbE793931Cf60DAA389f84581910DC408A";
+	const contractAddress = "0x70abC76977e881DAa6A4880AbC91A77bB99d0BD3";
+
+	const contract = new ethers.Contract(contractAddress, GreatestTest, signer);
 
 	const [auctionId, setAuctionId] = useState(null);
 	/* const reservePrice = 1000000000000000000; */ // 1 ETH
@@ -64,7 +63,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 	useEffect(() => {
 		(async () => {
 			console.log(auction_id);
-			if (auction_id !== "") {
+			if (auction_id !== "" || auctionId !== null || auction_id !== undefined) {
 				const remainingTime1 = await contract
 					.getRemainingTime(auction_id)
 					.then((res) => {
@@ -72,11 +71,36 @@ const useManageAuctions = ({ auction_id }: any) => {
 						console.log(res);
 					})
 					.catch((err: any) => {
+						setremainingTime(undefined)
 						console.log(err);
 					});
 				console.log(remainingTime1);
 			}
 		})();
+		// (async () => {
+		// 	console.log(auction_id);
+		// 	if (auction_id !== "" && typeof (auction_id) !== undefined && auction_id !== null && !isNaN(auction_id)) {
+		// 		console.log(`TYPE >>> ${typeof (auction_id)}`);
+		// 		try {
+		// 			console.log(`Getting remaining time for auction ${auction_id}...`)
+		// 			// const rem = 
+		// 			await getRemainingTime(auction_id).then((res: any) => {
+		// 				console.log(`RES >>> ${res}`);
+		// 				if (res === null || res === undefined || res === "") {
+		// 					setremainingTime(undefined)
+		// 				}
+		// 				else {
+		// 					setremainingTime(res);
+		// 				}
+		// 				// return res;
+		// 			}
+		// 			)
+		// 		} catch (error) {
+		// 			console.error("Error getting remaining time:", error);
+		// 		}
+		// 	}
+		// }
+		// )();
 	}, [auction_id]);
 
 	const { postReq } = usePost();
@@ -87,6 +111,11 @@ const useManageAuctions = ({ auction_id }: any) => {
 		tokenId: string | ethers.Overrides,
 		reservePrice: string
 	) {
+		if (nftContractAddress === null || nftContractAddress === "" || tokenId === null || tokenId === "" || reservePrice === null || reservePrice === "") {
+			console.log("no nftContractAddress or tokenId or reservePrice received");
+			return;
+		}
+
 		return new Promise(async (resolve, reject) => {
 			const parsedReservePrice: ethers.BigNumberish = ethers.parseEther(reservePrice);
 			console.log(typeof parsedReservePrice);
@@ -104,19 +133,33 @@ const useManageAuctions = ({ auction_id }: any) => {
 				await tx
 					.wait()
 					.then(async (txRes: any) => {
-						postReq({
-							path: "/auctions/new",
-							data: {
-								contract_address: nftContractAddress,
-								token_id: tokenId,
-								reserve_price: reservePrice,
-								end_time: 0,
-								highest_bidder: "",
-								highest_bid: 0,
-								ended: false,
-								metadata: JSON.parse(localStorage.getItem("nftData")!).metadata,
-							},
-						});
+						console.log(txRes);
+						console.log("auction creation is finished. now getting auctionCounter value..")
+						// get number of auctions with auctionCounter value in the contract
+						await contract.auctionCounter().then(async (auctionCount: any) => {
+							console.log(`auctionCount as-is : ${auctionCount} ${typeof (auctionCount)}`);
+							// console.log(`auctionCount toNumber : ${auctionCount.toString()}`);
+							console.log
+							// const aid = Number(auctionCount) - 1;
+							// const aid = Number(auctionCount.toString()) - 1;
+							const diff = auctionCount - BigInt(1);
+							console.log(`diff: ${diff} typeof: ${typeof (diff)}`);
+
+							postReq({
+								path: "/auctions/new",
+								data: {
+									auction_id: diff.toString(),
+									contract_address: nftContractAddress,
+									token_id: tokenId,
+									reserve_price: reservePrice,
+									end_time: 0,
+									highest_bidder: "",
+									highest_bid: 0,
+									ended: false,
+									metadata: JSON.parse(localStorage.getItem("nftData")!).metadata,
+								},
+							});
+						})
 					})
 					.catch((err: any) => {
 						console.log(err);
@@ -133,6 +176,10 @@ const useManageAuctions = ({ auction_id }: any) => {
 
 	const { address }: any = useAccount();
 	async function placeBid(auctionId: number, bidAmount: string) {
+		if (auctionId === null || bidAmount === null || bidAmount === "") {
+			console.log("no auctionId or bidAmount received");
+			return;
+		}
 		// const bidAmountPrice2: ethers.BigNumberish = ethers.parseEther(bidAmount);
 		const bidAmountPrice = ethers.parseUnits(bidAmount, "ether");
 		console.log(` auctionId: ${auctionId} bidAmountPrice: ${bidAmountPrice}`);
@@ -143,7 +190,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 10000000n });
 
 			// const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 1000000n });
-			console.log(getRemainingTime);
+			// console.log(getRemainingTime);
 			await tx.wait().then(async (txRes: any) => {
 				console.log(txRes);
 				await postReq({
@@ -165,6 +212,11 @@ const useManageAuctions = ({ auction_id }: any) => {
 	async function endAuction(auctionId: number) {
 		try {
 			console.log("Ending auction...");
+			if (auctionId === null) {
+				console.log("auctionId is null");
+				return;
+			}
+				console.log(`about to end ${auctionId}...`);
 			const tx = await contract.endAuction(auctionId);
 			await tx.wait(); // Wait for the transaction to be mined
 			console.log(`Auction ${auctionId} ended successfully!`);
@@ -172,6 +224,24 @@ const useManageAuctions = ({ auction_id }: any) => {
 			console.error("Error ending auction:", error);
 		}
 	}
+
+	// withdrawEth
+	async function withdrawEth(auctionId: number) {
+		try {
+			console.log("Withdrawing Eth...");
+			if (auctionId === null) {
+				console.log("auctionId is null");
+				return;
+			}
+			const tx = await contract.withdrawEth(auctionId);
+			const status = await tx.wait(); // Wait for the transaction to be mined
+			console.log(`Eth withdrawn successfully!`);
+			return status;
+		} catch (error) {
+			console.error("Error withdrawing Eth:", error);
+		}
+	}
+
 
 	async function getAllAuctions(): Promise<Auction[]> {
 		try {
@@ -203,7 +273,9 @@ const useManageAuctions = ({ auction_id }: any) => {
 	async function getRemainingTime(auctionId: number) {
 		try {
 			console.log(`Getting remaining time for auction ${auctionId}...`);
-			const remainingTime = contract.getRemainingTime(auctionId);
+			// const bigId = BigInt(auctionId);
+			console.log(`getting remaining time for ${auctionId}...`)
+			const remainingTime = await contract.getRemainingTime(auctionId);
 			if (remainingTime) {
 				return remainingTime;
 			}
@@ -245,6 +317,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 		getAllAuctions,
 		getHighestBid,
 		getRemainingTime,
+		withdrawEth,
 		remainingTime,
 	};
 };

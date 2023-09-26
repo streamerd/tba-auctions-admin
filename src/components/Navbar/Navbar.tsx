@@ -1,5 +1,6 @@
 import { ConnectKitButton } from "connectkit";
 import {
+  LogoTextContainer,
   NavbarContainer,
   NavbarLogo,
 } from "./NavbarStyled";
@@ -11,8 +12,10 @@ export function Navbar() {
   return (
     <NavbarContainer>
       <Link to={"/"} style={{ textDecoration: "none" }}>
-        <NavbarLogo src={catLogo} alt="logo" />
+        <NavbarLogo src={catLogo} alt="logo" /> 
+        <LogoTextContainer>Dossiers</LogoTextContainer>
       </Link>
+        
 
       <ConnectKitButton />
     </NavbarContainer>

@@ -343,7 +343,7 @@
 						"type": "bool"
 					}
 				],
-				"internalType": "struct GreatestTest.Auction[]",
+				"internalType": "struct X.Auction[]",
 				"name": "",
 				"type": "tuple[]"
 			}
@@ -393,7 +393,7 @@
 						"type": "uint256"
 					}
 				],
-				"internalType": "struct GreatestTest.Bid[]",
+				"internalType": "struct X.Bid[]",
 				"name": "",
 				"type": "tuple[]"
 			}
