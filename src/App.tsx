@@ -28,36 +28,36 @@ export function App() {
 	console.log("SIGNER", signer);
 	const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 });
 	// Created this: 0x991ECf27c7Bd254a383A9FDA12FB2205A6fB64D2
-	useEffect(() => {
-		async function testTokenboundClass() {
-			const account = await tokenboundClient.getAccount({
-				tokenContract: "0x55e786058b30687E2a3b0bFAbE56FFe2202F00D3",
-				tokenId: "3",
-			});
+	// useEffect(() => {
+	// 	async function testTokenboundClass() {
+	// 		const account = await tokenboundClient.getAccount({
+	// 			tokenContract: "0x55e786058b30687E2a3b0bFAbE56FFe2202F00D3",
+	// 			tokenId: "3",
+	// 		});
 
-			const preparedExecuteCall = await tokenboundClient.prepareExecuteCall({
-				account: account,
-				to: account,
-				value: 0n,
-				data: "",
-			});
+	// 		const preparedExecuteCall = await tokenboundClient.prepareExecuteCall({
+	// 			account: account,
+	// 			to: account,
+	// 			value: 0n,
+	// 			data: "",
+	// 		});
 
-			const preparedAccount = await tokenboundClient.prepareCreateAccount({
-				tokenContract: "0x55e786058b30687E2a3b0bFAbE56FFe2202F00D3",
-				tokenId: "3",
-			});
+	// 		const preparedAccount = await tokenboundClient.prepareCreateAccount({
+	// 			tokenContract: "0x55e786058b30687E2a3b0bFAbE56FFe2202F00D3",
+	// 			tokenId: "3",
+	// 		});
 
-			// if (signer) {
-			//   signer?.sendTransaction(preparedAccount)
-			//   signer?.sendTransaction(preparedExecuteCall)
-			// }
-		}
+	// 		// if (signer) {
+	// 		//   signer?.sendTransaction(preparedAccount)
+	// 		//   signer?.sendTransaction(preparedExecuteCall)
+	// 		// }
+	// 	}
 
-		testTokenboundClass();
-	}, [tokenboundClient]);
+	// 	testTokenboundClass();
+	// }, [tokenboundClient]);
 
-	// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay
-	const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
+	const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay
+	// const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
 	// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6" // cat
 	const navigate = useNavigate();
 	useEffect(() => {
