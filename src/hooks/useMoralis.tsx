@@ -19,7 +19,7 @@ const useMoralis = (address: any) => {
 		try {
 			if (addressData) {
 				const response: any = await Moralis.EvmApi.nft.getWalletNFTs({
-					chain: "0xaa36a7", // 0x1 for mainnet and 0xaa36a7 for sepolia
+					chain: "0x1", // 0x1 for mainnet and 0xaa36a7 for sepolia
 					format: "decimal",
 					mediaItems: false,
 					address: myAddress,
