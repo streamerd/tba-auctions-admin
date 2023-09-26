@@ -26,7 +26,7 @@ export function App() {
 	// or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
 
 	console.log("SIGNER", signer);
-	const tokenboundClient = new TokenboundClient({ signer, chainId: 1 });
+	const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 });
 	// Created this: 0x991ECf27c7Bd254a383A9FDA12FB2205A6fB64D2
 	useEffect(() => {
 		async function testTokenboundClass() {
@@ -56,8 +56,9 @@ export function App() {
 		testTokenboundClass();
 	}, [tokenboundClient]);
 
-	const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408";
-	// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6"
+	// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay
+	const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
+	// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6" // cat
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (address === adminWallet) {
