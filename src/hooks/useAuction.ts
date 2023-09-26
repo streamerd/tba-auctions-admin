@@ -4,9 +4,9 @@ import { useEthers6Signer } from "./useEthers6Signer";
 
 import usePost from "./usePost";
 
-// import DossiersAuction from "../assets/abis/DossiersAuction.json"
-// import DossiersAuction from "../assets/abis/finalize/DossiersAuction.json";
-import DossiersAuction from "../assets/abis/finalize/3/DossiersAuction.json";
+
+// import DossiersAuction from "../assets/abis/finalize/3/DossiersAuction.json"; // was in production
+import DossiersAuction from "../assets/abis/finalize/4/DossiersAuction.json"; // is in production
 
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
@@ -48,7 +48,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0x44Ac82abb5FD08263DCa0BF4324761DF680e263a"; // tested  for endAuction
 	// const contractAddress = "0xC513329F47D1B6efbf8F50a6e8a3e7F467d82040"; //tested for multi bid
 	// const contractAddress= "0x82Bd61FAB0659b30Efe4617873d0245EB87013D0"; // tested one bid pass one bid fail after endtime
-	const contractAddress= "0xbfD4C1372b9c1dB613b411d3204bC853Bf277506";
+	const contractAddress= "0x5E188a04ADDa58644447dD10f1F99cf5b5369ea6";
 
 	
 
