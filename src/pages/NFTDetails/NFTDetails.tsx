@@ -174,10 +174,14 @@ const NFTDetails = () => {
     `${parsedNftData.token_address}/${parsedNftData.token_id}`
   )!;
 
+  // console.log(`local: ${local}`);
+
   // console.log(`hasWallet: ${hasWallet}`);
   //   const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
   // const nftsInWallet = useMoralis("0xF02A70E68770bc94FEb07AC9CDd3dE9CeFA7406E");
-  const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
+  // const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
+  const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
+  // console.log(`nftsInWallet: ${JSON.stringify(nftsInWallet)}`);
 // console.log(nftsInWallet)
   const signer: any = useEthers6Signer({ chainId: 1 });
   // or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()

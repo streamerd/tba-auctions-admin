@@ -16,11 +16,16 @@ import { useNavigate } from "react-router-dom";
 import AuctionHouse from "./pages/AuctionHouse/AuctionHouse";
 import AdminStatusContext from "./contexts/AdminStatusContext";
 import Footer from "./components/Footer/Footer";
+import Moralis from "moralis";
 export function App() {
 	const { isConnected, address } = useAccount();
 	//make sure tbAccounts is an array of strings
 	const [tbAccounts, setTbAccounts] = useState<`0x${string}`[]>([]);
 	const [tbNFTs, setTbNFTs] = useState<string[]>([]);
+	Moralis.start({
+		apiKey:
+		"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjE2MDlkMmEyLWNkODQtNDc0OS1iMWUyLTJjYzcxMmQwMWY1YSIsIm9yZ0lkIjoiMzU4Nzg5IiwidXNlcklkIjoiMzY4NzM2IiwidHlwZSI6IlBST0pFQ1QiLCJ0eXBlSWQiOiJiMDlkZWNiZi1kZmE2LTRlZTItYWFlOS0wNDg4Y2NhNWUzYzciLCJpYXQiOjE2OTU3NTU3OTksImV4cCI6NDg1MTUxNTc5OX0.U-tfjAsKmJpdt7U4rfkLSFTrwHXDLJXhGPm-wwEERQM"
+	});
 
 	const signer: any = useEthers6Signer({ chainId: 1 });
 	// or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
@@ -56,8 +61,10 @@ export function App() {
 	// 	testTokenboundClass();
 	// }, [tokenboundClient]);
 
-	const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay
-	// const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
+	// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay - sepolia
+		// const adminWallet = "0xEd2eF70e8B1EBf95bDfD7ba692454143b2A8263B"; //tolgay - maimnet
+
+	const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
 	// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6" // cat
 	const navigate = useNavigate();
 	useEffect(() => {

@@ -40,7 +40,7 @@ const MainPageNFTsContainer = styled.div`
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 20px;
-	background-color: #fff;
+	background-color: black;
 	margin-top: 160px;
 `;
 
