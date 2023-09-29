@@ -129,15 +129,17 @@ export const EachNFTText = styled.p`
 `;
 
 export const SlidingText = styled.div`
-margin-left: 20%;
-margin-right: 20%;
+margin-left: 10%;
+margin-right: 10%;
+max-width: 80%;
 // padding-top: 20px;
     white-space: nowrap;
     overflow: hidden;
     position: relative;
 	font-size: 1.8rem;
 	font-familt: "montserrat", sans-serif;
-    animation: slide 52s linear infinite;
+    animation: slide 10s linear infinite;
+
 
     @keyframes slide {
         0% {
