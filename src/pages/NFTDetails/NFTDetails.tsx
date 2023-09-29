@@ -66,6 +66,8 @@ const NFTDetails = () => {
   }: any = useBalance({
     address: address,
     chainId: 1,
+    // chainId: 11155111,
+
     watch: false,
   });
 
@@ -174,20 +176,13 @@ const NFTDetails = () => {
     `${parsedNftData.token_address}/${parsedNftData.token_id}`
   )!;
 
-  // console.log(`local: ${local}`);
-
-  // console.log(`hasWallet: ${hasWallet}`);
-  //   const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
-  // const nftsInWallet = useMoralis("0xF02A70E68770bc94FEb07AC9CDd3dE9CeFA7406E");
-  // const nftsInWallet = useMoralis(hasWallet?.length > 0 ? hasWallet : "no_nft");
   const nftsInWallet = useMoralis(local === null ? "no_nft" : local);
-  // console.log(`nftsInWallet: ${JSON.stringify(nftsInWallet)}`);
-// console.log(nftsInWallet)
   const signer: any = useEthers6Signer({ chainId: 1 });
-  // or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
-
   const tokenboundClient = new TokenboundClient({ signer, chainId: 1 });
-  // Created this: 0x991ECf27c7Bd254a383A9FDA12FB2205A6fB64D2
+
+  // const signer: any = useEthers6Signer({ chainId: 11155111 });
+  // const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 });
+
   useEffect(() => {
     async function testTokenboundClass() {
       const account = await tokenboundClient.getAccount({
@@ -502,6 +497,7 @@ const NFTDetails = () => {
 
                     <ActionButton
                       disabled={
+                        bidValue.includes(",") ||
                         parseFloat(bidValue) < reservePrice ||
                         balance?.formatted < reservePrice ||
                         balance?.formatted < highestBid * 1.1 ||

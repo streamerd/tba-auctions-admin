@@ -27,40 +27,8 @@ export function App() {
 		"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjE2MDlkMmEyLWNkODQtNDc0OS1iMWUyLTJjYzcxMmQwMWY1YSIsIm9yZ0lkIjoiMzU4Nzg5IiwidXNlcklkIjoiMzY4NzM2IiwidHlwZSI6IlBST0pFQ1QiLCJ0eXBlSWQiOiJiMDlkZWNiZi1kZmE2LTRlZTItYWFlOS0wNDg4Y2NhNWUzYzciLCJpYXQiOjE2OTU3NTU3OTksImV4cCI6NDg1MTUxNTc5OX0.U-tfjAsKmJpdt7U4rfkLSFTrwHXDLJXhGPm-wwEERQM"
 	});
 
-	const signer: any = useEthers6Signer({ chainId: 1 });
-	// or useSigner() from legacy wagmi versions: const { data: signer } = useSigner()
-
-	console.log("SIGNER", signer);
-	const tokenboundClient = new TokenboundClient({ signer, chainId: 1 });
-	// Created this: 0x991ECf27c7Bd254a383A9FDA12FB2205A6fB64D2
-	// useEffect(() => {
-	// 	async function testTokenboundClass() {
-	// 		const account = await tokenboundClient.getAccount({
-	// 			tokenContract: "0x55e786058b30687E2a3b0bFAbE56FFe2202F00D3",
-	// 			tokenId: "3",
-	// 		});
-
-	// 		const preparedExecuteCall = await tokenboundClient.prepareExecuteCall({
-	// 			account: account,
-	// 			to: account,
-	// 			value: 0n,
-	// 			data: "",
-	// 		});
-
-	// 		const preparedAccount = await tokenboundClient.prepareCreateAccount({
-	// 			tokenContract: "0x55e786058b30687E2a3b0bFAbE56FFe2202F00D3",
-	// 			tokenId: "3",
-	// 		});
-
-	// 		// if (signer) {
-	// 		//   signer?.sendTransaction(preparedAccount)
-	// 		//   signer?.sendTransaction(preparedExecuteCall)
-	// 		// }
-	// 	}
-
-	// 	testTokenboundClass();
-	// }, [tokenboundClient]);
-
+	
+	
 	// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay - sepolia
 		// const adminWallet = "0xEd2eF70e8B1EBf95bDfD7ba692454143b2A8263B"; //tolgay - maimnet
 
@@ -82,7 +50,7 @@ export function App() {
 		>
 			<Routes>
 				<Route
-					path="/nft-details"
+					path="/nft-details/*"
 					element={
 						<Render>
 							<NFTDetails />

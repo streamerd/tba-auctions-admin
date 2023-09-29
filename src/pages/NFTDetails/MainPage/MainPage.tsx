@@ -26,6 +26,7 @@ const MainPage = () => {
   const metadatas: any = useFetch({ path: "/metadata" });
   const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
   const auctions: any = useFetch({ path: "/auctions" });
+  // console.log("nfstInWallet", nftsInWallet);
   // console.log(auctions);
   return (
     <MainPageContainer>
@@ -58,11 +59,12 @@ const MainPage = () => {
               (
                 nftData: {
                   metadata: any;
+                  token_address: string;
                   token_id: React.Key | null | undefined;
                 },
                 index: number
               ) => {
-                if (nftData.metadata) {
+                if (nftData?.metadata) {
                   const handleNFTClick = async () => {
                     await localStorage.setItem(
                       "nftData",
@@ -75,7 +77,7 @@ const MainPage = () => {
                       key={index}
                       image={nftMetaData.image}
                       name={nftMetaData.name}
-                      link={"/nft-details"}
+                      link={`/nft-details/${nftData.token_address}/${nftData.token_id}`}
                       // highestBid={nftData.highest_bid}
                       handleNFTClick={handleNFTClick}
                     />

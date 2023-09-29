@@ -29,7 +29,20 @@ const IntroTextContainer = styled.div`
 	font-family: "Montserrat", sans-serif;
 	font-weight: 600;
 	line-height: 2.4rem;
-	font-size: 1.8rem
+	font-size: 1.8rem;
+	@media (max-width: 576px) {
+		width: 100%;
+		font-size: 1.2rem;
+		padding-top: 20px;
+		padding-left: 20px;
+	}
+	// @media (max-width: 992px) {
+	// 	width: 90%;
+	// 	padding-top: 20px;
+	// 	padding-left: 20px;
+	// 	font-size: 1.4rem;
+	// }
+	
 `;
 
 const MainPageNFTsContainer = styled.div`

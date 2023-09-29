@@ -87,7 +87,6 @@ const AuctionReservedPrice: React.FC<IProps> = ({ open, handleClose }) => {
               </Typography>
               <Box sx={{ display: "flex", gap: "20px", marginTop: "20px" }}>
                 <ReservedInput
-                  value={reserveValue}
                   type="number"
                   onChange={(e) => {
                     setreserveValue(e.target.value);
@@ -104,7 +103,7 @@ const AuctionReservedPrice: React.FC<IProps> = ({ open, handleClose }) => {
                 variant="contained"
                 style={{ marginTop: "20px", width: "100%", height: "50px" }}
               >
-                START
+                START {reserveValue}
               </CreateAuctionButton>
             </>
           )}
