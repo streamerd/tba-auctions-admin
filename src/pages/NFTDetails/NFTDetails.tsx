@@ -71,6 +71,10 @@ const NFTDetails = () => {
     watch: false,
   });
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   //   console.log(`balance:  ${balance?.formatted.slice(0, 4)} ${balance?.symbol}`);
   //   console.log(+balance?.formatted > 0.003);
 
