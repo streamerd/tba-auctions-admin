@@ -9,7 +9,7 @@ import AdminStatusContext from "../contexts/AdminStatusContext";
 // const adminWallet = "0xEd2eF70e8B1EBf95bDfD7ba692454143b2A8263B"; //tolgay - maimnet
 
 
-// const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
+const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
 // const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6" // cat
 function convertPinataToIPFS(url: string): string {
   // Check if the URL starts with the Pinata gateway URL
@@ -52,13 +52,15 @@ const useMoralis = (address: any) => {
 
   const myAddress = address ? address : connectedAddress;
   // const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
+  console.log("adminWallet", adminWallet);
   console.log("connectedAddress", connectedAddress);
-  // console.log("isAdmin", isAdmin);
-// console.log("isAdmin", isAdmin);
-console.log("myAddress", myAddress);
+  console.log("myAddress to get nfts", myAddress);
+
+  console.log("isAdmin", adminWallet === myAddress);
   const getNFTs = async () => {
     try {
-      if (connectedAddress) {
+      if (connectedAddress === adminWallet)  {
+        console.log("adminWallet", adminWallet);
         console.log("connectedAddress", connectedAddress);
         // console.log("isAdmin", isAdmin);
         const response: any = await Moralis.EvmApi.nft.getWalletNFTs({

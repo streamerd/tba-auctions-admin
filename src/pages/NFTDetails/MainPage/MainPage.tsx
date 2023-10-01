@@ -35,7 +35,7 @@ const MainPage = () => {
 	const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
 	// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6" // cat
 
-
+console.log("address === adminWallet", address === adminWallet)
   // console.log("nfstInWallet", nftsInWallet);
   // console.log(auctions);
   return (
@@ -99,7 +99,7 @@ const MainPage = () => {
             )}
           </>
         )}
-        {auctions && !(address === adminWallet )&& (
+        {auctions && !(address === adminWallet ) && (
           <>
             {auctions?.map((auction: any | null) => {
               console.log(`auction`, auction);
