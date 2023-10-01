@@ -21,6 +21,8 @@ import {
   AlreadyInAuctionText,
   OpenseaLogo,
   CountdownInfoText,
+  OpenseaLogoMiddle,
+  NftsDescriptionText,
 } from "./NFTDetailsStyled";
 import Countdown from "react-countdown";
 import mainNFT from "../../assets/mockAssets/mainNFT.jpg";
@@ -262,6 +264,7 @@ const NFTDetails = () => {
   console.log(`nftData: ${JSON.stringify(nftData)}`);
   const mainNFTImageSource: string = JSON.parse(parsedNftData.metadata).image;
   const mainNFTName: string = JSON.parse(parsedNftData.metadata).name;
+  const mainNFTDescription: string = JSON.parse(parsedNftData.metadata).description;
 
   interface EachBidProps {
     item: {
@@ -340,9 +343,22 @@ const NFTDetails = () => {
   return (
     <NFTDetailsContainer>
       <MainNFTAndButtonsContainer>
+      {parsedNftData && parsedNftData?.contract_address !== "" && (
+                          <Link
+                          to={`https://opensea.io/assets/ethereum/${parsedNftData?.token_address}/${parsedNftData?.token_id}`}
+                          target="_blank"
+                          style={{ textDecoration: "none", color: "black" }}
+                        >
+                          {/* <LinkContent> */}
+                            {<OpenseaLogoMiddle src={opensea} />}
+                            {/* <ExternalLinkIcon /> */}
+                          {/* </LinkContent> */}
+                        </Link>)
+                      }
         <MainNFTImage src={mainNFTImageSource} />
-        <ButtonsContainer>
           <MainNFTHeadText>{mainNFTName}</MainNFTHeadText>
+        <ButtonsContainer>
+          
           {!localStorage
             .getItem(`${nftData.token_address}/${nftData.token_id}`)
             ?.includes("0x") ? (  
@@ -365,29 +381,19 @@ const NFTDetails = () => {
                       </SmartContractWalletAddress>
                     )}
 
-                    {parsedNftData && parsedNftData?.contract_address !== "" && (
-                          <Link
-                          to={`https://opensea.io/assets/ethereum/${parsedNftData?.token_address}/${parsedNftData?.token_id}`}
-                          target="_blank"
-                          style={{ textDecoration: "none", color: "black" }}
-                        >
-                          {/* <LinkContent> */}
-                            {<OpenseaLogo src={opensea} />}
-                            {/* <ExternalLinkIcon /> */}
-                          {/* </LinkContent> */}
-                        </Link>)
-                      }
+                  
                   </div>
-                  <div>
+                  <div style={{paddingTop:"10px"}}>
+                    
                     {hasWallet === "" && (
                       <ActionButton onClick={() => createAccount()}>
-                        create account
+                        create wallet
                       </ActionButton>
                     )}
 
                     {!isInAuction && (
                       <ActionButton onClick={() => handleOpen()}>
-                        create auction
+                        new auction
                       </ActionButton>
                     )}
                     {/* {isInAuction && (
@@ -591,12 +597,10 @@ const NFTDetails = () => {
       </MainNFTAndButtonsContainer>
 
       <NftsOfMainNftContainer>
-        {/* <NFTSDescription>
-          Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor
-          sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem
-          ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit
-          ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
-        </NFTSDescription> */}
+       <NftsDescriptionText>
+
+        {mainNFTDescription}
+       </NftsDescriptionText>
         {remainingTime !== undefined && (
           <Countdown
             date={Date.now() + Number(remainingTime) * 1000}

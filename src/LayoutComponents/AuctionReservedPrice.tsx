@@ -47,6 +47,15 @@ const AuctionReservedPrice: React.FC<IProps> = ({ open, handleClose }) => {
   const [isLoading, setisLoading] = useState(false);
   /* const reservePrice = ethers.parseEther(reserveValue); */
 
+  const isInvalidInput = () => {
+    if (reserveValue.includes(",")) return true;
+    if (reserveValue === "") return true;
+    if (reserveValue === "0") return true;
+    if (reserveValue.length > 0) {
+      return Number.isNaN(parseFloat(reserveValue));
+    }
+  };
+
   const nftData = JSON.parse(localStorage.getItem("nftData")!);
   const startAuction = async () => {
     setisLoading(true);
@@ -78,6 +87,9 @@ const AuctionReservedPrice: React.FC<IProps> = ({ open, handleClose }) => {
                 placeItems: "center",
               }}
             >
+              <Typography id="modal-modal-title" variant="h6" component="h2"> 
+                Creating Auction
+              </Typography>
               <CircularProgress sx={{ width: "100px", height: "100px" }} />
             </Box>
           ) : (
@@ -87,7 +99,7 @@ const AuctionReservedPrice: React.FC<IProps> = ({ open, handleClose }) => {
               </Typography>
               <Box sx={{ display: "flex", gap: "20px", marginTop: "20px" }}>
                 <ReservedInput
-                  type="number"
+                  error={isInvalidInput()}
                   onChange={(e) => {
                     setreserveValue(e.target.value);
                   }}
@@ -99,11 +111,19 @@ const AuctionReservedPrice: React.FC<IProps> = ({ open, handleClose }) => {
                 </Typography>
               </Box>
               <CreateAuctionButton
+                disabled={isInvalidInput()}
                 onClick={startAuction}
                 variant="contained"
-                style={{ marginTop: "20px", width: "100%", height: "50px" }}
+                style={{
+                  marginTop: "20px",
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: "black",
+                  color: "white",
+                textTransform: "lowercase",
+                }}
               >
-                START {reserveValue}
+                start  
               </CreateAuctionButton>
             </>
           )}

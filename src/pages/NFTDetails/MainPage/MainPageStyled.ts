@@ -36,12 +36,13 @@ const IntroTextContainer = styled.div`
 		padding-top: 20px;
 		padding-left: 20px;
 	}
-	// @media (max-width: 992px) {
-	// 	width: 90%;
-	// 	padding-top: 20px;
-	// 	padding-left: 20px;
-	// 	font-size: 1.4rem;
-	// }
+	@media (max-width: 992px) {
+		width: 90%;
+		padding-top: 20px;
+		padding-left: 20px;
+		padding-right: 20px;
+		font-size: 1.2rem;
+	}
 	
 `;
 

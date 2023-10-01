@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Moralis from "moralis";
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
 import axios from "axios";
+import AdminStatusContext from "../contexts/AdminStatusContext";
 
+// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay - sepolia
+// const adminWallet = "0xEd2eF70e8B1EBf95bDfD7ba692454143b2A8263B"; //tolgay - maimnet
+
+
+// const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
+// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6" // cat
 function convertPinataToIPFS(url: string): string {
   // Check if the URL starts with the Pinata gateway URL
   const matchResult = url.match(
@@ -28,11 +35,12 @@ const resolveRenderUrl = (url: string) => {
 
   if (!url) return null;
   if (url.startsWith("ipfs://"))
+    // https://ipfs.io/ipfs/QmNWmLm82E8XaRaQyCSWio58ndibte4XMm5NnQBKqui9E9/AccessPass_02.svg
+    // ipfs://QmNWmLm82E8XaRaQyCSWio58ndibte4XMm5NnQBKqui9E9/AccessPass_02.svg
     return url.replace("ipfs://", "https://ipfs.io/ipfs/");
   if (url.includes("https://ipfs.io/ipfs")) return url;
   if (url.includes("gateway.pinata")) {
     const pinataUrl = convertPinataToIPFS(url);
-
     return pinataUrl;
   }
   return url;
@@ -40,38 +48,43 @@ const resolveRenderUrl = (url: string) => {
 
 const useMoralis = (address: any) => {
   const [nftsInWallet, setnftsInWallet] = useState<any>();
-  const { isConnected, address: addressData } = useAccount();
+  const { isConnected, address: connectedAddress } = useAccount();
 
-  const myAddress = address ? address : addressData;
-
+  const myAddress = address ? address : connectedAddress;
+  const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
+  console.log("connectedAddress", connectedAddress);
+  console.log("isAdmin", isAdmin);
+// console.log("isAdmin", isAdmin);
+console.log("myAddress", myAddress);
   const getNFTs = async () => {
     try {
-      if (addressData) {
+      if (connectedAddress) {
+        console.log("connectedAddress", connectedAddress);
+        console.log("isAdmin", isAdmin);
         const response: any = await Moralis.EvmApi.nft.getWalletNFTs({
-          chain: "0x1", // 0x1 for mainnet and 0xaa36a7 for sepolia
+          chain: "0x1", // 0x1 for mainnet and 0xaa36a7 for sepolia 0x89 for polygon
           format: "decimal",
           mediaItems: false,
           address: myAddress,
+          // address: "0x5ab45fb874701d910140e58ea62518566709c408"
         });
-        // console.log(`response`, JSON.stringify(response.raw.result));
         setnftsInWallet(response.raw.result);
       }
     } catch (e) {
       console.error(e);
     }
   };
-  /* const nftsInAuction = useFetch(""); */
   useEffect(() => {
     getNFTs();
   }, [window.location.pathname, myAddress]);
 
   const returnData = () => {
     if (address === "no_nft") {
-      // this is a hack to show no nft in the wallet for non-admins.
       return [];
     } else {
       let updatedNfts: any = [];
       if (nftsInWallet?.length > 0) {
+        console.log(`nftsInWallet`, nftsInWallet);
         updatedNfts = nftsInWallet?.map((nft: any) => {
           const updatedNft = { ...nft };
           const metadata = JSON.parse(updatedNft?.metadata);
@@ -83,6 +96,7 @@ const useMoralis = (address: any) => {
           }
         });
       }
+      console.log(`updatedNfts`, updatedNfts);
       return updatedNfts;
     }
   };
