@@ -59,7 +59,7 @@ const useMoralis = (address: any) => {
   console.log("isAdmin", adminWallet === myAddress);
   const getNFTs = async () => {
     try {
-      if (connectedAddress === adminWallet)  {
+      if (connectedAddress === adminWallet?.trim())  {
         console.log("adminWallet", adminWallet);
         console.log("connectedAddress", connectedAddress);
         // console.log("isAdmin", isAdmin);

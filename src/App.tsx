@@ -40,7 +40,7 @@ console.log(process.env.REACT_APP_MORALIS_APIKEY)
 	// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6" // cat
 	const navigate = useNavigate();
 	useEffect(() => {
-		if (address === adminWallet) {
+		if (address?.trim() === adminWallet?.trim()) {
 			navigate("/");
 		} else {
 			navigate("/");
