@@ -70,7 +70,7 @@ const NFTDetails = () => {
 	}: any = useBalance({
 		address: address,
 		chainId: 1,
-		/* 		chainId: 11155111, */
+		// chainId: 11155111,
 
 		watch: false,
 	});
@@ -199,8 +199,8 @@ const NFTDetails = () => {
 	const signer: any = useEthers6Signer({ chainId: 1 });
 	const tokenboundClient = new TokenboundClient({ signer, chainId: 1 });
 
-	/* const signer: any = useEthers6Signer({ chainId: 11155111 });
-	const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 }); */
+	//  const signer: any = useEthers6Signer({ chainId: 11155111 });
+	// const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 }); 
 
 	useEffect(() => {
 		async function testTokenboundClass() {

@@ -5,11 +5,13 @@ import useFetch from "./useFetch";
 import axios from "axios";
 import AdminStatusContext from "../contexts/AdminStatusContext";
 
-// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay - sepolia
-// const adminWallet = "0xEd2eF70e8B1EBf95bDfD7ba692454143b2A8263B"; //tolgay - maimnet
+// const adminWallet = "0xb56dc5ebeec61e2c0667746f64fc916e262919c8"; //tolgay - sepolia
+// const adminWallet = "0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b"; //tolgay - maimnet
 
 // const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
-const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6"; // cat
+const adminWallet = "0xd42d52b709829926531c64a32f2713b4dc8ea6f6"; // cat
+const adminWallets = ["0xb56dc5ebeec61e2c0667746f64fc916e262919c8", "0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b", "0x5ab45fb874701d910140e58ea62518566709c408", "0xd42d52b709829926531c64a32f2713b4dc8ea6f6"];
+
 function convertPinataToIPFS(url: string): string {
 	// Check if the URL starts with the Pinata gateway URL
 	const matchResult = url.match(/https:\/\/gateway\.pinata\.cloud\/ipfs\/([^/]+)(\/.*)/);
@@ -47,22 +49,23 @@ const useMoralis = (address: any) => {
 	const [nftsInWallet, setnftsInWallet] = useState<any>();
 	const { isConnected, address: connectedAddress } = useAccount();
 
-	const myAddress = address ? address : connectedAddress;
-	console.log(address);
+	const myAddress = address ? address : connectedAddress?.toLocaleLowerCase();
+	// console.log(address);
 	// const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
-	console.log("adminWallet", adminWallet);
-	console.log("connectedAddress", connectedAddress);
-	console.log("myAddress to get nfts", myAddress);
+	// console.log("adminWallet", adminWallet);
+	// console.log("connectedAddress", connectedAddress);
+	// console.log("myAddress to get nfts", myAddress);
 
-	console.log("isAdmin", adminWallet === myAddress);
+	// console.log("isAdmin", adminWallet.toLocaleLowerCase() === myAddress.toLocaleLowerCase());
 	const getNFTs = async () => {
 		try {
-			if (connectedAddress === adminWallet?.trim()) {
-				console.log("adminWallet", adminWallet);
-				console.log("connectedAddress", connectedAddress);
+			if (connectedAddress?.trim().toLocaleLowerCase() === adminWallet?.trim().toLocaleLowerCase()) {
+				// console.log("adminWallet", adminWallet);
+				// console.log("connectedAddress", connectedAddress);
 				// console.log("isAdmin", isAdmin);
 				const response: any = await Moralis.EvmApi.nft.getWalletNFTs({
-					chain: "0x1", // 0x1 for mainnet and 0xaa36a7 for sepolia 0x89 for polygon
+					chain: "0x1", 
+          // chain: "0xaa36a7", 
 					format: "decimal",
 					mediaItems: false,
 					address: myAddress,

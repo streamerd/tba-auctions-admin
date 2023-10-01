@@ -29,11 +29,12 @@ const MainPage = () => {
 	const auctions: any = useFetch({ path: "/auctions" });
 	const { isConnected, address } = useAccount();
 
+  const adminWallets = ["0xb56dc5ebeec61e2c0667746f64fc916e262919c8", "0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b", "0x5ab45fb874701d910140e58ea62518566709c408", "0xd42d52b709829926531c64a32f2713b4dc8ea6f6"];
 	// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay - sepolia
 	// const adminWallet = "0xEd2eF70e8B1EBf95bDfD7ba692454143b2A8263B"; //tolgay - maimnet
 
 	// const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
-	const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6"; // cat
+	const adminWallet = "0xd42d52b709829926531c64a32f2713b4dc8ea6f6"; // cat
 	console.log("address", address);
 	console.log(
 		"address === adminWallet",
@@ -63,7 +64,7 @@ const MainPage = () => {
 				</MyLink>
 			</IntroContainer>
 			<MainPageNFTsContainer>
-				{address?.trim() === adminWallet?.trim() && (
+				{address?.trim().toLocaleLowerCase() === adminWallet?.trim().toLocaleLowerCase() && (
 					<>
 						{nftsInWallet?.map(
 							(
@@ -97,7 +98,7 @@ const MainPage = () => {
 						)}
 					</>
 				)}
-				{auctions && !(address?.trim() === adminWallet?.trim()) && (
+				{auctions && !(address?.trim().toLocaleLowerCase() === adminWallet?.trim().toLocaleLowerCase()) && (
 					<>
 						{auctions?.map((auction: any | null) => {
 							console.log(`auction`, auction);
