@@ -22,12 +22,16 @@ export function App() {
 	//make sure tbAccounts is an array of strings
 	const [tbAccounts, setTbAccounts] = useState<`0x${string}`[]>([]);
 	const [tbNFTs, setTbNFTs] = useState<string[]>([]);
+	// Moralis.start({
+	// 	apiKey:
+	// 	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjE2MDlkMmEyLWNkODQtNDc0OS1iMWUyLTJjYzcxMmQwMWY1YSIsIm9yZ0lkIjoiMzU4Nzg5IiwidXNlcklkIjoiMzY4NzM2IiwidHlwZSI6IlBST0pFQ1QiLCJ0eXBlSWQiOiJiMDlkZWNiZi1kZmE2LTRlZTItYWFlOS0wNDg4Y2NhNWUzYzciLCJpYXQiOjE2OTU3NTU3OTksImV4cCI6NDg1MTUxNTc5OX0.U-tfjAsKmJpdt7U4rfkLSFTrwHXDLJXhGPm-wwEERQM"
+	// });
+
 	Moralis.start({
 		apiKey:
 		"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjE2MDlkMmEyLWNkODQtNDc0OS1iMWUyLTJjYzcxMmQwMWY1YSIsIm9yZ0lkIjoiMzU4Nzg5IiwidXNlcklkIjoiMzY4NzM2IiwidHlwZSI6IlBST0pFQ1QiLCJ0eXBlSWQiOiJiMDlkZWNiZi1kZmE2LTRlZTItYWFlOS0wNDg4Y2NhNWUzYzciLCJpYXQiOjE2OTU3NTU3OTksImV4cCI6NDg1MTUxNTc5OX0.U-tfjAsKmJpdt7U4rfkLSFTrwHXDLJXhGPm-wwEERQM"
 	});
-
-	
+console.log(process.env.REACT_APP_MORALIS_APIKEY)
 	
 	// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay - sepolia
 		// const adminWallet = "0xEd2eF70e8B1EBf95bDfD7ba692454143b2A8263B"; //tolgay - maimnet
