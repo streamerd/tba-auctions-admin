@@ -65,8 +65,8 @@ console.log("myAddress", myAddress);
           chain: "0x1", // 0x1 for mainnet and 0xaa36a7 for sepolia 0x89 for polygon
           format: "decimal",
           mediaItems: false,
-          address: myAddress,
-          // address: "0x5ab45fb874701d910140e58ea62518566709c408"
+          // address: myAddress,
+          address: "0x5ab45fb874701d910140e58ea62518566709c408"
         });
         setnftsInWallet(response.raw.result);
       }
