@@ -10,7 +10,7 @@ interface EachNFTProps {
 	handleNFTClick?: () => void;
 }
 
-const EachNFT: React.FC<EachNFTProps> = ({ image, name, link,  handleNFTClick, highestBid }) => {
+const EachNFT: React.FC<EachNFTProps> = ({ image, name, link, handleNFTClick, highestBid }) => {
 	return (
 		<EachNFTContainer onClick={handleNFTClick}>
 			<Link to={link} style={{ textDecoration: "none" }}>

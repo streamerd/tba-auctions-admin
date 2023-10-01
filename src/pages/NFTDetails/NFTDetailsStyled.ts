@@ -16,7 +16,6 @@ export const MainNFTImage = styled.img`
 	border-radius: 40px;
 	object-fit: contain;
 	// background-color: black;
-
 `;
 
 export const NFTSContainer = styled.div`
@@ -24,7 +23,7 @@ export const NFTSContainer = styled.div`
 	border-radius: 20px;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: flex-start;
+	justify-content: center;
 	gap: 20px;
 	background-color: #fff;
 	min-height: 80vh;
@@ -105,7 +104,7 @@ export const ActionButton = styled.button`
 	margin-left: 2%;
 	cursor: pointer;
 	transition: 0.3s;
-	
+
 	&:hover {
 		color: #373737;
 		box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
@@ -125,8 +124,6 @@ export const NftsOfMainNftContainer = styled(NFTSContainer)`
 	flex-direction: column;
 	width: 40%;
 `;
-
-
 
 export const NftsHeadText = styled.p`
 	background-color: black;
@@ -149,15 +146,13 @@ export const NftsDescriptionText = styled.p`
 	padding-left: 20px;
 	padding-right: 20px;
 	text-align: start;
-	
+
 	font-size: 16px;
 	font-weight: 700;
 	font-family: "Montserrat", sans-serif;
 `;
 
-
-
- const CountdownInfoText = styled.p`
+const CountdownInfoText = styled.p`
 	background-color: black;
 	height: 60px;
 	color: white;
@@ -171,7 +166,7 @@ export const NftsDescriptionText = styled.p`
 
 export const MainNFTHeadText = styled(NftsHeadText)`
 	background-color: black;
-	
+
 	margin-left: 24%;
 	margin-right: 24%;
 	font-size: 1rem;
@@ -180,9 +175,7 @@ export const MainNFTHeadText = styled(NftsHeadText)`
 	padding-bottom: 16px;
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
-	
 `;
-
 
 const LastBidsContainer = styled.div`
 	width: 100%;
@@ -193,7 +186,6 @@ const LastBidsContainer = styled.div`
 	overflow-y: scroll;
 	align-items: center;
 	padding: 40px 0px;
-
 `;
 
 const EachBid = styled.div`
@@ -208,7 +200,6 @@ const EachBid = styled.div`
 	padding: 10px 20px;
 	margin-top: 12px;
 `;
-
 
 const EachBidNameText = styled.p`
 	font-size: 16px;
@@ -255,15 +246,15 @@ const AlreadyInAuctionText = styled.p`
 `;
 
 const OpenseaLogo = styled.img`
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
+	width: 80px;
+	height: 80px;
+	object-fit: contain;
 `;
 
 const OpenseaLogoMiddle = styled.img`
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
+	width: 40px;
+	height: 40px;
+	object-fit: contain;
 `;
 
 export {
@@ -276,5 +267,5 @@ export {
 	AlreadyInAuctionText,
 	OpenseaLogo,
 	OpenseaLogoMiddle,
-	CountdownInfoText
+	CountdownInfoText,
 };

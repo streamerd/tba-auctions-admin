@@ -43,7 +43,6 @@ const IntroTextContainer = styled.div`
 		padding-right: 20px;
 		font-size: 1.2rem;
 	}
-	
 `;
 
 const MainPageNFTsContainer = styled.div`
@@ -83,12 +82,13 @@ export const NFTSContainer = styled.div`
 	justify-content: center;
 	gap: 20px;
 	background-color: #fff;
-	min-height: 80vh;	
+	min-height: 80vh;
 `;
 
 export const EachNFTContainer = styled.div`
+	background-color: #fff;
 	width: 25%;
-	aspect-ratio: 1/1.3;
+	aspect-ratio: 1/1.5;
 	min-height: 300px;
 	// border: 4px solid gray;
 	margin-top: 20px;
@@ -115,8 +115,6 @@ export const EachNFTImage = styled.img`
 	border-top-left-radius: 20px;
 `;
 
-
-
 export const EachNFTText = styled.p`
 	font-size: 15px;
 	font-weight: 600;
@@ -130,26 +128,25 @@ export const EachNFTText = styled.p`
 `;
 
 export const SlidingText = styled.div`
-margin-left: 10%;
-margin-right: 10%;
-max-width: 80%;
-// padding-top: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    position: relative;
+	margin-left: 10%;
+	margin-right: 10%;
+	max-width: 80%;
+	// padding-top: 20px;
+	white-space: nowrap;
+	overflow: hidden;
+	position: relative;
 	font-size: 1.8rem;
 	font-familt: "montserrat", sans-serif;
-    animation: slide 10s linear infinite;
+	animation: slide 10s linear infinite;
 
-
-    @keyframes slide {
-        0% {
-            transform: translateX(100%);
-        }
-        100% {
-            transform: translateX(-100%);
-        }
-    }
+	@keyframes slide {
+		0% {
+			transform: translateX(100%);
+		}
+		100% {
+			transform: translateX(-100%);
+		}
+	}
 `;
 
 export { MainPageContainer, MainPageNFTsContainer, IntroTextContainer, IntroContainer };
