@@ -51,16 +51,16 @@ const useMoralis = (address: any) => {
   const { isConnected, address: connectedAddress } = useAccount();
 
   const myAddress = address ? address : connectedAddress;
-  const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
+  // const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
   console.log("connectedAddress", connectedAddress);
-  console.log("isAdmin", isAdmin);
+  // console.log("isAdmin", isAdmin);
 // console.log("isAdmin", isAdmin);
 console.log("myAddress", myAddress);
   const getNFTs = async () => {
     try {
       if (connectedAddress) {
         console.log("connectedAddress", connectedAddress);
-        console.log("isAdmin", isAdmin);
+        // console.log("isAdmin", isAdmin);
         const response: any = await Moralis.EvmApi.nft.getWalletNFTs({
           chain: "0x1", // 0x1 for mainnet and 0xaa36a7 for sepolia 0x89 for polygon
           format: "decimal",

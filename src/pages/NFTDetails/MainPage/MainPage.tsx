@@ -13,6 +13,7 @@ import useFetch from "../../../hooks/useFetch";
 import opensea from "../../../assets/opensea-logo.png";
 import { OpenseaLogo } from "../NFTDetailsStyled";
 import { MyLink } from "../../../components/Footer/Footer";
+import { useAccount } from "wagmi";
 
 const MainPage = () => {
   interface IMeta {
@@ -26,6 +27,15 @@ const MainPage = () => {
   const metadatas: any = useFetch({ path: "/metadata" });
   const { isAdmin } = useContext(AdminStatusContext) as { isAdmin: boolean };
   const auctions: any = useFetch({ path: "/auctions" });
+  const { isConnected, address } = useAccount();
+
+  	// const adminWallet = "0xB56DC5EBEEc61e2c0667746F64FC916e262919c8"; //tolgay - sepolia
+		// const adminWallet = "0xEd2eF70e8B1EBf95bDfD7ba692454143b2A8263B"; //tolgay - maimnet
+
+	const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
+	// const adminWallet = "0xd42D52b709829926531c64a32f2713B4Dc8eA6F6" // cat
+
+
   // console.log("nfstInWallet", nftsInWallet);
   // console.log(auctions);
   return (
@@ -53,7 +63,7 @@ const MainPage = () => {
         
       </IntroContainer>
       <MainPageNFTsContainer>
-        {isAdmin && (
+        {address === adminWallet && (
           <>
             {nftsInWallet?.map(
               (
@@ -89,7 +99,7 @@ const MainPage = () => {
             )}
           </>
         )}
-        {auctions && !isAdmin && (
+        {auctions && !(address === adminWallet )&& (
           <>
             {auctions?.map((auction: any | null) => {
               console.log(`auction`, auction);
