@@ -6,11 +6,17 @@ import axios from "axios";
 import AdminStatusContext from "../contexts/AdminStatusContext";
 
 const adminWallet = "0xb56dc5ebeec61e2c0667746f64fc916e262919c8"; //tolgay - sepolia
+/* const adminWallet = "0xb56dc5ebeec61e2c0667746f64fc916e262919c8"; */ //tolgay - sepolia
 // const adminWallet = "0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b"; //tolgay - maimnet
 
 // const adminWallet = "0x5ab45fb874701d910140e58ea62518566709c408"; // chibu
 // const adminWallet = "0xd42d52b709829926531c64a32f2713b4dc8ea6f6"; // cat
-const adminWallets = ["0xb56dc5ebeec61e2c0667746f64fc916e262919c8", "0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b", "0x5ab45fb874701d910140e58ea62518566709c408", "0xd42d52b709829926531c64a32f2713b4dc8ea6f6"];
+const adminWallets = [
+	"0xb56dc5ebeec61e2c0667746f64fc916e262919c8",
+	"0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b",
+	"0x5ab45fb874701d910140e58ea62518566709c408",
+	"0xd42d52b709829926531c64a32f2713b4dc8ea6f6",
+];
 
 function convertPinataToIPFS(url: string): string {
 	// Check if the URL starts with the Pinata gateway URL
@@ -64,8 +70,8 @@ const useMoralis = (address: any) => {
 				// console.log("connectedAddress", connectedAddress);
 				// console.log("isAdmin", isAdmin);
 				const response: any = await Moralis.EvmApi.nft.getWalletNFTs({
-					// chain: "0x1", 
-          chain: "0xaa36a7", 
+					// chain: "0x1",
+					chain: "0xaa36a7",
 					format: "decimal",
 					mediaItems: false,
 					address: myAddress,

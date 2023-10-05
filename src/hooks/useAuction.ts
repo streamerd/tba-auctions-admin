@@ -4,13 +4,10 @@ import { useEthers6Signer } from "./useEthers6Signer";
 
 import usePost from "./usePost";
 
-
 // import DossiersAuction from "../assets/abis/finalize/3/DossiersAuction.json"; // was in production
 // import DossiersAuction from "../assets/abis/finalize/4/DossiersAuction.json"; // is in production
 import DossiersAuction from "../assets/abis/finalize/5/DossiersAuction.json"; // is in production
 // import DossiersAuctionEscrow from "../assets/abis/finalize/6/DossiersAuctionEscrow.json"; // is in production
-
-
 
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
@@ -57,20 +54,18 @@ const useManageAuctions = ({ auction_id }: any) => {
 
 	const [remainingTime, setremainingTime] = useState<number>();
 
-
 	useEffect(() => {
-
+		getRemainingTime(auction_id);
 		(async () => {
 			if (typeof auction_id === "number") {
 				console.log(`auction_id: ${auction_id}`);
-				const getRem = (async (aid: number) => { await getRemainingTime(aid); });
+				const getRem = async (aid: number) => {
+					await getRemainingTime(aid);
+				};
 				await getRem(auction_id);
 			}
-		}
-
-		)();
+		})();
 	}, [auction_id]);
-
 
 	const contract = new ethers.Contract(contractAddress, DossiersAuction, signer);
 
@@ -107,7 +102,6 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// }
 	// 	, []);
 
-
 	const { postReq } = usePost();
 	const { patchReq } = usePatch();
 	const [auctionsLength, setauctionsLength] = useState(0);
@@ -116,7 +110,14 @@ const useManageAuctions = ({ auction_id }: any) => {
 		tokenId: string | ethers.Overrides,
 		reservePrice: string
 	) {
-		if (nftContractAddress === null || nftContractAddress === "" || tokenId === null || tokenId === "" || reservePrice === null || reservePrice === "") {
+		if (
+			nftContractAddress === null ||
+			nftContractAddress === "" ||
+			tokenId === null ||
+			tokenId === "" ||
+			reservePrice === null ||
+			reservePrice === ""
+		) {
 			console.log("no nftContractAddress or tokenId or reservePrice received");
 			return;
 		}
@@ -132,23 +133,22 @@ const useManageAuctions = ({ auction_id }: any) => {
 				const tx = await contract.createAuction(nftContractAddress, tokenId, parsedReservePrice, {
 					// gasLimit: 1000000n,
 					gasLimit: 10000000n,
-
 				});
 
 				await tx
 					.wait()
 					.then(async (txRes: any) => {
 						console.log(txRes);
-						console.log("auction creation is finished. now getting auctionCounter value..")
+						console.log("auction creation is finished. now getting auctionCounter value..");
 						// get number of auctions with auctionCounter value in the contract
 						await contract.auctionCounter().then(async (auctionCount: any) => {
-							console.log(`auctionCount as-is : ${auctionCount} ${typeof (auctionCount)}`);
+							console.log(`auctionCount as-is : ${auctionCount} ${typeof auctionCount}`);
 							// console.log(`auctionCount toNumber : ${auctionCount.toString()}`);
-							console.log
+							console.log;
 							// const aid = Number(auctionCount) - 1;
 							// const aid = Number(auctionCount.toString()) - 1;
 							const diff = auctionCount - BigInt(1);
-							console.log(`diff: ${diff} typeof: ${typeof (diff)}`);
+							console.log(`diff: ${diff} typeof: ${typeof diff}`);
 
 							postReq({
 								path: "/auctions/new",
@@ -164,7 +164,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 									metadata: JSON.parse(localStorage.getItem("nftData")!).metadata,
 								},
 							});
-						})
+						});
 					})
 					.catch((err: any) => {
 						console.log(err);
@@ -247,7 +247,6 @@ const useManageAuctions = ({ auction_id }: any) => {
 		}
 	}
 
-
 	async function getAllAuctions(): Promise<Auction[]> {
 		try {
 			console.log("Getting auctions...");
@@ -276,26 +275,27 @@ const useManageAuctions = ({ auction_id }: any) => {
 
 	// get remaining time in seconds
 	async function getRemainingTime(id: any) {
-		console.log(id)
+		console.log(id);
 		try {
-			await contract.getRemainingTime(id).then((res: any) => {
-				if (res !== undefined) {
-					console.log(res);
-					const x = Number(res);
-					console.log(x);
-					setremainingTime(x);
-					// setremainingTime(res);
-					console.log("remaining time set", remainingTime)
-					// return x;
-				}
-				// return res
-			}).catch((err: any) => {
-				// setremainingTime(undefined);
-				console.log(err);
-				return;
-			}
-			)
-
+			await contract
+				.getRemainingTime(id)
+				.then((res: any) => {
+					if (res !== undefined) {
+						console.log(res);
+						const x = Number(res);
+						console.log(x);
+						setremainingTime(x);
+						// setremainingTime(res);
+						console.log("remaining time set", remainingTime);
+						// return x;
+					}
+					// return res
+				})
+				.catch((err: any) => {
+					// setremainingTime(undefined);
+					console.log(err);
+					return;
+				});
 		} catch (error) {
 			console.error("Error getting remaining time:", error);
 		}
@@ -336,7 +336,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 		getRemainingTime,
 		withdrawEth,
 		remainingTime,
-		contract
+		contract,
 	};
 };
 
