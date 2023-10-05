@@ -23,18 +23,30 @@ const FooterDevelopedByContainer = styled.div`
   @media (max-width: 850px) {
     width: 100%;
   }
+
+  
 `;
 
 const FooterDevelopedByText = styled.p`
   font-size: 1.4rem;
   font-weight: 600;
   color: #000;
+  @media (max-width: 576px) {
+    margin-top: 1rem;
+    margin-left: 4rem;
+		width: 100%;
+	}
 `;
 const FooterDevelopedByLogo = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
   object-fit: contain;
+  @media (max-width: 576px) {
+    margin-top: 1rem;
+    margin-left: 0;
+		width: 100%;
+	}
 `;
 
 const TokenboundLogo = styled.img`
@@ -42,6 +54,12 @@ const TokenboundLogo = styled.img`
   height: 80px;
   border-radius: 50%;
   object-fit: contain;
+  @media (max-width: 576px) {
+    
+    margin-top: 1rem;
+    margin-left: 0;
+		width: 100%;
+	}
 `;
 
 const FooterAdditionalContainer = styled.div`
@@ -65,6 +83,11 @@ const FooterAdditionalText = styled.p`
   }
   text-decoration: none;
   font-style: italic;
+  @media (max-width: 576px) {
+    margin-top: 1rem;
+    margin-left: 2rem;
+		width: 100%;
+	}
 `;
 const FooterAdditionalLogo = styled.img`
   width: 100px;

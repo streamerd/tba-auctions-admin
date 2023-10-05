@@ -249,12 +249,32 @@ const OpenseaLogo = styled.img`
 	width: 80px;
 	height: 80px;
 	object-fit: contain;
+	@media (max-width: 576px) {
+		margin-top: 20px;
+		margin-bottom: 140px;
+		margin-left: 40%; 
+	}
 `;
 
 const OpenseaLogoMiddle = styled.img`
 	width: 40px;
 	height: 40px;
 	object-fit: contain;
+	@media (max-width: 992px) {
+		margin-top: 20px;
+	}
+`;
+
+const WalletAddressText = styled.p`
+	font-size: 16px;
+	font-weight: 500;
+	color: #373737;
+	margin-top: 10px;
+	padding: 10px 20px;
+	text-align: center;
+	@media (max-width: 576px) {
+		font-size: 10px;
+	}
 `;
 
 export {
@@ -268,4 +288,5 @@ export {
 	OpenseaLogo,
 	OpenseaLogoMiddle,
 	CountdownInfoText,
+	WalletAddressText
 };

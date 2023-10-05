@@ -17,6 +17,9 @@ const IntroContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	background-color: #fff;
+	@media (max-width: 576px) {
+		flex-direction: column;
+	}
 `;
 const IntroTextContainer = styled.div`
 	width: 60%;
@@ -26,22 +29,50 @@ const IntroTextContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	margin-top: 100px;
-	font-family: "Montserrat", sans-serif;
+	// font-family: "Montserrat", sans-serif;
 	font-weight: 600;
 	line-height: 2.4rem;
-	font-size: 1.8rem;
-	@media (max-width: 576px) {
-		width: 100%;
-		font-size: 1.2rem;
-		padding-top: 20px;
-		padding-left: 20px;
-	}
+	// font-size: 1.8rem;
+	// @media (max-width: 576px) {
+	// 	width: 100%;
+	// 	font-size: 1.2rem;
+	// 	padding-top: 20px;
+	// 	padding-left: 20px;
+	// 	margin-top: 100px;
+	// }
 	@media (max-width: 992px) {
 		width: 90%;
-		padding-top: 20px;
 		padding-left: 20px;
 		padding-right: 20px;
 		font-size: 1.2rem;
+	}
+`;
+
+const IntroText = styled.p`
+	font-family: "Montserrat", sans-serif;
+	font-weight: 600;
+	line-height: 2.4rem;
+	font-size: 1.2rem;
+	@media (max-width: 576px) {
+
+		width: 100%;
+		font-size: 1rem;
+		margin-top: 16vh;
+		padding-left: 20px;
+	}
+	@media (min-width: 577px) {
+		width: 100%;
+		// margin-top: 2vh;
+		padding-left: 20px;
+		padding-right: 20px;
+		font-size: 1.4rem;
+	}
+	@media (min-width: 992px) {
+		width: 100%;
+		// margin-top: 2vh;
+		padding-left: 20px;
+		padding-right: 20px;
+		font-size: 1.4rem;
 	}
 `;
 
@@ -88,10 +119,11 @@ export const NFTSContainer = styled.div`
 export const EachNFTContainer = styled.div`
 	background-color: #fff;
 	width: 25%;
-	aspect-ratio: 1/1.5;
+	aspect-ratio: 1/1.25;
 	min-height: 300px;
 	// border: 4px solid gray;
 	margin-top: 20px;
+	margin-bottom: 20px;
 	border-radius: 20px;
 	&:hover {
 		color: #373737;
@@ -102,9 +134,7 @@ export const EachNFTContainer = styled.div`
 	@media (max-width: 992px) {
 		width: 40%;
 	}
-	@media (max-width: 576px) {
-		width: 80%;
-	}
+
 `;
 
 export const EachNFTImage = styled.img`
@@ -149,4 +179,4 @@ export const SlidingText = styled.div`
 	}
 `;
 
-export { MainPageContainer, MainPageNFTsContainer, IntroTextContainer, IntroContainer };
+export { MainPageContainer, MainPageNFTsContainer, IntroTextContainer, IntroText, IntroContainer };

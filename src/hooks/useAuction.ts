@@ -6,7 +6,11 @@ import usePost from "./usePost";
 
 
 // import DossiersAuction from "../assets/abis/finalize/3/DossiersAuction.json"; // was in production
-import DossiersAuction from "../assets/abis/finalize/4/DossiersAuction.json"; // is in production
+// import DossiersAuction from "../assets/abis/finalize/4/DossiersAuction.json"; // is in production
+import DossiersAuction from "../assets/abis/finalize/5/DossiersAuction.json"; // is in production
+// import DossiersAuctionEscrow from "../assets/abis/finalize/6/DossiersAuctionEscrow.json"; // is in production
+
+
 
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
@@ -14,7 +18,7 @@ import usePatch from "./usePatch";
 
 const useManageAuctions = ({ auction_id }: any) => {
 	const signer = useEthers6Signer();
-
+	console.log("auction_id", auction_id);
 	//   const contractAddress = '0x70EbB29b1011198a725084639a5635305222d7c6';
 	//   const contract = new ethers.Contract(contractAddress, AuctionHouse, signer);
 
@@ -45,12 +49,28 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0x22d9950e8D12eD9E842D4ece279F3A232AaF37d6";
 	// const contractAddress = "0x55e15adbE793931Cf60DAA389f84581910DC408A";
 	// const contractAddress = "0x70abC76977e881DAa6A4880AbC91A77bB99d0BD3"; // tested except for endAuction
-	// const contractAddress = "0x44Ac82abb5FD08263DCa0BF4324761DF680e263a"; // tested  for endAuction
+	const contractAddress = "0x44Ac82abb5FD08263DCa0BF4324761DF680e263a"; // tested  for endAuction
 	// const contractAddress = "0xC513329F47D1B6efbf8F50a6e8a3e7F467d82040"; //tested for multi bid
 	// const contractAddress= "0x82Bd61FAB0659b30Efe4617873d0245EB87013D0"; // tested one bid pass one bid fail after endtime
-	const contractAddress= "0x5E188a04ADDa58644447dD10f1F99cf5b5369ea6";
+	// const contractAddress = "0xE098De0BF344a3246D45d75fe457cf4132159f27"; //3/10/2023
+	// const contractAddress = "0x39033C771e3f0E9659e35a3110a1C882922E41ec"; // 10 minutes
 
-	
+	const [remainingTime, setremainingTime] = useState<number>();
+
+
+	useEffect(() => {
+
+		(async () => {
+			if (typeof auction_id === "number") {
+				console.log(`auction_id: ${auction_id}`);
+				const getRem = (async (aid: number) => { await getRemainingTime(aid); });
+				await getRem(auction_id);
+			}
+		}
+
+		)();
+	}, [auction_id]);
+
 
 	const contract = new ethers.Contract(contractAddress, DossiersAuction, signer);
 
@@ -68,49 +88,25 @@ const useManageAuctions = ({ auction_id }: any) => {
 		highestBid: number;
 		ended: boolean;
 	};
-	const [remainingTime, setremainingTime] = useState();
-	useEffect(() => {
-		(async () => {
-			console.log(auction_id);
-			if (auction_id !== "" || auctionId !== null || auction_id !== undefined) {
-				const remainingTime1 = await contract
-					.getRemainingTime(auction_id)
-					.then((res) => {
-						setremainingTime(res);
-						console.log(res);
-					})
-					.catch((err: any) => {
-						setremainingTime(undefined)
-						console.log(err);
-					});
-				console.log(remainingTime1);
-			}
-		})();
-		// (async () => {
-		// 	console.log(auction_id);
-		// 	if (auction_id !== "" && typeof (auction_id) !== undefined && auction_id !== null && !isNaN(auction_id)) {
-		// 		console.log(`TYPE >>> ${typeof (auction_id)}`);
-		// 		try {
-		// 			console.log(`Getting remaining time for auction ${auction_id}...`)
-		// 			// const rem = 
-		// 			await getRemainingTime(auction_id).then((res: any) => {
-		// 				console.log(`RES >>> ${res}`);
-		// 				if (res === null || res === undefined || res === "") {
-		// 					setremainingTime(undefined)
-		// 				}
-		// 				else {
-		// 					setremainingTime(res);
-		// 				}
-		// 				// return res;
-		// 			}
-		// 			)
-		// 		} catch (error) {
-		// 			console.error("Error getting remaining time:", error);
-		// 		}
-		// 	}
-		// }
-		// )();
-	}, [auction_id]);
+
+	// useEffect(() => {
+	// 	console.log(`auction_id: ${auction_id}`);
+	// 	if (typeof auction_id === "number") {
+	// 		const getRem = (async () => { await getRemainingTime(auction_id); })
+	// 		const rem = getRem().then((res: any) => {
+	// 			if (res !== undefined) {
+	// 				console.log(`res: ${res}`);
+	// 				setremainingTime(res);
+	// 			}
+	// 			console.log(`res: ${res}`);
+	// 		}
+	// 		);
+	// 		console.log(`rem: ${rem}`);
+	// 	}
+	// 	// const rem = getRem();
+	// }
+	// 	, []);
+
 
 	const { postReq } = usePost();
 	const { patchReq } = usePatch();
@@ -225,7 +221,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 				console.log("auctionId is null");
 				return;
 			}
-				console.log(`about to end ${auctionId}...`);
+			console.log(`about to end ${auctionId}...`);
 			const tx = await contract.endAuction(auctionId);
 			await tx.wait(); // Wait for the transaction to be mined
 			console.log(`Auction ${auctionId} ended successfully!`);
@@ -279,15 +275,27 @@ const useManageAuctions = ({ auction_id }: any) => {
 	}
 
 	// get remaining time in seconds
-	async function getRemainingTime(auctionId: number) {
+	async function getRemainingTime(id: any) {
+		console.log(id)
 		try {
-			console.log(`Getting remaining time for auction ${auctionId}...`);
-			// const bigId = BigInt(auctionId);
-			console.log(`getting remaining time for ${auctionId}...`)
-			const remainingTime = await contract.getRemainingTime(auctionId);
-			if (remainingTime) {
-				return remainingTime;
+			await contract.getRemainingTime(id).then((res: any) => {
+				if (res !== undefined) {
+					console.log(res);
+					const x = Number(res);
+					console.log(x);
+					setremainingTime(x);
+					// setremainingTime(res);
+					console.log("remaining time set", remainingTime)
+					// return x;
+				}
+				// return res
+			}).catch((err: any) => {
+				// setremainingTime(undefined);
+				console.log(err);
+				return;
 			}
+			)
+
 		} catch (error) {
 			console.error("Error getting remaining time:", error);
 		}
@@ -328,6 +336,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 		getRemainingTime,
 		withdrawEth,
 		remainingTime,
+		contract
 	};
 };
 
