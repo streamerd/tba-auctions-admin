@@ -20,26 +20,27 @@ const IntroContainer = styled.div`
 	@media (max-width: 576px) {
 		flex-direction: column;
 	}
+	@media (max-width: 992px) {
+		flex-direction: column;
+	}
 `;
 const IntroTextContainer = styled.div`
-	width: 60%;
+	width: 100%;
 	// height: vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	margin-top: 100px;
-	// font-family: "Montserrat", sans-serif;
 	font-weight: 600;
 	line-height: 2.4rem;
-	// font-size: 1.8rem;
-	// @media (max-width: 576px) {
-	// 	width: 100%;
-	// 	font-size: 1.2rem;
-	// 	padding-top: 20px;
-	// 	padding-left: 20px;
-	// 	margin-top: 100px;
-	// }
+	@media (max-width: 576px) {
+		width: 100%;
+		font-size: 1.2rem;
+		padding-top: 20px;
+		padding-left: 40px;
+		margin-top: 100px;
+	}
 	@media (max-width: 992px) {
 		width: 90%;
 		padding-left: 20px;
@@ -53,27 +54,53 @@ const IntroText = styled.p`
 	font-weight: 600;
 	line-height: 2.4rem;
 	font-size: 1.2rem;
-	@media (max-width: 576px) {
-
+	margin-top: 100px;
+	@media (max-width: 300px) {
 		width: 100%;
 		font-size: 1rem;
-		margin-top: 16vh;
+		margin-top: 20vh;
 		padding-left: 20px;
 	}
-	@media (min-width: 577px) {
+	@media (max-width: 400px) {
 		width: 100%;
-		// margin-top: 2vh;
+		font-size: 1rem;
+		margin-top: 20vh;
+		padding-left: 20px;
+	}
+	@media (max-width: 576px) {
+		width: 100%;
+		font-size: 1rem;
+		margin-top: 26vh;
+		padding-left: 20px;
+	}
+	@media (max-width: 992px) {
+		width: 100%;
+		margin-top: 26vh;
 		padding-left: 20px;
 		padding-right: 20px;
-		font-size: 1.4rem;
+		font-size: 1.2rem;
 	}
-	@media (min-width: 992px) {
+	@media (max-width: 1200px) {
 		width: 100%;
-		// margin-top: 2vh;
+		margin-top: 36vh;
 		padding-left: 20px;
 		padding-right: 20px;
-		font-size: 1.4rem;
+		font-size: 1.2rem;
 	}
+	// @media (max-width: 1400px) {
+	// 	width: 100%;
+	// 	// margin-top: 2vh;
+	// 	padding-left: 20px;
+	// 	padding-right: 20px;
+	// 	font-size: 1.8rem;
+	// }
+	// @media (max-width: 1600px) {
+	// 	width: 100%;
+	// 	// margin-top: 2vh;
+	// 	padding-left: 20px;
+	// 	padding-right: 20px;
+	// 	font-size: 1.8rem;
+	// }
 `;
 
 const MainPageNFTsContainer = styled.div`
@@ -86,6 +113,7 @@ const MainPageNFTsContainer = styled.div`
 	gap: 20px;
 	background-color: black;
 	margin-top: 160px;
+	align-items: center;
 `;
 
 export const NFTDetailsContainer = styled.div`
@@ -117,7 +145,7 @@ export const NFTSContainer = styled.div`
 `;
 
 export const EachNFTContainer = styled.div`
-	background-color: #fff;
+	// background-color: #fff;
 	width: 25%;
 	aspect-ratio: 1/1.25;
 	min-height: 300px;
@@ -134,6 +162,9 @@ export const EachNFTContainer = styled.div`
 	@media (max-width: 992px) {
 		width: 40%;
 	}
+	@media (max-width: 576px) {
+		min-height: 200px;
+	}
 
 `;
 
@@ -143,6 +174,9 @@ export const EachNFTImage = styled.img`
 	object-fit: cover;
 	border-top-right-radius: 20px;
 	border-top-left-radius: 20px;
+	@media (max-width: 576px) {
+		margin-top: 20px;
+	}
 `;
 
 export const EachNFTText = styled.p`
@@ -155,6 +189,9 @@ export const EachNFTText = styled.p`
 	background-color: black;
 	margin-top: 8px;
 	padding: 6px;
+	@media (max-width: 576px) {
+	
+	}
 `;
 
 export const SlidingText = styled.div`
@@ -176,6 +213,10 @@ export const SlidingText = styled.div`
 		100% {
 			transform: translateX(-100%);
 		}
+	}
+
+	@media (max-width: 576px) {
+		display: none;
 	}
 `;
 

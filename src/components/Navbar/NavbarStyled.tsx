@@ -8,7 +8,7 @@ export const NavbarContainer = styled.div`
 	height: 100px;
 	background-color: #ffffff;
 	display: flex;
-	justify-content: space-between;
+	// justify-content: space-evenly;
 	align-items: center;
 	padding: 0 60px;
 	z-index: 100;
@@ -18,12 +18,6 @@ export const NavbarContainer = styled.div`
 export const LogoTextContainer = styled.div`
 
 	font-size: 1.2rem;
-`;
-
-export const LatterNavbarItemsContainer = styled.div`
-	display: flex;
-	align-items: end;
-	gap: 10px;
 `;
 
 export const NavbarLogo = styled.img`

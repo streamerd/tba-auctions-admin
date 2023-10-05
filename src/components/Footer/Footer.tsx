@@ -23,6 +23,11 @@ const FooterDevelopedByContainer = styled.div`
   @media (max-width: 850px) {
     width: 100%;
   }
+  @media (max-width: 850px) {
+    width: 100%;
+    margin-top: 3rem;
+    margin-left: 30%
+  }
 
   
 `;
@@ -52,7 +57,7 @@ const FooterDevelopedByLogo = styled.img`
 const TokenboundLogo = styled.img`
   width: 80px;
   height: 80px;
-  border-radius: 50%;
+  border-radius: 10%;
   object-fit: contain;
   @media (max-width: 576px) {
     
@@ -60,6 +65,10 @@ const TokenboundLogo = styled.img`
     margin-left: 0;
 		width: 100%;
 	}
+  @media (max-width: 850px) {
+    width: 100%;
+    margin-left: 2rem;
+  }
 `;
 
 const FooterAdditionalContainer = styled.div`
@@ -71,6 +80,12 @@ const FooterAdditionalContainer = styled.div`
   height: 100%;
   @media (max-width: 850px) {
     width: 100%;
+    margin-top: 3rem;
+  }
+    @media (max-width: 1200px) {
+    width: 100%;
+    // margin-top: 3rem;
+    // margin-left: 30%
   }
 `;
 
@@ -84,8 +99,18 @@ const FooterAdditionalText = styled.p`
   text-decoration: none;
   font-style: italic;
   @media (max-width: 576px) {
-    margin-top: 1rem;
+    // margin-top: 1rem;
     margin-left: 2rem;
+		width: 100%;
+	}
+  @media (max-width: 992px) {
+    // margin-top: 2rem;
+    margin-left: 2.4rem;
+		width: 100%;
+	}
+  @media (max-width: 1200px) {
+    // margin-top: 2rem;
+    margin-left: 2.2rem;
 		width: 100%;
 	}
 `;

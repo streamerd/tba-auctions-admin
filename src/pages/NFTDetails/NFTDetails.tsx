@@ -84,7 +84,7 @@ const NFTDetails = () => {
 	const [isInAuction, setisInAuction] = useState(true);
 	const [hasWallet, sethasWallet] = useState("");
 
-	const Completionist = () => <NftsHeadText>The auction has ended</NftsHeadText>;
+	// const Completionist = () => <NftsHeadText>The auction has ended</NftsHeadText>;
 
 	const renderer = ({ hours, minutes, seconds, completed }: any) => {
 		if (!completed) {
@@ -226,7 +226,8 @@ const NFTDetails = () => {
 		auction_id: parsedNftData?.auction_id,
 	});
 
-	const [remainingTime, setremainingTime] = useState<any>(86401);
+	const ONE_DAY_IN_SECONDS = 86400;
+	const [remainingTime, setremainingTime] = useState<any>(ONE_DAY_IN_SECONDS + 1);
 	async function getRemainingTime(id: any) {
 		try {
 			await contract
@@ -428,7 +429,7 @@ const NFTDetails = () => {
 			<NftsOfMainNftContainer>
 				<NftsDescriptionText>{mainNFTDescription}</NftsDescriptionText>
 				{remainingTime === 0 && <CountdownInfoText>The auction has ended.</CountdownInfoText>}
-				{remainingTime === undefined || remainingTime > 86400 ? (
+				{remainingTime === undefined || remainingTime > ONE_DAY_IN_SECONDS ? (
 					<CountdownInfoText>The reserve price has not been met yet.</CountdownInfoText>
 				) : (
 					<Countdown date={Date.now() + remainingTime * 1000} renderer={renderer} />

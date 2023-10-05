@@ -254,6 +254,16 @@ const OpenseaLogo = styled.img`
 		margin-bottom: 140px;
 		margin-left: 40%; 
 	}
+	@media (max-width: 992px) {
+		margin-top: 50px;
+		margin-bottom: 140px;
+		margin-left: 40%; 
+	}
+	@media (max-width: 1200px) {
+		margin-top: 50px;
+		margin-bottom: 140px;
+		margin-left: 44%; 
+	}
 `;
 
 const OpenseaLogoMiddle = styled.img`
