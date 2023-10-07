@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const MainPageContainer = styled.div`
-	width: 100%;
 	min-height: 100vh;
 	background-color: #f5f5f5;
 	display: flex;
@@ -11,150 +10,49 @@ const MainPageContainer = styled.div`
 
 const IntroContainer = styled.div`
 	width: 100%;
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	background-color: #fff;
-	@media (max-width: 576px) {
-		flex-direction: column;
-	}
-	@media (max-width: 992px) {
-		flex-direction: column;
-	}
-	@media (max-width: 1200px) {
+	background-color: #232323;
+
+	@media (max-width: 856px) {
 		flex-direction: column;
 	}
 `;
 const IntroTextContainer = styled.div`
-	width: 100%;
-	// height: vh;
+	width: 60%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	margin-top: 40vh;
 	font-weight: 600;
-	line-height: 2.4rem;
-	@media (max-width: 576px) {
-		width: 100%;
-		font-size: 1.2rem;
-		padding-top: 20px;
-		padding-left: 40px;
-		margin-top: 100px;
-	}
-	
-	@media (max-width: 992px) {
+	@media (max-width: 850px) {
 		width: 90%;
-		padding-left: 20px;
-		padding-right: 20px;
-		font-size: 1.2rem;
-	}	
 
-	@media (max-width: 1200px) {
-		width: 90%;
-		padding-left: 20px;
-		padding-right: 20px;
-		font-size: 1.2rem;
-		padding-top: 220px
-	}
-
-	@media (max-width: 1400px) {
-		width: 90%;
-		padding-left: 20px;
-		padding-right: 20px;
-		font-size: 1.2rem;
-		margin-top: 0;
-	}
-
-	@media (max-width: 1600px) {
-		width: 90%;
-		padding-left: 20px;
-		padding-right: 20px;
-		font-size: 1.2rem;
-		margin-top: 0;
-	}
-
-	@media (max-width: 1800px) {
-		width: 90%;
-		padding-left: 20px;
-		padding-right: 20px;
-		font-size: 1.2rem;
-		margin-top: 0;
+		margin: 50px 5% 0 5%;
 	}
 `;
 
 const IntroText = styled.p`
 	font-family: "Montserrat", sans-serif;
-	font-weight: 600;
+	font-weight: 500;
 	line-height: 2.4rem;
 	font-size: 1.2rem;
 	margin-top: 100px;
-	@media (max-width: 300px) {
-		width: 100%;
-		font-size: 1rem;
-		margin-top: 20vh;
-		padding-left: 20px;
-	}
-	@media (max-width: 400px) {
-		width: 100%;
-		font-size: 0.6rem;
-		margin-top: 20vh;
-		padding-left: 20px;
-	}
-	@media (max-width: 576px) {
-		width: 100%;
-		font-size: 1rem;
-		margin-top: 26vh;
-		padding-left: 20px;
-	}
-	@media (max-width: 800px) {
-		width: 100%;
-		font-size: 1rem;
-		margin-top: 26vh;
-		padding-left: 20px;
-	}
+	margin: 0 15% 0 15%;
+	color: white;
 	@media (max-width: 1000px) {
-		width: 100%;
-		margin-top: 26vh;
+		margin-top: 120px;
 		padding-left: 20px;
-		padding-right: 20px;
 		font-size: 1.2rem;
-	}
-	@media (max-width: 1200px) {
-		width: 100%;
-		margin-top: 36vh;
-		padding-left: 20px;
-		padding-right: 20px;
-		font-size: 1.2rem;
-	}
-	@media (max-width: 1400px) {
-		width: 100%;
-		// margin-top: 2vh;
-		padding-left: 10%;
-		padding-right: 6%;
-		font-size: 1.6rem;
-	}
-	@media (max-width: 1600px) {
-		width: 100%;
-		// margin-top: 2vh;
-		padding-left: 10%;
-		padding-right: 6%;
-		font-size: 1.6rem;
-	}
-	@media (max-width: 1800px) {
-		width: 100%;
-		margin-top: 4vh;
-		padding-left: 10%;
-		padding-right: 6%;
-		font-size: 1.6rem;
+		margin: 120px 5% 0 5%;
 	}
 `;
 
 const MainPageNFTsContainer = styled.div`
 	width: 90%;
-	// min-height: 70vh;
 	border-radius: 20px;
 	display: flex;
 	flex-wrap: wrap;
@@ -162,7 +60,6 @@ const MainPageNFTsContainer = styled.div`
 	gap: 20px;
 	background-color: black;
 	margin-top: 160px;
-	margin-left: 5%;
 `;
 
 export const NFTDetailsContainer = styled.div`
@@ -206,15 +103,12 @@ export const EachNFTContainer = styled.div`
 		color: #373737;
 		box-shadow: rgb(38, 57, 77) 0px 10px 4px 0px;
 	}
-	// color: #373737;
-	// 	box-shadow: rgb(38, 57, 77) 0px 16px 2px 0px;
 	@media (max-width: 992px) {
 		width: 40%;
 	}
 	@media (max-width: 576px) {
-		min-height: 200px;
+		width: 95%;
 	}
-
 `;
 
 export const EachNFTImage = styled.img`
@@ -239,7 +133,6 @@ export const EachNFTText = styled.p`
 	margin-top: 8px;
 	padding: 6px;
 	@media (max-width: 576px) {
-	
 	}
 `;
 

@@ -9,18 +9,17 @@ export const NFTDetailsContainer = styled.div`
 	margin-top: 150px;
 	overflow: hidden;
 	display: flex;
-	// flex-direction: row;
-	// @media (max-width: 576px) {
-	// 	flex-direction: column;
-	// 	}
+	flex-direction: row;
+	@media (max-width: 900px) {
+		flex-direction: column;
+	}
 `;
 
 export const MainNFTImage = styled.img`
 	width: 100%;
-	height: 40vh;
+	height: 60vh;
 	border-radius: 40px;
 	object-fit: contain;
-	// background-color: black;
 `;
 
 export const NFTSContainer = styled.div`
@@ -65,6 +64,11 @@ export const MainNFTAndButtonsContainer = styled.div`
 	min-height: 80vh;
 	border-radius: 20px;
 	object-fit: cover;
+	@media (max-width: 900px) {
+		flex-direction: column;
+		width: 95%;
+		margin-left: 2.5%;
+	}
 `;
 
 export const SmartContractWalletAddressAdmin = styled.p`
@@ -128,10 +132,13 @@ export const LinkContent = styled.div`
 export const NftsOfMainNftContainer = styled(NFTSContainer)`
 	flex-direction: column;
 	width: 40%;
+	@media (max-width: 900px) {
+		width: 95%;
+		margin-left: 2.5%;
+	}
 `;
 
 export const NftsHeadText = styled.p`
-	background-color: black;
 	height: 60px;
 	color: white;
 	margin: 0px;
@@ -143,8 +150,6 @@ export const NftsHeadText = styled.p`
 `;
 
 export const NftsDescriptionText = styled.p`
-	// background-color: black;
-	// height: 60px;
 	color: black;
 	margin: 0px;
 	padding-top: 16px;
@@ -170,16 +175,11 @@ const CountdownInfoText = styled.p`
 `;
 
 export const MainNFTHeadText = styled(NftsHeadText)`
-	background-color: black;
-
-	margin-left: 24%;
-	margin-right: 24%;
+	color: black;
 	font-size: 1rem;
 	font-weight: 600;
 	height: 60px;
 	padding-bottom: 16px;
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;
 `;
 
 const LastBidsContainer = styled.div`
@@ -251,23 +251,13 @@ const AlreadyInAuctionText = styled.p`
 `;
 
 const OpenseaLogo = styled.img`
-	width: 80px;
-	height: 80px;
+	width: 30vw;
+	height: 60vh;
 	object-fit: contain;
-	@media (max-width: 576px) {
+	@media (max-width: 850px) {
 		margin-top: 20px;
-		margin-bottom: 140px;
-		margin-left: 40%; 
-	}
-	@media (max-width: 992px) {
-		margin-top: 50px;
-		margin-bottom: 140px;
-		margin-left: 40%; 
-	}
-	@media (max-width: 1200px) {
-		margin-top: 50px;
-		margin-bottom: 140px;
-		margin-left: 44%; 
+		width: 80vw;
+		height: 60vh;
 	}
 `;
 
@@ -303,5 +293,5 @@ export {
 	OpenseaLogo,
 	OpenseaLogoMiddle,
 	CountdownInfoText,
-	WalletAddressText
+	WalletAddressText,
 };

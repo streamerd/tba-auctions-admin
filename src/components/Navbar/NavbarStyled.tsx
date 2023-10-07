@@ -16,7 +16,6 @@ export const NavbarContainer = styled.div`
 `;
 
 export const LogoTextContainer = styled.div`
-
 	font-size: 1.2rem;
 `;
 
