@@ -60,7 +60,6 @@ interface NFTData {
 const NFTDetails = () => {
   const parsedNftData = JSON.parse(localStorage.getItem("nftData")!);
   const [nftsToDisplay, setnftsToDisplay] = useState<any>();
-  console.log(nftsToDisplay?.length);
   const [createdAccount, setcreatedAccount] = useState<string>();
   const { isConnected, address } = useAccount();
 
@@ -222,7 +221,14 @@ const NFTDetails = () => {
         <EachBidAvatarNameContainer>
           <EachBidImage src={`https://robohash.org/${item.bidder}.png`} />
           <EachBidNameText>
-            {item.bidder.slice(0, 4) + "..." + item.bidder.slice(-4)}
+			<Link
+			 to={`https://etherscan.io/address/${item.bidder}`}
+			 target="_blank"
+			 style={{ textDecoration: "none", color: "black" }}
+			>
+
+            {item.bidder.slice(0, 6) + "..." + item.bidder.slice(-6)}
+			</Link>
           </EachBidNameText>
         </EachBidAvatarNameContainer>
         <EachBidNameText>{item.bid_amount} ETH</EachBidNameText>
@@ -275,15 +281,13 @@ const NFTDetails = () => {
   const aid: any = useFetch({
     path: `/auctions/${parsedNftData?.token_address}/${parsedNftData?.token_id}`,
   });
-  console.log(`${parsedNftData?.token_address}/${parsedNftData?.token_id}`);
-  console.log(aid[0]?.auction_id);
 
   return (
     <NFTDetailsContainer>
       <MainNFTAndButtonsContainer>
         {parsedNftData && parsedNftData?.contract_address !== "" && (
           <Link
-            to={`https://opensea.io/assets/ethereum/${parsedNftData?.token_address}/${parsedNftData?.token_id}`}
+            to={`https://testnets.opensea.io/assets/ethereum/${parsedNftData?.token_address}/${parsedNftData?.token_id}`}
             target="_blank"
             style={{ textDecoration: "none", color: "black" }}
           >
@@ -339,8 +343,11 @@ const NFTDetails = () => {
                         >
                           end auction
                         </ActionButton>
+
+						
                       </>
                     )}
+					
                   </div>
                 </>
               ) : (
@@ -408,7 +415,7 @@ const NFTDetails = () => {
 					  placeBid(parsedNftData.auction_id, bidValue)
 					}
 				  >
-					bid{}
+					bid
 				  </ActionButton>
 				</div>}
 				
