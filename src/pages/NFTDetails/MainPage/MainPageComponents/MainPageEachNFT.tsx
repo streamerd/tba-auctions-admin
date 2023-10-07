@@ -16,7 +16,7 @@ const EachNFT: React.FC<EachNFTProps> = ({ image, name, link, handleNFTClick, hi
 			<Link to={link} style={{ textDecoration: "none" }}>
 				{image && <EachNFTImage src={image} />}
 				<EachNFTText>{name} </EachNFTText>
-				<EachNFTText>{highestBid ?  `Current Bid: ${highestBid} ETH` : "No bids yet"}</EachNFTText>
+				{/* <EachNFTText>{highestBid ?  `Current Bid: ${highestBid} ETH` : "No bids yet"}</EachNFTText> */}
 			</Link>
 		</EachNFTContainer>
 	);
