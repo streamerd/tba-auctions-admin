@@ -23,6 +23,9 @@ const IntroContainer = styled.div`
 	@media (max-width: 992px) {
 		flex-direction: column;
 	}
+	@media (max-width: 1200px) {
+		flex-direction: column;
+	}
 `;
 const IntroTextContainer = styled.div`
 	width: 100%;
@@ -31,7 +34,7 @@ const IntroTextContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	margin-top: 100px;
+	margin-top: 40vh;
 	font-weight: 600;
 	line-height: 2.4rem;
 	@media (max-width: 576px) {
@@ -41,11 +44,44 @@ const IntroTextContainer = styled.div`
 		padding-left: 40px;
 		margin-top: 100px;
 	}
+	
 	@media (max-width: 992px) {
 		width: 90%;
 		padding-left: 20px;
 		padding-right: 20px;
 		font-size: 1.2rem;
+	}	
+
+	@media (max-width: 1200px) {
+		width: 90%;
+		padding-left: 20px;
+		padding-right: 20px;
+		font-size: 1.2rem;
+		padding-top: 220px
+	}
+
+	@media (max-width: 1400px) {
+		width: 90%;
+		padding-left: 20px;
+		padding-right: 20px;
+		font-size: 1.2rem;
+		margin-top: 0;
+	}
+
+	@media (max-width: 1600px) {
+		width: 90%;
+		padding-left: 20px;
+		padding-right: 20px;
+		font-size: 1.2rem;
+		margin-top: 0;
+	}
+
+	@media (max-width: 1800px) {
+		width: 90%;
+		padding-left: 20px;
+		padding-right: 20px;
+		font-size: 1.2rem;
+		margin-top: 0;
 	}
 `;
 
@@ -63,7 +99,7 @@ const IntroText = styled.p`
 	}
 	@media (max-width: 400px) {
 		width: 100%;
-		font-size: 1rem;
+		font-size: 0.6rem;
 		margin-top: 20vh;
 		padding-left: 20px;
 	}
@@ -73,7 +109,13 @@ const IntroText = styled.p`
 		margin-top: 26vh;
 		padding-left: 20px;
 	}
-	@media (max-width: 992px) {
+	@media (max-width: 800px) {
+		width: 100%;
+		font-size: 1rem;
+		margin-top: 26vh;
+		padding-left: 20px;
+	}
+	@media (max-width: 1000px) {
 		width: 100%;
 		margin-top: 26vh;
 		padding-left: 20px;
@@ -87,20 +129,27 @@ const IntroText = styled.p`
 		padding-right: 20px;
 		font-size: 1.2rem;
 	}
-	// @media (max-width: 1400px) {
-	// 	width: 100%;
-	// 	// margin-top: 2vh;
-	// 	padding-left: 20px;
-	// 	padding-right: 20px;
-	// 	font-size: 1.8rem;
-	// }
-	// @media (max-width: 1600px) {
-	// 	width: 100%;
-	// 	// margin-top: 2vh;
-	// 	padding-left: 20px;
-	// 	padding-right: 20px;
-	// 	font-size: 1.8rem;
-	// }
+	@media (max-width: 1400px) {
+		width: 100%;
+		// margin-top: 2vh;
+		padding-left: 10%;
+		padding-right: 6%;
+		font-size: 1.6rem;
+	}
+	@media (max-width: 1600px) {
+		width: 100%;
+		// margin-top: 2vh;
+		padding-left: 10%;
+		padding-right: 6%;
+		font-size: 1.6rem;
+	}
+	@media (max-width: 1800px) {
+		width: 100%;
+		margin-top: 4vh;
+		padding-left: 10%;
+		padding-right: 6%;
+		font-size: 1.6rem;
+	}
 `;
 
 const MainPageNFTsContainer = styled.div`
@@ -113,7 +162,7 @@ const MainPageNFTsContainer = styled.div`
 	gap: 20px;
 	background-color: black;
 	margin-top: 160px;
-	align-items: center;
+	margin-left: 5%;
 `;
 
 export const NFTDetailsContainer = styled.div`

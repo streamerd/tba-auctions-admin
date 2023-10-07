@@ -8,6 +8,11 @@ export const NFTDetailsContainer = styled.div`
 	gap: 40px;
 	margin-top: 150px;
 	overflow: hidden;
+	display: flex;
+	// flex-direction: row;
+	// @media (max-width: 576px) {
+	// 	flex-direction: column;
+	// 	}
 `;
 
 export const MainNFTImage = styled.img`

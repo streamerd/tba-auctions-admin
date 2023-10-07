@@ -260,6 +260,10 @@ const NFTDetails = () => {
 	const handleClose = () => setOpen(false);
 	const [bidValue, setbidValue] = useState("");
 
+	const aid: any = useFetch({ path: `/auctions/${parsedNftData?.token_address}/${parsedNftData?.token_id}` });
+	console.log(`${parsedNftData?.token_address}/${parsedNftData?.token_id}`);
+	console.log(aid[0]?.auction_id);
+
 	return (
 		<NFTDetailsContainer>
 			<MainNFTAndButtonsContainer>
@@ -300,17 +304,15 @@ const NFTDetails = () => {
 											<ActionButton onClick={() => createAccount()}>create wallet</ActionButton>
 										)}
 
-										{!isInAuction && <ActionButton onClick={() => handleOpen()}>new auction</ActionButton>}
+										{ <ActionButton onClick={() => handleOpen()}>new auction</ActionButton>}
 
 										{isInAuction && (
 											<>
+											
 												<ActionButton
 													onClick={async () => {
-														console.log(
-															`clicked to end auction for auction. ${JSON.stringify(parsedNftData?.auction_id)}`
-														);
-
-														await endAuction(parsedNftData?.auction_id);
+			
+														 endAuction(aid[0]?.auction_id);
 													}}
 												>
 													end auction
@@ -357,7 +359,7 @@ const NFTDetails = () => {
 											}}
 											placeholder={
 												lastBids && lastBids.length > 0
-													? `Bid more than ${((lastBids?.reverse()[0].bid_amount * 11) / 10).toFixed(3)} ETH`
+													? `Bid more than ${((lastBids?.[0].bid_amount * 11) / 10).toFixed(6)} ETH`
 													: `Bid more than ${reservePrice} ETHs`
 											}
 										/>
@@ -419,7 +421,6 @@ const NFTDetails = () => {
 					{lastBids &&
 						lastBids
 							?.slice()
-							.reverse()
 							.map((item: any, idx: number) => {
 								return <EachBidComponent key={idx} item={item} />;
 							})}

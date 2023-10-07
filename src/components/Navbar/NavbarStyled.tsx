@@ -8,7 +8,7 @@ export const NavbarContainer = styled.div`
 	height: 100px;
 	background-color: #ffffff;
 	display: flex;
-	// justify-content: space-evenly;
+	justify-content: space-between;
 	align-items: center;
 	padding: 0 60px;
 	z-index: 100;

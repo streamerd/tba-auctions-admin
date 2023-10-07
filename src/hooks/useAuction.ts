@@ -6,8 +6,10 @@ import usePost from "./usePost";
 
 // import DossiersAuction from "../assets/abis/finalize/3/DossiersAuction.json"; // was in production
 // import DossiersAuction from "../assets/abis/finalize/4/DossiersAuction.json"; // is in production
-import DossiersAuction from "../assets/abis/finalize/5/DossiersAuction.json"; // is in production
+// import DossiersAuction from "../assets/abis/finalize/5/DossiersAuction.json"; // is in production
 // import DossiersAuctionEscrow from "../assets/abis/finalize/6/DossiersAuctionEscrow.json"; // is in production
+import DossiersAuction from "../assets/abis/finalize/7/DossiersAuction.json"; // is in production
+
 
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
@@ -46,11 +48,12 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress = "0x22d9950e8D12eD9E842D4ece279F3A232AaF37d6";
 	// const contractAddress = "0x55e15adbE793931Cf60DAA389f84581910DC408A";
 	// const contractAddress = "0x70abC76977e881DAa6A4880AbC91A77bB99d0BD3"; // tested except for endAuction
-	const contractAddress = "0x44Ac82abb5FD08263DCa0BF4324761DF680e263a"; // tested  for endAuction
+	// const contractAddress = "0x44Ac82abb5FD08263DCa0BF4324761DF680e263a"; // tested  for endAuction
 	// const contractAddress = "0xC513329F47D1B6efbf8F50a6e8a3e7F467d82040"; //tested for multi bid
 	// const contractAddress= "0x82Bd61FAB0659b30Efe4617873d0245EB87013D0"; // tested one bid pass one bid fail after endtime
 	// const contractAddress = "0xE098De0BF344a3246D45d75fe457cf4132159f27"; //3/10/2023
 	// const contractAddress = "0x39033C771e3f0E9659e35a3110a1C882922E41ec"; // 10 minutes
+	 const contractAddress = "0xF70A7D3DFE564398065a1311704Ef5E5c7B6797d"
 
 	const [remainingTime, setremainingTime] = useState<number>();
 
@@ -104,7 +107,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 
 	const { postReq } = usePost();
 	const { patchReq } = usePatch();
-	const [auctionsLength, setauctionsLength] = useState(0);
+	// const [auctionsLength, setauctionsLength] = useState(0);
 	async function createAuction(
 		nftContractAddress: string | ethers.Overrides,
 		tokenId: string | ethers.Overrides,
@@ -129,9 +132,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 			try {
 				const gasLimit = await signer?.provider.getFeeData();
 				console.log("maxPriorityFeePerGas", gasLimit?.maxPriorityFeePerGas);
-				// const tx = await contract.createAuction(nftContractAddress, tokenId, reservePrice, { gasLimit: 480000n });
 				const tx = await contract.createAuction(nftContractAddress, tokenId, parsedReservePrice, {
-					// gasLimit: 1000000n,
 					gasLimit: 10000000n,
 				});
 
@@ -143,12 +144,9 @@ const useManageAuctions = ({ auction_id }: any) => {
 						// get number of auctions with auctionCounter value in the contract
 						await contract.auctionCounter().then(async (auctionCount: any) => {
 							console.log(`auctionCount as-is : ${auctionCount} ${typeof auctionCount}`);
-							// console.log(`auctionCount toNumber : ${auctionCount.toString()}`);
 							console.log;
-							// const aid = Number(auctionCount) - 1;
-							// const aid = Number(auctionCount.toString()) - 1;
+							
 							const diff = auctionCount - BigInt(1);
-							console.log(`diff: ${diff} typeof: ${typeof diff}`);
 
 							postReq({
 								path: "/auctions/new",
@@ -193,9 +191,6 @@ const useManageAuctions = ({ auction_id }: any) => {
 		try {
 			console.log(`Placing bid for auction ${auctionId}..${bidAmount}`);
 			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 10000000n });
-
-			// const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 1000000n });
-			// console.log(getRemainingTime);
 			await tx.wait().then(async (txRes: any) => {
 				console.log(txRes);
 				await postReq({
