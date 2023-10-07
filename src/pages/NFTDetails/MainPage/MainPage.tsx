@@ -70,6 +70,7 @@ const MainPage = () => {
 			<IntroContainer>
 				<IntroTextContainer>
 					<IntroText>
+						DOSSIERS: <br></br>
 						Immerse yourself into the mysteries surrounding the events at Hightop Hotel. Each of the Five
 						files gleam insights from a larger investigation. Within each ERC6551 case file is a 1of1 from
 						a collaborating artist as well as a section of prose exploring the world.
