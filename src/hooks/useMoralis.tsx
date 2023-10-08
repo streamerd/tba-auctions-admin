@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Moralis from "moralis";
 import { useAccount } from "wagmi";
-// const adminWallets = [
-// 	"0xb56dc5ebeec61e2c0667746f64fc916e262919c8",
-// 	"0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b",
-// 	"0x5ab45fb874701d910140e58ea62518566709c408",
-// 	"0xd42d52b709829926531c64a32f2713b4dc8ea6f6",
-// ];
-
 const adminWallets = [
-  "0xb56dc5ebeec61e2c0667746f64fc916e262919c8",
-  "0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b",
-  "0xd42d52b709829926531c64a32f2713b4dc8ea6f6",
+	"0xb56dc5ebeec61e2c0667746f64fc916e262919c8",
+	"0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b",
+	"0x5ab45fb874701d910140e58ea62518566709c408",
+	"0xd42d52b709829926531c64a32f2713b4dc8ea6f6",
 ];
+
+// const adminWallets = [
+//   "0xb56dc5ebeec61e2c0667746f64fc916e262919c8",
+//   "0xed2ef70e8b1ebf95bdfd7ba692454143b2a8263b",
+//   "0xd42d52b709829926531c64a32f2713b4dc8ea6f6",
+// ];
 
 function convertPinataToIPFS(url: string): string {
   // Check if the URL starts with the Pinata gateway URL
