@@ -289,7 +289,7 @@ const NFTDetails = () => {
       <MainNFTAndButtonsContainer>
         {parsedNftData && parsedNftData?.contract_address !== "" && (
           <Link
-            to={`https://testnets.opensea.io/assets/ethereum/${parsedNftData?.token_address}/${parsedNftData?.token_id}`}
+            to={`https://opensea.io/assets/ethereum/${parsedNftData?.token_address}/${parsedNftData?.token_id}`}
             target="_blank"
             style={{ textDecoration: "none", color: "black" }}
           >
@@ -456,7 +456,7 @@ const NFTDetails = () => {
             <SmartContractWalletAddress>
               <Link
                 to={
-                  "https://sepolia.etherscan.io/address/" + { createdAccount }
+                  "https://etherscan.io/address/" + { createdAccount }
                 }
                 target="_blank"
                 style={{ textDecoration: "none" }}
