@@ -51,8 +51,8 @@ const useMoralis = (address: any) => {
   const getNFTs = async () => {
     try {
       const response: any = await Moralis.EvmApi.nft.getWalletNFTs({
-        // chain: "0x1",
-        chain: "0xaa36a7",
+        chain: "0x1",
+        // chain: "0xaa36a7",
         format: "decimal",
         mediaItems: false,
         address: myAddress,
