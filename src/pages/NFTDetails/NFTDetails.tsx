@@ -435,10 +435,14 @@ const NFTDetails = () => {
                           The reserve price has not been met yet.
                         </CountdownInfoText>
                       ) : (
+						<CountdownInfoText>
+
                         <Countdown
                           date={Date.now() + remainingTime * 1000}
                           renderer={renderer}
                         />
+						                        </CountdownInfoText>
+
                       )}
                     </>
                   )}

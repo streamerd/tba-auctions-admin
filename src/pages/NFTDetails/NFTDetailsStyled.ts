@@ -168,10 +168,11 @@ const CountdownInfoText = styled.p`
 	height: 60px;
 	color: white;
 	margin: 0px;
-	padding-top: 16px;
+	margin-top: 20px;
 	text-align: center;
 	font-size: 18px;
 	font-weight: 500;
+	width: 100%;
 	font-family: "Montserrat", sans-serif;
 `;
 
