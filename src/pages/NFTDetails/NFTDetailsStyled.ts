@@ -167,7 +167,19 @@ const CountdownInfoText = styled.p`
 	background-color: black;
 	height: 60px;
 	color: white;
-	margin: 0px;
+	margin-top: 20px;
+	padding-top: 16px;
+	text-align: center;
+	font-size: 18px;
+	font-weight: 500;
+	width: 100%;
+	font-family: "Montserrat", sans-serif;
+`;
+
+const CountdownCounterText = styled.p`
+	background-color: black;
+	height: 60px;
+	color: white;
 	margin-top: 20px;
 	text-align: center;
 	font-size: 18px;
@@ -295,5 +307,6 @@ export {
 	OpenseaLogo,
 	OpenseaLogoMiddle,
 	CountdownInfoText,
+	CountdownCounterText,
 	WalletAddressText,
 };

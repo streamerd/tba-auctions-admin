@@ -24,6 +24,7 @@ import {
   OpenseaLogoMiddle,
   NftsDescriptionText,
   WalletAddressText,
+  CountdownCounterText,
 } from "./NFTDetailsStyled";
 import Countdown from "react-countdown";
 import mainNFT from "../../assets/mockAssets/mainNFT.jpg";
@@ -162,8 +163,8 @@ const NFTDetails = () => {
     `${parsedNftData.token_address}/${parsedNftData.token_id}`
   )!;
 
-//   const signer: any = useEthers6Signer({ chainId: 11155111 });
-//   const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 });
+  // const signer: any = useEthers6Signer({ chainId: 11155111 });
+  // const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 });
 
   const signer: any = useEthers6Signer({ chainId: 1 });
   const tokenboundClient = new TokenboundClient({ signer, chainId: 1 });
@@ -302,7 +303,7 @@ const NFTDetails = () => {
           {hasWallet !== "" && (
             <SmartContractWalletAddress>
               <Link
-                to={`https://sepolia.etherscan.io/address/${hasWallet}`}
+                to={`https://etherscan.io/address/${hasWallet}`}
                 target="_blank"
                 style={{ textDecoration: "none", color: "black" }}
               >
@@ -372,7 +373,7 @@ const NFTDetails = () => {
 											</SmartContractWalletAddress>
 										)}
 									</div> */}
-                  {remainingTime !== 0 && (
+                  {remainingTime !== 0 && address && (
                     <div
                       style={{
                         width: "100%",
@@ -420,15 +421,9 @@ const NFTDetails = () => {
                     </div>
                   )}
 
-                  {remainingTime === 0 && (
-                    <CountdownInfoText>
-                      The auction has ended.
-                    </CountdownInfoText>
-                  )}
-
                   {!address ? (
                     <CountdownInfoText>
-                      Connect your wallet to display auction status
+                      Connect your wallet to display auction details
                     </CountdownInfoText>
                   ) : (
                     <>
@@ -437,15 +432,17 @@ const NFTDetails = () => {
                         <CountdownInfoText>
                           The reserve price has not been met yet.
                         </CountdownInfoText>
+                      ) : remainingTime === 0 ? (
+                        <CountdownInfoText>
+                          The auction has ended.
+                        </CountdownInfoText>
                       ) : (
-						<CountdownInfoText>
-
-                        <Countdown
-                          date={Date.now() + remainingTime * 1000}
-                          renderer={renderer}
-                        />
-						                        </CountdownInfoText>
-
+                        <CountdownCounterText>
+                          <Countdown
+                            date={Date.now() + remainingTime * 1000}
+                            renderer={renderer}
+                          />
+                        </CountdownCounterText>
                       )}
                     </>
                   )}
@@ -455,9 +452,7 @@ const NFTDetails = () => {
           ) : (
             <SmartContractWalletAddress>
               <Link
-                to={
-                  "https://etherscan.io/address/" + { createdAccount }
-                }
+                to={"https://etherscan.io/address/" + { createdAccount }}
                 target="_blank"
                 style={{ textDecoration: "none" }}
               >
@@ -486,7 +481,7 @@ const NFTDetails = () => {
               Your bid must be more than{" "}
               {(
                 auctionData?.[parsedNftData.auction_id]?.highest_bid * 1.1
-              ).toFixed(3)}{" "}
+              ).toFixed(6)}{" "}
               ETH
             </InfoMessageText>
           ))}

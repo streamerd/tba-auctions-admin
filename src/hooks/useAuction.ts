@@ -8,8 +8,8 @@ import usePost from "./usePost";
 // import DossiersAuction from "../assets/abis/finalize/4/DossiersAuction.json"; // is in production
 // import DossiersAuction from "../assets/abis/finalize/5/DossiersAuction.json"; // is in production
 // import DossiersAuctionEscrow from "../assets/abis/finalize/6/DossiersAuctionEscrow.json"; // is in production
-import DossiersAuction from "../assets/abis/finalize/7/DossiersAuction.json"; // is in production
-
+// import DossiersAuction from "../assets/abis/finalize/7/DossiersAuction.json"; // is in production
+import DossiersAuctionABI from "../assets/abis/finalize/8/DossiersAuctionABI.json"; // is in production
 
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
@@ -53,7 +53,10 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress= "0x82Bd61FAB0659b30Efe4617873d0245EB87013D0"; // tested one bid pass one bid fail after endtime
 	// const contractAddress = "0xE098De0BF344a3246D45d75fe457cf4132159f27"; //3/10/2023
 	// const contractAddress = "0x39033C771e3f0E9659e35a3110a1C882922E41ec"; // 10 minutes
-	 const contractAddress = "0xF70A7D3DFE564398065a1311704Ef5E5c7B6797d"
+	 //const contractAddress = "0xF70A7D3DFE564398065a1311704Ef5E5c7B6797d"
+	//  const contractAddress = "0x285D3F5655Cb78C1dE89eb0626842010b95e3Ae4";	
+	//  const contractAddress = "0x4484e3E25ff9A7df5C68a96C16C86f1FcF06f09b";
+	const contractAddress = "0xb669f0314fC14aF73D8f986DD42167fAC4AF90E3";
 
 	const [remainingTime, setremainingTime] = useState<number>();
 
@@ -70,7 +73,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 		})();
 	}, [auction_id]);
 
-	const contract = new ethers.Contract(contractAddress, DossiersAuction, signer);
+	const contract = new ethers.Contract(contractAddress, DossiersAuctionABI, signer);
 
 	const [auctionId, setAuctionId] = useState(null);
 	/* const reservePrice = 1000000000000000000; */ // 1 ETH
