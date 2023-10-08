@@ -123,7 +123,7 @@ const AuctionReservedPrice: React.FC<IProps> = ({ open, handleClose }) => {
                 textTransform: "lowercase",
                 }}
               >
-                start  
+                START  
               </CreateAuctionButton>
             </>
           )}

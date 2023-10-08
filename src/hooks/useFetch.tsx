@@ -6,6 +6,7 @@ interface IProps {
 }
 
 const useFetch: React.FC<IProps> = ({ path }) => {
+	console.log("fetching resource from", path)
 	const [data, setdata] = useState("");
 	useEffect(() => {
 		axios
@@ -13,6 +14,7 @@ const useFetch: React.FC<IProps> = ({ path }) => {
 
 			.get(`https://tokenbound-accounts-store.vercel.app${path}`)
 			.then((res) => {
+				console.log(res.data);
 				setdata(res.data);
 			})
 			.catch((err) => {

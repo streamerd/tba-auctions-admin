@@ -16,14 +16,15 @@ export const NavbarContainer = styled.div`
 `;
 
 export const LogoTextContainer = styled.div`
-
-	font-size: 1.2rem;
+	font-size: 1rem;
 `;
 
-export const LatterNavbarItemsContainer = styled.div`
-	display: flex;
-	align-items: end;
-	gap: 10px;
+export const LogoText = styled.span`
+	font-family: "montserrat";
+	font-weight: 600;
+	color: #000000;
+	
+
 `;
 
 export const NavbarLogo = styled.img`

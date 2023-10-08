@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const MainPageContainer = styled.div`
-	width: 100%;
 	min-height: 100vh;
 	background-color: #f5f5f5;
 	display: flex;
@@ -11,43 +10,49 @@ const MainPageContainer = styled.div`
 
 const IntroContainer = styled.div`
 	width: 100%;
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	background-color: #fff;
+	background-color: #232323;
+
+	@media (max-width: 856px) {
+		flex-direction: column;
+	}
 `;
 const IntroTextContainer = styled.div`
 	width: 60%;
-	// height: vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	margin-top: 100px;
-	font-family: "Montserrat", sans-serif;
 	font-weight: 600;
-	line-height: 2.4rem;
-	font-size: 1.8rem;
-	@media (max-width: 576px) {
-		width: 100%;
-		font-size: 1.2rem;
-		padding-top: 20px;
-		padding-left: 20px;
-	}
-	@media (max-width: 992px) {
+	@media (max-width: 850px) {
 		width: 90%;
-		padding-top: 20px;
+
+		margin: 50px 5% 0 5%;
+	}
+`;
+
+const IntroText = styled.p`
+	font-family: "Montserrat", sans-serif;
+	font-weight: 500;
+	line-height: 2.4rem;
+	font-size: 1.2rem;
+	margin-top: 100px;
+	margin: 0 15% 0 15%;
+	color: white;
+	@media (max-width: 1000px) {
+		margin-top: 120px;
 		padding-left: 20px;
-		padding-right: 20px;
 		font-size: 1.2rem;
+		margin: 120px 5% 0 5%;
 	}
 `;
 
 const MainPageNFTsContainer = styled.div`
 	width: 90%;
-	// min-height: 70vh;
 	border-radius: 20px;
 	display: flex;
 	flex-wrap: wrap;
@@ -86,24 +91,23 @@ export const NFTSContainer = styled.div`
 `;
 
 export const EachNFTContainer = styled.div`
-	background-color: #fff;
+	// background-color: #fff;
 	width: 25%;
-	aspect-ratio: 1/1.5;
+	aspect-ratio: 1/1.25;
 	min-height: 300px;
 	// border: 4px solid gray;
 	margin-top: 20px;
+	margin-bottom: 20px;
 	border-radius: 20px;
 	&:hover {
 		color: #373737;
 		box-shadow: rgb(38, 57, 77) 0px 10px 4px 0px;
 	}
-	// color: #373737;
-	// 	box-shadow: rgb(38, 57, 77) 0px 16px 2px 0px;
 	@media (max-width: 992px) {
 		width: 40%;
 	}
 	@media (max-width: 576px) {
-		width: 80%;
+		width: 95%;
 	}
 `;
 
@@ -113,6 +117,9 @@ export const EachNFTImage = styled.img`
 	object-fit: cover;
 	border-top-right-radius: 20px;
 	border-top-left-radius: 20px;
+	@media (max-width: 576px) {
+		margin-top: 20px;
+	}
 `;
 
 export const EachNFTText = styled.p`
@@ -125,6 +132,8 @@ export const EachNFTText = styled.p`
 	background-color: black;
 	margin-top: 8px;
 	padding: 6px;
+	@media (max-width: 576px) {
+	}
 `;
 
 export const SlidingText = styled.div`
@@ -147,6 +156,10 @@ export const SlidingText = styled.div`
 			transform: translateX(-100%);
 		}
 	}
+
+	@media (max-width: 576px) {
+		display: none;
+	}
 `;
 
-export { MainPageContainer, MainPageNFTsContainer, IntroTextContainer, IntroContainer };
+export { MainPageContainer, MainPageNFTsContainer, IntroTextContainer, IntroText, IntroContainer };
