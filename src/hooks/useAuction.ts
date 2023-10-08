@@ -56,7 +56,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 	 //const contractAddress = "0xF70A7D3DFE564398065a1311704Ef5E5c7B6797d"
 	//  const contractAddress = "0x285D3F5655Cb78C1dE89eb0626842010b95e3Ae4";	
 	//  const contractAddress = "0x4484e3E25ff9A7df5C68a96C16C86f1FcF06f09b";
-	const contractAddress = "0xb669f0314fC14aF73D8f986DD42167fAC4AF90E3";
+	const contractAddress = "0x7ED46c28E917dFAD486e0093480Fb1ad9149479E";
 
 	const [remainingTime, setremainingTime] = useState<number>();
 
