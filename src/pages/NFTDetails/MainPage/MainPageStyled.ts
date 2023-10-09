@@ -144,7 +144,7 @@ export const SlidingText = styled.div`
 	white-space: nowrap;
 	overflow: hidden;
 	position: relative;
-	font-size: 1.8rem;
+	font-size: 1.4rem;
 	font-familt: "montserrat", sans-serif;
 	animation: slide 10s linear infinite;
 

@@ -32,6 +32,8 @@ export const NFTSContainer = styled.div`
 	gap: 20px;
 background-color: #232323;
 	min-height: 80vh;
+
+	
 `;
 
 export const EachNFTContainer = styled.div`
@@ -42,7 +44,20 @@ export const EachNFTContainer = styled.div`
 	margin-top: 20px;
 	border-radius: 20px;
 	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-	background-color: #fff;
+	transition: transform 0.34s; 
+
+	&:hover {
+	  transform: scale(2); /* Increase the size on hover */
+	  background-color: #232323;
+	}
+
+	@media (max-width: 900px) {
+		transition: transform 0.2s; 
+	&:hover {
+	  transform: scale(1.4);
+	  background-color: #232323;
+	}
+	}
 `;
 
 export const EachNFTImage = styled.img`
@@ -51,13 +66,15 @@ export const EachNFTImage = styled.img`
 	object-fit: cover;
 	border-top-right-radius: 20px;
 	border-top-left-radius: 20px;
+	
 `;
 
 export const EachNFTText = styled.p`
-	font-size: 15px;
+	font-size: 1rem;
 	font-weight: 600;
 	text-align: center;
 	margin-top: 10px;
+	color: white;
 	font-family: "Roboto Mono", monospace;
 `;
 
