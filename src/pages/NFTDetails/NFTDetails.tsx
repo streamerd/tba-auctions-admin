@@ -163,11 +163,12 @@ const NFTDetails = () => {
     `${parsedNftData.token_address}/${parsedNftData.token_id}`
   )!;
 
+  const signer: any = useEthers6Signer({ chainId: 1 });
+  const tokenboundClient = new TokenboundClient({ signer, chainId: 1 });
+
   // const signer: any = useEthers6Signer({ chainId: 11155111 });
   // const tokenboundClient = new TokenboundClient({ signer, chainId: 11155111 });
 
-  const signer: any = useEthers6Signer({ chainId: 1 });
-  const tokenboundClient = new TokenboundClient({ signer, chainId: 1 });
 
   const { postReq } = usePost();
   const createAccount = useCallback(async () => {
