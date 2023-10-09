@@ -4,12 +4,8 @@ import { useEthers6Signer } from "./useEthers6Signer";
 
 import usePost from "./usePost";
 
-// import DossiersAuction from "../assets/abis/finalize/3/DossiersAuction.json"; // was in production
-// import DossiersAuction from "../assets/abis/finalize/4/DossiersAuction.json"; // is in production
-// import DossiersAuction from "../assets/abis/finalize/5/DossiersAuction.json"; // is in production
-// import DossiersAuctionEscrow from "../assets/abis/finalize/6/DossiersAuctionEscrow.json"; // is in production
-// import DossiersAuction from "../assets/abis/finalize/7/DossiersAuction.json"; // is in production
 import DossiersAuctionABI from "../assets/abis/finalize/8/DossiersAuctionABI.json"; // is in production
+// import DossiersAuctionABI from "../assets/abis/test/0/DossiersAuctionTest.json"; // is in production
 
 import { useAccount } from "wagmi";
 import useFetch from "./useFetch";
@@ -53,10 +49,10 @@ const useManageAuctions = ({ auction_id }: any) => {
 	// const contractAddress= "0x82Bd61FAB0659b30Efe4617873d0245EB87013D0"; // tested one bid pass one bid fail after endtime
 	// const contractAddress = "0xE098De0BF344a3246D45d75fe457cf4132159f27"; //3/10/2023
 	// const contractAddress = "0x39033C771e3f0E9659e35a3110a1C882922E41ec"; // 10 minutes
-	 //const contractAddress = "0xF70A7D3DFE564398065a1311704Ef5E5c7B6797d"
+	//const contractAddress = "0xF70A7D3DFE564398065a1311704Ef5E5c7B6797d"
 	//  const contractAddress = "0x285D3F5655Cb78C1dE89eb0626842010b95e3Ae4";	
 	//  const contractAddress = "0x4484e3E25ff9A7df5C68a96C16C86f1FcF06f09b";
-	const contractAddress = "0x7ED46c28E917dFAD486e0093480Fb1ad9149479E";
+	const contractAddress = "0x7ED46c28E917dFAD486e0093480Fb1ad9149479E"; // PROD/ const contractAddress = "0xE390E08e8f64D1E5907bF7e295802825cc8d0F56"; // 
 
 	const [remainingTime, setremainingTime] = useState<number>();
 
@@ -130,53 +126,67 @@ const useManageAuctions = ({ auction_id }: any) => {
 
 		return new Promise(async (resolve, reject) => {
 			const parsedReservePrice: ethers.BigNumberish = ethers.parseEther(reservePrice);
-			console.log(typeof parsedReservePrice);
-			console.log(`Creating auction for ${nftContractAddress} ${tokenId} ${reservePrice}...`);
 			try {
-				const gasLimit = await signer?.provider.getFeeData();
-				console.log("maxPriorityFeePerGas", gasLimit?.maxPriorityFeePerGas);
-				const tx = await contract.createAuction(nftContractAddress, tokenId, parsedReservePrice, {
-					gasLimit: 10000000n,
-				});
+				try {
 
-				await tx
-					.wait()
-					.then(async (txRes: any) => {
-						console.log(txRes);
-						console.log("auction creation is finished. now getting auctionCounter value..");
-						// get number of auctions with auctionCounter value in the contract
-						await contract.auctionCounter().then(async (auctionCount: any) => {
-							console.log(`auctionCount as-is : ${auctionCount} ${typeof auctionCount}`);
-							console.log;
-							
-							const diff = auctionCount - BigInt(1);
+					const estimatedCost = await contract.getFunction("createAuction").estimateGas(nftContractAddress, tokenId, parsedReservePrice);
+					const gasLimid = (estimatedCost * BigInt(115)) / BigInt(100);
+					// Verify that gasLimit is valid (not zero or negative)
+					if (gasLimid <= BigInt(0)) {
+						console.error("Invalid gasLimit calculated.");
+						reject("ERROR");
+						return;
+					}
 
-							postReq({
-								path: "/auctions/new",
-								data: {
-									auction_id: diff.toString(),
-									contract_address: nftContractAddress,
-									token_id: tokenId,
-									reserve_price: reservePrice,
-									end_time: 0,
-									highest_bidder: "",
-									highest_bid: 0,
-									ended: false,
-									metadata: JSON.parse(localStorage.getItem("nftData")!).metadata,
-								},
+					const tx = await contract.createAuction(nftContractAddress, tokenId, parsedReservePrice, {
+						gasLimit: gasLimid
+					});
+
+					await tx
+						.wait()
+						.then(async (txRes: any) => {
+							console.log(txRes);
+							console.log("auction creation is finished. now getting auctionCounter value..");
+							// get number of auctions with auctionCounter value in the contract
+							await contract.auctionCounter().then(async (auctionCount: any) => {
+								console.log(`auctionCount as-is : ${auctionCount} ${typeof auctionCount}`);
+
+								const diff = auctionCount - BigInt(1);
+
+								postReq({
+									path: "/auctions/new",
+									data: {
+										auction_id: diff.toString(),
+										contract_address: nftContractAddress,
+										token_id: tokenId,
+										reserve_price: reservePrice,
+										end_time: 0,
+										highest_bidder: "",
+										highest_bid: 0,
+										ended: false,
+										metadata: JSON.parse(localStorage.getItem("nftData")!).metadata,
+									},
+								});
 							});
-						});
-					})
-					.catch((err: any) => {
-						console.log(err);
-					}); // Wait for the transaction to be mined
-				resolve("SUCCESS");
+						})
+						.catch((err: any) => {
+							console.log(err);
+						}); // Wait for the transaction to be mined
+					resolve("SUCCESS");
 
-				console.log("Auction created successfully!");
+					console.log("Auction created successfully!");
+
+					// console.log("maxPriorityFeePerGas", gasLimit?.maxPriorityFeePerGas.toString()));
+				} catch (error) {
+					console.error("Error estimating cost:", error);
+					reject("ERROR");
+				}
 			} catch (error) {
 				console.error("Error creating auction:", error);
 				reject("ERROR");
 			}
+
+
 		});
 	}
 
@@ -193,24 +203,41 @@ const useManageAuctions = ({ auction_id }: any) => {
 		console.log(`bidAmountPrice: ${bidAmountPrice}`);
 		try {
 			console.log(`Placing bid for auction ${auctionId}..${bidAmount}`);
-			const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: 10000000n });
-			await tx.wait().then(async (txRes: any) => {
-				console.log(txRes);
-				await postReq({
-					path: "/bids/new",
-					data: { auction_id: auctionId, bid_amount: parseFloat(bidAmount), bidder: address },
-				});
 
-				await patchReq({
-					path: `/updates/highest-bid/${auctionId}`,
-					data: { auction_id: auctionId, highest_bid: parseFloat(bidAmount), highest_bidder: address },
-				});
-			}); // Wait for the transaction to be mined
-			console.log(`Bid placed successfully!`);
+			try {
+				const estimatedCost = await contract.getFunction("placeBid").estimateGas(auctionId, { value: bidAmountPrice });
+				console.log(`estimatedCost for bidding: ${estimatedCost}`);
+				const gasLimid = (estimatedCost * BigInt(115)) / BigInt(100);
+				// Verify that gasLimit is valid (not zero or negative)
+				if (gasLimid <= BigInt(0)) {
+					console.error("Invalid gasLimit calculated.");
+					return;
+				}
+
+				const tx = await contract.placeBid(auctionId, { value: bidAmountPrice, gasLimit: gasLimid });
+
+				await tx.wait().then(async (txRes: any) => {
+					console.log(txRes);
+					await postReq({
+						path: "/bids/new",
+						data: { auction_id: auctionId, bid_amount: parseFloat(bidAmount), bidder: address },
+					});
+
+					await patchReq({
+						path: `/updates/highest-bid/${auctionId}`,
+						data: { auction_id: auctionId, highest_bid: parseFloat(bidAmount), highest_bidder: address },
+					});
+				}); // Wait for the transaction to be mined
+				console.log(`Bid placed successfully!`);
+			} catch (error) {
+				console.error("Error estimating cost:", error);
+			}
 		} catch (error) {
 			console.error("Error placing bid:", error);
+			return
 		}
 	}
+
 
 	async function endAuction(auctionId: number) {
 		try {
@@ -219,31 +246,44 @@ const useManageAuctions = ({ auction_id }: any) => {
 				console.log("auctionId is null");
 				return;
 			}
-			console.log(`about to end ${auctionId}...`);
-			const tx = await contract.endAuction(auctionId);
-			await tx.wait(); // Wait for the transaction to be mined
-			console.log(`Auction ${auctionId} ended successfully!`);
+			try {
+				const estimatedCost = await contract.getFunction("endAuction").estimateGas(auctionId);
+				console.log(`estimatedCost for ending this auction: ${estimatedCost}`);
+				const gasLimid = (estimatedCost * BigInt(115)) / BigInt(100);
+				// Verify that gasLimit is valid (not zero or negative)
+				if (gasLimid <= BigInt(0)) {
+					console.error("Invalid gasLimit calculated.");
+					return;
+				}
+				console.log(`about to end ${auctionId}...`);
+				const tx = await contract.endAuction(auctionId);
+				await tx.wait(); // Wait for the transaction to be mined
+				console.log(`Auction ${auctionId} ended successfully!`);
+			}
+			catch (error) {
+				console.error("Error estimating cost:", error);
+			}
 		} catch (error) {
 			console.error("Error ending auction:", error);
 		}
 	}
 
 	// withdrawEth
-	async function withdrawEth(auctionId: number) {
-		try {
-			console.log("Withdrawing Eth...");
-			if (auctionId === null) {
-				console.log("auctionId is null");
-				return;
-			}
-			const tx = await contract.withdrawEth(auctionId);
-			const status = await tx.wait(); // Wait for the transaction to be mined
-			console.log(`Eth withdrawn successfully!`);
-			return status;
-		} catch (error) {
-			console.error("Error withdrawing Eth:", error);
-		}
-	}
+	// async function withdrawEth(auctionId: number) {
+	// 	try {
+	// 		console.log("Withdrawing Eth...");
+	// 		if (auctionId === null) {
+	// 			console.log("auctionId is null");
+	// 			return;
+	// 		}
+	// 		const tx = await contract.withdrawEth(auctionId);
+	// 		const status = await tx.wait(); // Wait for the transaction to be mined
+	// 		console.log(`Eth withdrawn successfully!`);
+	// 		return status;
+	// 	} catch (error) {
+	// 		console.error("Error withdrawing Eth:", error);
+	// 	}
+	// }
 
 	async function getAllAuctions(): Promise<Auction[]> {
 		try {
@@ -332,7 +372,7 @@ const useManageAuctions = ({ auction_id }: any) => {
 		getAllAuctions,
 		getHighestBid,
 		getRemainingTime,
-		withdrawEth,
+		// withdrawEth,
 		remainingTime,
 		contract,
 	};
