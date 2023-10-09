@@ -13,7 +13,6 @@ import Moralis from "moralis";
 export function App() {
 const { address } = useAccount();
 
-console.log("moralis apikey", import.meta.env.VITE_MORALIS_APIKEY)
   Moralis.start({
     apiKey: import.meta.env.VITE_MORALIS_APIKEY,
   });
