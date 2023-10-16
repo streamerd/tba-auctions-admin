@@ -7,18 +7,16 @@ import {
 	MainPageNFTsContainer,
 } from "./MainPageStyled";
 import EachNFT from "../MainPage/MainPageComponents/MainPageEachNFT";
-import Moralis from "moralis";
 import useMoralis from "../../../hooks/useMoralis";
 import AdminStatusContext from "../../../contexts/AdminStatusContext";
 import useFetch from "../../../hooks/useFetch";
-import opensea from "../../../assets/opensea-logo.png";
 import { OpenseaLogo } from "../NFTDetailsStyled";
 import { MyLink } from "../../../components/Footer/Footer";
 import { useAccount } from "wagmi";
 import { useManageAuctions } from "../../../hooks/useAuction";
 import MainPageImage from "../../../assets/MainPageImage.png";
 
-const MainPage = () => {
+const MainPage = () => { 
 	interface IMeta {
 		description: string | undefined;
 		image_url: any;
@@ -46,7 +44,7 @@ const MainPage = () => {
 	// ];
 
 	const { contract } = useManageAuctions({ auctionId: "" });
-
+  
 	async function getRemainingTime(auctionId: any) {
 		try {
 			await contract
