@@ -123,7 +123,7 @@ export const EachNFTImage = styled.img`
 `;
 
 export const EachNFTText = styled.p`
-	font-size: 15px;
+	font-size: 18px;
 	font-weight: 600;
 	text-decoration: none;
 	font-family: "Roboto", sans-serif;

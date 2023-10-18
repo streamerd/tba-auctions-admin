@@ -131,7 +131,7 @@ const MainPage = () => {
 										return res;
 									}
 								});
-								// console.log(`remaining`, remaining);
+																// console.log(`remaining`, remaining);
 								localStorage.setItem(
 									"nftData",
 									JSON.stringify({
@@ -140,6 +140,7 @@ const MainPage = () => {
 										token_id: auction.token_id,
 										metadata: auction.metadata,
 										highest_bid: auction.highest_bid,
+										reserve_price: auction.reserve_price,
 										remainingTime: 0,
 									})
 								);
@@ -152,6 +153,7 @@ const MainPage = () => {
 									image={auctionMetadata.image}
 									name={auctionMetadata.name}
 									highestBid={auction.highest_bid}
+									reservePrice={auction.reserve_price}
 									link={`/nft-details/${auction.contract_address}/${auction.token_id}`}
 									handleNFTClick={handleNFTClick}
 								/>
