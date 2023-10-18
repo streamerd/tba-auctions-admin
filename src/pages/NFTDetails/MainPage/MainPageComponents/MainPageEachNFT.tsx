@@ -7,16 +7,17 @@ interface EachNFTProps {
 	name?: string;
 	link: string;
 	highestBid?: string;
+	reservePrice?: string;
 	handleNFTClick?: () => void;
 }
 
-const EachNFT: React.FC<EachNFTProps> = ({ image, name, link, handleNFTClick, highestBid }) => {
+const EachNFT: React.FC<EachNFTProps> = ({ image, name, link, handleNFTClick, highestBid, reservePrice }) => {
 	return (
 		<EachNFTContainer onClick={handleNFTClick}>
 			<Link to={link} style={{ textDecoration: "none" }}>
 				{image && <EachNFTImage src={image} />}
 				<EachNFTText>{name} </EachNFTText>
-				{/* <EachNFTText>{highestBid ?  `Current Bid: ${highestBid} ETH` : "No bids yet"}</EachNFTText> */}
+				<EachNFTText>{highestBid ?  `Place ${Number(highestBid) * 1.1} ETH min bid` : `Place ${reservePrice} ETH min bid`}</EachNFTText>
 			</Link>
 		</EachNFTContainer>
 	);
