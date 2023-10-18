@@ -13,7 +13,7 @@ export function Navbar() {
           <LogoText>DOSSIERS</LogoText>
         </LogoTextContainer>
       </Link>
-      <SlidingText>the auction starts on October 18th at 4PM EST. </SlidingText>
+      <SlidingText>the auction is on-air </SlidingText>
 
       <ConnectKitButton />
     </NavbarContainer>
