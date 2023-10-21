@@ -163,6 +163,7 @@ const MainPage = () => {
                       highest_bid: auction.highest_bid,
                       reserve_price: auction.reserve_price,
                       remainingTime: 0,
+                      owner: auction.owner_ens,
                     })
                   );
                 };
@@ -175,6 +176,7 @@ const MainPage = () => {
                     name={auctionMetadata.name}
                     highestBid={auction.highest_bid}
                     reservePrice={auction.reserve_price}
+                    owner={auction.owner_ens}
                     link={`/nft-details/${auction.contract_address}/${auction.token_id}`}
                     handleNFTClick={handleNFTClick}
                   />
