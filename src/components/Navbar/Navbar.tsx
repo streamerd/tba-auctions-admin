@@ -2,7 +2,7 @@ import { ConnectKitButton } from "connectkit";
 import { LogoText, LogoTextContainer, NavbarContainer, NavbarLogo } from "./NavbarStyled";
 import catLogo from "../../assets/cat-logo.png";
 import { Link } from "react-router-dom";
-import { SlidingText } from "../../pages/NFTDetails/MainPage/MainPageStyled";
+// import { SlidingText } from "../../pages/NFTDetails/MainPage/MainPageStyled";
 
 export function Navbar() {
   return (
@@ -13,7 +13,7 @@ export function Navbar() {
           <LogoText>DOSSIERS</LogoText>
         </LogoTextContainer>
       </Link>
-      <SlidingText>the auction is on-air </SlidingText>
+      {/* <SlidingText>the auction is on-air </SlidingText> */}
 
       <ConnectKitButton />
     </NavbarContainer>
